@@ -7,12 +7,16 @@ import { PrincipalComponent } from './vistas/paginas/principal/principal.compone
 import { LoginComponent } from './vistas/paginas/login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { InicioComponent } from './vistas/paginas/inicio/inicio.component';
+import { UsuariosComponent } from './vistas/sistema/usuarios/usuarios.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     PrincipalComponent,
-    LoginComponent
+    LoginComponent,
+    InicioComponent,
+    UsuariosComponent
   ],
   imports: [
     BrowserModule,

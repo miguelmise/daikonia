@@ -17,10 +17,24 @@ export class PrincipalComponent implements OnInit {
 
   isCollapsed = true;
 
+  //Paginas
+  showInicio: boolean = true;
+  showUsuarios: boolean = false;
+
   constructor(private router: Router) { }
 
   ngOnInit(): void {
+    
+  }
 
+  mostrarInicio(): void {
+    this.showInicio = true;
+    this.showUsuarios = false;
+  }
+
+  mostrarUsuarios(): void {
+    this.showInicio = false;
+    this.showUsuarios = true;
   }
 
   salir(): void {

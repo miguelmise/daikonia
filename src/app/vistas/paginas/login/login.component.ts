@@ -4,7 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/servicios/seguridad/login.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
-import { of } from 'rxjs';
+//import { of } from 'rxjs';
 
 
 @Component({
@@ -47,7 +47,7 @@ export class LoginComponent implements OnInit {
       next: response => {
         // código a ejecutar cuando la operación Observable tenga éxito
         if(response.user != ""){
-          this.router.navigate(['home']);
+          this.router.navigate(['principal']);
         }else{
           this.alerta("Error","Usuario o Clave Incorrectos","error")
         }

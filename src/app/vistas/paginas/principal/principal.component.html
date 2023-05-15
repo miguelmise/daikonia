@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <meta name="description" content="">
+        <meta name="description" content="sistema distribucion alimentos">
         <meta name="author" content="Espol_mmise">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
         <title>Diakonia</title>
@@ -25,7 +25,7 @@
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex" routerLink="/home">
-                <div class="sidebar-brand-text">Diakonia <sup>beta</sup></div>
+                <div class="sidebar-brand-text">Diakonia <sup>v1.0</sup></div>
             </a>
 
             <!-- Divider -->
@@ -33,9 +33,9 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" routerLink="/home">
-                    <i class="bi bi-bar-chart-line-fill"></i>
-                    <span>Dashboard</span></a>
+                <a class="nav-link" (click)="mostrarInicio()">
+                    <i class="bi bi-house-fill"></i>
+                    <span>Inicio</span></a>
             </li>
 
             <!-- Divider -->
@@ -43,7 +43,7 @@
 
             <!-- Heading -->
             <div class="sidebar-heading">
-                Administración
+                Sistema
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -56,7 +56,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administración Usuarios:</h6>
-                        <a class="collapse-item" href="buttons.html">Usuarios</a>
+                        <a class="collapse-item" (click)="mostrarUsuarios()">Usuarios</a>
                     </div>
                 </div>
             </li>
@@ -130,7 +130,7 @@
                 <nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow" style="background-color: #d21e2a;">
 
                     <!-- Sidebar Toggle (Topbar) -->
-                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3 text-white" (click)="isCollapsed = !isCollapsed">
+                    <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3 text-white" (click)="isCollapsed = !isCollapsed">
                         <i class="fa fa-bars"></i>
                     </button>
 
@@ -138,7 +138,7 @@
                     <form
                         class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
                         <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Search for..."
+                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
                                 aria-label="Search" aria-describedby="basic-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-secondary" type="button">
@@ -159,7 +159,7 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fas fa-bell fa-fw"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-danger badge-counter">1+</span>
+                                <span class="badge badge-secondary badge-counter">1+</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
@@ -218,76 +218,13 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <div class="container-fluid">
+                <!-- Renderizar componente app-inicio si showInicio es true -->
+                <app-inicio *ngIf="showInicio"></app-inicio>
 
-                    <!-- Page Heading -->
-                    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        <h1 class="h3 mb-0 text-gray-800">Titulo Principal</h1>
-                        <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">Atrás</a>
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        
-                    </div>
-
-                    <!-- Content Row -->
-
-                    <div class="row">
-                        <div class="col-lg-12 mb-4">
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 bg-secondary">
-                                    <h6 class="m-0 font-weight-bold text-white">Development Approach</h6>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-                        </div>
-                        
-
-                        
-                    </div>
-
-                    <!-- Content Row -->
-                    <div class="row">
-
-                        <!-- Content Column -->
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Project Card Example -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 bg-secondary">
-                                    <h6 class="m-0 font-weight-bold text-white">Projects</h6>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-
-                            
-
-                        </div>
-
-                        <div class="col-lg-6 mb-4">
-
-                            <!-- Illustrations -->
-                            <div class="card shadow mb-4">
-                                <div class="card-header py-3 bg-secondary">
-                                    <h6 class="m-0 font-weight-bold text-white">Illustrations</h6>
-                                </div>
-                                <div class="card-body">
-                                    
-                                </div>
-                            </div>
-
-
-                        </div>
-                    </div>
-
-                </div>
+                <!-- Renderizar componente app-usuarios si showUsuarios es true -->
+                <app-usuarios *ngIf="showUsuarios"></app-usuarios>
                 <!-- /.container-fluid -->
+                
 
             </div>
             <!-- End of Main Content -->
