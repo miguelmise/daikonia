@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import $ from 'jquery';
+//import $ from 'jquery';
 import "../../../../assets/js/home.js";
 import "../../../../assets/js/jqmin.js";
 import "../../../../assets/js/jquerymin.js";
 import "../../../../assets/js/bundle.js";
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
+import { Title } from '@angular/platform-browser';
 
 
 @Component({
@@ -21,10 +22,10 @@ export class PrincipalComponent implements OnInit {
   showInicio: boolean = true;
   showUsuarios: boolean = false;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private titleService: Title) { }
 
   ngOnInit(): void {
-    
+    this.titleService.setTitle('Diakonia');
   }
 
   mostrarInicio(): void {
