@@ -1,0 +1,209 @@
+
+.logo{
+	margin: 1em auto;
+}
+
+a{
+  cursor: pointer;
+}
+
+
+.form-group {
+  margin-bottom: 1rem
+}
+
+@media (min-width:576px) {
+  .form-inline label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0
+  }
+
+  .form-inline .form-group {
+      display: flex;
+      flex: 0 0 auto;
+      flex-flow: row wrap;
+      align-items: center;
+      margin-bottom: 0
+  }
+
+  .form-inline .form-control {
+      display: inline-block;
+      width: auto;
+      vertical-align: middle
+  }
+
+  .form-inline .form-control-plaintext {
+      display: inline-block
+  }
+
+  .form-inline .custom-select,
+  .form-inline .input-group {
+      width: auto
+  }
+
+  .form-inline .custom-control {
+      align-items: center;
+      justify-content: center
+  }
+
+  .form-inline .custom-control-label {
+      margin-bottom: 0
+  }
+}
+
+form.user .form-control-user {
+  font-size: .8rem;
+  border-radius: 10rem;
+  padding: 1.5rem 1rem
+}
+
+.form-control {
+  display: block;
+  width: 100%;
+  height: calc(1.5em + .75rem + 2px);
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #6e707e;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #d1d3e2;
+  border-radius: .35rem;
+  transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out
+}
+
+.user-select-all {
+  -webkit-user-select: all !important;
+  -moz-user-select: all !important;
+  -ms-user-select: all !important;
+  user-select: all !important
+}
+
+.user-select-auto {
+  -webkit-user-select: auto !important;
+  -moz-user-select: auto !important;
+  -ms-user-select: auto !important;
+  user-select: auto !important
+}
+
+.user-select-none {
+  -webkit-user-select: none !important;
+  -moz-user-select: none !important;
+  -ms-user-select: none !important;
+  user-select: none !important
+}
+
+form.user .custom-checkbox.small label {
+  line-height: 1.5rem
+}
+
+form.user .form-control-user {
+  font-size: .8rem;
+  border-radius: 10rem;
+  padding: 1.5rem 1rem
+}
+
+form.user .btn-user {
+  font-size: .8rem;
+  border-radius: 10rem;
+  padding: .75rem 1rem;
+  background: #d21e2a
+  ;
+  color: white;
+  font-size: large;
+}
+
+.btn-block {
+  display: block;
+  width: 100%
+}
+
+.btn-block+.btn-block {
+  margin-top: .5rem
+}
+
+input[type=button].btn-block,
+input[type=reset].btn-block,
+input[type=submit].btn-block {
+  width: 100%
+}
+
+input{
+  font-size: medium;
+}
+
+::placeholder {
+  font-size: medium;
+}
+
+.container {
+  min-width: 500px !important
+}
+
+.container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem
+}
+
+.container {
+    width: 100%;
+    padding-right: .75rem;
+    padding-left: .75rem;
+    margin-right: auto;
+    margin-left: auto
+}
+
+@media (min-width:576px) {
+
+  .container {
+      max-width: 540px
+  }
+}
+
+@media (min-width:768px) {
+
+  .container {
+      max-width: 720px
+  }
+}
+
+
+@media (min-width:992px) {
+
+  .container {
+      max-width: 960px
+  }
+}
+
+@media (min-width:1200px) {
+
+  .container {
+      max-width: 1140px
+  }
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-right: -.75rem;
+  margin-left: -.75rem
+}
+
+img,svg {
+  width: 100%;
+  height: auto;
+  background: white;
+  }
+
+  .card-body{
+    border-radius: 1%;
+  }
+
+  #logo_card{
+    background:  #d21e2a
+    ;
+  }
+
