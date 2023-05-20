@@ -61,22 +61,7 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                    aria-expanded="true" aria-controls="collapseUtilities">
-                    <i class="bi bi-clipboard2-check-fill"></i>
-                    <span>Registro</span>
-                </a>
-                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                    data-parent="#accordionSidebar">
-                    <div class="bg-white py-2 collapse-inner rounded">
-                        <h6 class="collapse-header">Registrar Nuevos:</h6>
-                        <a class="collapse-item" >Donantes</a>
-                        <a class="collapse-item" >Beneficiarios</a>
-                    </div>
-                </div>
-            </li>
+            
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -86,28 +71,55 @@
                 DISTRIBUCIÓN
             </div>
 
+            <!-- Nav Item - Utilities Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                    <i class="bi bi-people-fill"></i>
+                    <span>Entidades</span>
+                </a>
+                <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Entidades:</h6>
+                        <a class="collapse-item" (click)="mostrarDonantes()">Donantes</a>
+                        <a class="collapse-item" (click)="mostrarBeneficiados()" >Beneficiarios</a>
+                    </div>
+                </div>
+            </li>
+
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                    aria-expanded="true" aria-controls="collapsePages">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProcesos"
+                    aria-expanded="true" aria-controls="collapseProcesos">
                     <i class="bi bi-truck"></i>
                     <span>Procesos</span>
                 </a>
-                <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseProcesos" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Procedimientos:</h6>
-                        <a class="collapse-item" >Carga Inventario Diario</a>
+                        <a class="collapse-item" >Reglas</a>
                         <a class="collapse-item" >Planificador</a>
                     </div>
                 </div>
             </li>
 
-            <!-- Nav Item - Charts -->
+            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" >
-                    <i class="bi bi-ui-checks"></i>
-                    <span>Inventario</span></a>
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventary"
+                    aria-expanded="true" aria-controls="collapseInventary">
+                    <i class="bi bi-clipboard-check-fill"></i>
+                    <span>Inventario</span>
+                </a>
+                <div id="collapseInventary" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Procedimientos:</h6>
+                        <a class="collapse-item" >Inventario Diario</a>
+                        <a class="collapse-item" >Productos</a>
+                    </div>
+                </div>
             </li>
+
 
             <!-- Nav Item - Tables -->
             <li class="nav-item">
@@ -223,6 +235,14 @@
 
                 <!-- Renderizar componente app-usuarios si showUsuarios es true -->
                 <app-usuarios *ngIf="showUsuarios"></app-usuarios>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente app-usuarios si showDonantes es true -->
+                <app-donantes *ngIf="showDonantes"></app-donantes>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente app-usuarios si showDonantes es true -->
+                <app-beneficiados *ngIf="showBeneficiados"></app-beneficiados>
                 <!-- /.container-fluid -->
                 
 

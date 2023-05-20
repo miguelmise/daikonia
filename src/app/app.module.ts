@@ -9,6 +9,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { InicioComponent } from './vistas/paginas/inicio/inicio.component';
 import { UsuariosComponent } from './vistas/sistema/usuarios/usuarios.component';
+import { DonantesComponent } from './vistas/paginas/donantes/donantes.component';
+import { BeneficiadosComponent } from './vistas/paginas/beneficiados/beneficiados.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { UsuariosComponent } from './vistas/sistema/usuarios/usuarios.component'
     PrincipalComponent,
     LoginComponent,
     InicioComponent,
-    UsuariosComponent
+    UsuariosComponent,
+    DonantesComponent,
+    BeneficiadosComponent
   ],
   imports: [
     BrowserModule,

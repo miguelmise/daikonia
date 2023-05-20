@@ -21,6 +21,8 @@ export class PrincipalComponent implements OnInit {
   //Paginas
   showInicio: boolean = true;
   showUsuarios: boolean = false;
+  showDonantes: boolean = false;
+  showBeneficiados: boolean = false;
 
   constructor(private router: Router,private titleService: Title) { }
 
@@ -31,11 +33,29 @@ export class PrincipalComponent implements OnInit {
   mostrarInicio(): void {
     this.showInicio = true;
     this.showUsuarios = false;
+    this.showDonantes = false;
+    this.showBeneficiados = false;
   }
 
   mostrarUsuarios(): void {
     this.showInicio = false;
     this.showUsuarios = true;
+    this.showDonantes = false;
+    this.showBeneficiados = false;
+  }
+
+  mostrarDonantes(): void {
+    this.showInicio = false;
+    this.showUsuarios = false;
+    this.showDonantes = true;
+    this.showBeneficiados = false;
+  }
+
+  mostrarBeneficiados(): void {
+    this.showInicio = false;
+    this.showUsuarios = false;
+    this.showDonantes = false;
+    this.showBeneficiados = true;
   }
 
   salir(): void {
