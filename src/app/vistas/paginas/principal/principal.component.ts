@@ -66,7 +66,7 @@ export class PrincipalComponent implements OnInit {
       toast:true,
       confirmButtonText: 'Continuar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#1cc88a'
+      confirmButtonColor: '#d21e2a'
     }).then((result) => {
       if (result.isConfirmed) {
         this.router.navigate(['login']);

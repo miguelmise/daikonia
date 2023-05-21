@@ -62,7 +62,6 @@ export class UsuariosComponent implements OnInit {
     this.cdr.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-
   }
 
   onSubmit():void {

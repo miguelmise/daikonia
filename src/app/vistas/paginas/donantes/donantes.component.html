@@ -3,7 +3,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">DONANTES - PROVEEDORES</h1>
-        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">Crear Nuevo</a>
+        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" (click)="resetForm()">Crear Nuevo</a>
     </div>
 
     <!-- Content Row -->
@@ -34,15 +34,36 @@
     <div class="row">
 
         <!-- Content Column -->
-        <div class="col-lg-4 mb-4">
+        <div class="col-lg-6 mb-4">
 
             <!-- Project Card Example -->
             <div class="card shadow mb-4">
                 <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Listado Donantes</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Listado Proveedores</h6>
                 </div>
                 <div class="card-body">
-                    
+                    <div *ngIf="listaProveedores.length>0">
+                        
+                        <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                            <!-- nombre usuario Column -->
+                            <ng-container matColumnDef="nombreProveedor">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                                <td mat-cell *matCellDef="let element"><a (click)="verProveedorData(element.id)">{{element.nombre_proveedor}}</a></td>
+                              </ng-container>
+
+                              <!-- nombres Column -->
+                            <ng-container matColumnDef="tipo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo</th>
+                                <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                              </ng-container>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <div class="table_footer">
+                            <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                          </div>
+                        </div>
+                    <h3 *ngIf="listaProveedores.length==0" class="text-dark">No hay Proveedores para mostrar</h3>
                 </div>
             </div>
 
@@ -50,15 +71,57 @@
 
         </div>
 
-        <div class="col-lg-8 mb-4">
+        <div class="col-lg-6 mb-4">
 
-            <!-- Illustrations -->
-            <div class="card shadow mb-4">
+            <!-- data -->
+            <div *ngIf="isFormVisible" class="card shadow mb-4">
                 <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Informacion del Donante</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Informacion del Proveedor: {{selectProveedor}}</h6>
                 </div>
                 <div class="card-body">
-                    
+                    <!--formulario-->
+                    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+                        <div class="row">
+                            <!--nombre-->
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Nombre Institución</span>
+                                    <input type="text" class="form-control"  formControlName="nombre_proveedor">
+                                  </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            
+                            <!--tipo-->
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Tipo</span>
+                                    <select class="form-select bg-white text-dark" formControlName="tipo">
+                                        <option value="" [disabled]="true" >Seleccione Tipo..</option>
+                                      <option *ngFor="let tipo of tipos_proveedor" [value]="tipo.valor">
+                                        {{tipo.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <!--Descripcion-->
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Descripción</span>
+                                    <textarea type="text" rows="4" class="form-control" formControlName="descripcion"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
