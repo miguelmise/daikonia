@@ -11,6 +11,11 @@ import { InicioComponent } from './vistas/paginas/inicio/inicio.component';
 import { UsuariosComponent } from './vistas/sistema/usuarios/usuarios.component';
 import { DonantesComponent } from './vistas/paginas/donantes/donantes.component';
 import { BeneficiadosComponent } from './vistas/paginas/beneficiados/beneficiados.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -26,7 +31,11 @@ import { BeneficiadosComponent } from './vistas/paginas/beneficiados/beneficiado
     BrowserModule,
     AppRoutingModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

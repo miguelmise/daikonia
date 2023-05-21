@@ -3,7 +3,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">USUARIOS DEL SISTEMA</h1>
-        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">Crear Nuevo</a>
+        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" (click)="resetForm()">Crear Nuevo</a>
     </div>
 
     <!-- Content Row -->
@@ -42,7 +42,28 @@
                     <h6 class="m-0 font-weight-bold text-white">Listado Usuarios</h6>
                 </div>
                 <div class="card-body">
-                    
+                    <div *ngIf="data.length>0">
+                        
+                        <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                            <!-- nombre usuario Column -->
+                            <ng-container matColumnDef="nombreUsuario">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
+                                <td mat-cell *matCellDef="let element"><a (click)="verUsuarioData(element.id)">{{element.user}}</a></td>
+                              </ng-container>
+
+                              <!-- nombres Column -->
+                            <ng-container matColumnDef="nombres">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres</th>
+                                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                              </ng-container>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <div class="table_footer">
+                            <mat-paginator pageSize="10" showFirstLastButtons></mat-paginator>
+                          </div>
+                        </div>
+                    <h3 *ngIf="data.length==0" class="text-dark">No hay usuarios para mostrar</h3>
                 </div>
             </div>
 
@@ -52,13 +73,88 @@
 
         <div class="col-lg-8 mb-4">
 
-            <!-- Illustrations -->
-            <div class="card shadow mb-4">
+            <!-- Information del usuario -->
+            <div *ngIf="isFormVisible" class="card shadow mb-4">
                 <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Informacion del usuario</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Información del usuario: {{selectUser}}</h6>
                 </div>
                 <div class="card-body">
-                    
+                    <!--formulario-->
+                    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+                        <div class="row">
+                            <!--usuario-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Usuario</span>
+                                    <input type="text" class="form-control"  formControlName="user">
+                                  </div>
+                            </div>
+                            <!--Nombre Completo-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Nombres</span>
+                                    <input type="text" class="form-control"  formControlName="nombre">
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--correo-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Correo</span>
+                                    <input type="email" class="form-control"  formControlName="correo">
+                                  </div>
+                            </div>
+                            <!--Rol-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Rol</span>
+                                    <select class="form-select bg-white text-dark" formControlName="rol">
+                                        <option value="" [disabled]="true" >Seleccione Rol..</option>
+                                      <option *ngFor="let rol of roles" [value]="rol.valor">
+                                        {{rol.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--estado-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Estado</span>
+                                    <select class="form-select bg-white text-dark" formControlName="estado">
+                                        <option value="" [disabled]="true" >Seleccione Estado..</option>
+                                      <option *ngFor="let estado of estados" [value]="estado.valor">
+                                        {{estado.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <!--clave-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Clave</span>
+                                    <input #claveInput type="password" class="form-control" placeholder="Nueva Clave"  formControlName="clave">
+                                    <label class="input-group-text pointer" id="eye" (click)="mostrarContrasena()" ><mat-icon>visibility</mat-icon></label>
+                                  </div>
+                            </div>
+                            <!--repetir clave-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Repetir Clave</span>
+                                    <input #clave2Input type="password" class="form-control" placeholder="Nueva Clave"  formControlName="clave2">                    
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 
