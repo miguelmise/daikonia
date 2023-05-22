@@ -3,7 +3,7 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">BENEFICIADOS</h1>
-        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm">Crear Nuevo</a>
+        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" (click)="resetForm()">Crear Nuevo</a>
     </div>
 
     <!-- Content Row -->
@@ -15,19 +15,7 @@
     <!-- Content Row -->
 
     <div class="row">
-        <!--<div class="col-lg-12 mb-4">
-            <div class="card shadow mb-4">
-                <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Development Approach</h6>
-                </div>
-                <div class="card-body">
-                    
-                </div>
-            </div>
-        </div>-->
-        
-
-        
+         
     </div>
 
     <!-- Content Row -->
@@ -42,7 +30,28 @@
                     <h6 class="m-0 font-weight-bold text-white">Listado Beneficiados</h6>
                 </div>
                 <div class="card-body">
-                    
+                    <div *ngIf="listaBeneficiados.length>0">
+                        
+                        <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                            <!-- nombre  Column -->
+                            <ng-container matColumnDef="nombreBeneficiado">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                                <td mat-cell *matCellDef="let element"><a (click)="verBeneficiadoData(element.id)">{{element.nombre_beneficiado}}</a></td>
+                              </ng-container>
+
+                              <!-- tipo Column -->
+                            <ng-container matColumnDef="actividad">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Actividad</th>
+                                <td mat-cell *matCellDef="let element"> {{element.tipo_actividad}} </td>
+                              </ng-container>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <div class="table_footer">
+                            <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                          </div>
+                        </div>
+                    <h3 *ngIf="listaBeneficiados.length==0" class="text-dark">No hay Beneficiarios para mostrar</h3>
                 </div>
             </div>
 
@@ -52,13 +61,91 @@
 
         <div class="col-lg-8 mb-4">
 
-            <!-- Illustrations -->
-            <div class="card shadow mb-4">
+            <!-- data -->
+            <div *ngIf="isFormVisible" class="card shadow mb-4">
                 <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Información del Beneficiado</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Información del Beneficiado : {{selectBeneficiado}}</h6>
                 </div>
                 <div class="card-body">
-                    
+                    <!--formulario-->
+                    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+                        <div class="row">
+                            <!--nombre-->
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Nombre Institución</span>
+                                    <input type="text" class="form-control"  formControlName="nombre_beneficiado">
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <!--Actividad-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Actividad</span>
+                                    <input type="text" class="form-control"  formControlName="tipo_actividad">
+                                  </div>
+                            </div>
+                            <!--restringido-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">No Apto</span>
+                                    <input type="text" class="form-control"  formControlName="tipo_alimento_restringido">
+                                  </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            
+                            <!--periocidad-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Periocidad</span>
+                                    <select class="form-select bg-white text-dark" formControlName="periodo_asignacion">
+                                        <option value="" [disabled]="true" >Seleccione Tipo..</option>
+                                      <option *ngFor="let tipo of periocidad" [value]="tipo.valor">
+                                        {{tipo.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+                            <!--dias-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Día</span>
+                                    <select class="form-select bg-white text-dark" formControlName="dia_asignacion">
+                                        <option value="" [disabled]="true" >Seleccione Tipo..</option>
+                                      <option *ngFor="let tipo of dias" [value]="tipo.valor">
+                                        {{tipo.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <!--personas-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">N. Personas</span>
+                                    <input type="text" class="form-control"  formControlName="numero_personas">
+                                  </div>
+                            </div>
+                            <!--edad-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Edad Promedio</span>
+                                    <input type="number" class="form-control"  formControlName="edad_promedio_beneficiados">
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
 

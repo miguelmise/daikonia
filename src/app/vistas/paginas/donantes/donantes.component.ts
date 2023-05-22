@@ -14,7 +14,7 @@ export class DonantesComponent implements OnInit {
 
   /**Data de prueba */
   listaProveedores: any[] = [
-    { id: 1, nombre_proveedor: "GRUPO SUPERIOR", tipo: "público", descripcion: "" },
+    { id: 1, nombre_proveedor: "GRUPO SUPERIOR", tipo: "público", descripcion: "Cada Jueves entrega en sede" },
     { id: 2, nombre_proveedor: "CALBAQ", tipo: "privado", descripcion: "" },
     { id: 3, nombre_proveedor: "P049 - PROCESADORA NACIONAL DE ALIMENTOS C.A. PRONACA", tipo: "comunidad", descripcion: "" },
     { id: 4, nombre_proveedor: "UNILEVER", tipo: "público", descripcion: "" },
@@ -121,7 +121,7 @@ export class DonantesComponent implements OnInit {
       this.registerForm.controls["tipo"].setValue(proveedor.tipo)
       this.registerForm.controls["descripcion"].setValue(proveedor.descripcion)
     } else {
-      //this.alerta("Error","No se encontro la información del usuario.","warning")
+      this.alerta("Error","No se encontro la información del Proveedor.","warning")
     }
   }
 
