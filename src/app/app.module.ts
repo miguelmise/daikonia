@@ -17,6 +17,9 @@ import {MatTableModule} from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import { ProductosComponent } from './vistas/paginas/productos/productos.component';
+import { InventarioComponent } from './vistas/paginas/inventario/inventario.component';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -27,7 +30,8 @@ import { ProductosComponent } from './vistas/paginas/productos/productos.compone
     UsuariosComponent,
     DonantesComponent,
     BeneficiadosComponent,
-    ProductosComponent
+    ProductosComponent,
+    InventarioComponent
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,9 @@ import { ProductosComponent } from './vistas/paginas/productos/productos.compone
     BrowserAnimationsModule,
     MatTableModule,
     MatPaginatorModule,
-    MatIconModule
+    MatIconModule,
+    MatListModule,
+    MatDividerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

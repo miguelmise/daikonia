@@ -24,13 +24,14 @@ export class PrincipalComponent implements OnInit {
     Usuarios: false,
     Proveedores: false,
     Beneficiados: false,
-    Productos: false
+    Productos: false,
+    Inventario: false
   };
 
   constructor(private router: Router,private titleService: Title) { }
 
   ngOnInit(): void {
-    this.titleService.setTitle('Diakonia');
+    this.titleService.setTitle('Kairo');
   }
 
   mostrarPagina(pagina: string): void {

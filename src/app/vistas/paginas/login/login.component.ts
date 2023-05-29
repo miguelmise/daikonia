@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/servicios/seguridad/login.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
+import { Title } from '@angular/platform-browser';
 //import { of } from 'rxjs';
 
 
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private formBuilder: FormBuilder,
-    private _login_service : LoginService
+    private _login_service : LoginService,
+    private titleService: Title
     ) { 
     this.registerForm = this.formBuilder.group({
       username: ["",Validators.required],
@@ -34,6 +36,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle('Kairo Login');
   }
 
   onSubmit():void {

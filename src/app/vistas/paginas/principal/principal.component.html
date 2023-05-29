@@ -8,7 +8,7 @@
         <meta name="description" content="sistema distribucion alimentos">
         <meta name="author" content="Espol_mmise">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-        <title>Diakonia</title>
+        <title>Kairo</title>
         
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
@@ -24,8 +24,8 @@
         <ul class="navbar-nav sidebar sidebar-dark accordion" style="background-color: #d21e2a;" id="accordionSidebar" [ngClass]="{'collapse': !isCollapsed}">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex" routerLink="/home">
-                <div class="sidebar-brand-text">Diakonia <sup>v1.0</sup></div>
+            <a class="sidebar-brand d-flex" routerLink="/principal">
+                <div class="sidebar-brand-text">Kairo <sup>v0.1</sup></div>
             </a>
 
             <!-- Divider -->
@@ -114,7 +114,7 @@
                 <div id="collapseInventary" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Procedimientos:</h6>
-                        <a class="collapse-item" >Inventario Diario</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Inventario')">Inventario Diario</a>
                         <a class="collapse-item" (click)="mostrarPagina('Productos')" >Productos</a>
                     </div>
                 </div>
@@ -230,23 +230,27 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
-                <!-- Renderizar componente app-inicio si showInicio es true -->
+                <!-- Renderizar componente  -->
                 <app-inicio *ngIf="Paginas['Inicio']"></app-inicio>
 
-                <!-- Renderizar componente app-usuarios si showUsuarios es true -->
+                <!-- Renderizar componente -->
                 <app-usuarios *ngIf="Paginas['Usuarios']"></app-usuarios>
                 <!-- /.container-fluid -->
 
-                <!-- Renderizar componente app- si showDonantes es true -->
+                <!-- Renderizar componente  -->
                 <app-donantes *ngIf="Paginas['Proveedores']"></app-donantes>
                 <!-- /.container-fluid -->
 
-                <!-- Renderizar componente app- si showDonantes es true -->
+                <!-- Renderizar componente -->
                 <app-beneficiados *ngIf="Paginas['Beneficiados']"></app-beneficiados>
                 <!-- /.container-fluid -->
 
-                <!-- Renderizar componente app- si showProductos es true -->
+                <!-- Renderizar componente  -->
                 <app-productos *ngIf="Paginas['Productos']"></app-productos>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-inventario *ngIf="Paginas['Inventario']"></app-inventario>
                 <!-- /.container-fluid -->
                 
 
@@ -256,7 +260,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Desarrollado por Espol &copy; Diakonia</span>
+                        <span>Desarrollado por Espol &copy;</span>
                     </div>
                 </div>
             </footer>
