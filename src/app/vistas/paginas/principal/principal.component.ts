@@ -19,10 +19,13 @@ export class PrincipalComponent implements OnInit {
   isCollapsed = true;
 
   //Paginas
-  showInicio: boolean = true;
-  showUsuarios: boolean = false;
-  showDonantes: boolean = false;
-  showBeneficiados: boolean = false;
+  Paginas: { [key: string]: boolean } = {
+    Inicio: true,
+    Usuarios: false,
+    Proveedores: false,
+    Beneficiados: false,
+    Productos: false
+  };
 
   constructor(private router: Router,private titleService: Title) { }
 
@@ -30,32 +33,14 @@ export class PrincipalComponent implements OnInit {
     this.titleService.setTitle('Diakonia');
   }
 
-  mostrarInicio(): void {
-    this.showInicio = true;
-    this.showUsuarios = false;
-    this.showDonantes = false;
-    this.showBeneficiados = false;
-  }
-
-  mostrarUsuarios(): void {
-    this.showInicio = false;
-    this.showUsuarios = true;
-    this.showDonantes = false;
-    this.showBeneficiados = false;
-  }
-
-  mostrarDonantes(): void {
-    this.showInicio = false;
-    this.showUsuarios = false;
-    this.showDonantes = true;
-    this.showBeneficiados = false;
-  }
-
-  mostrarBeneficiados(): void {
-    this.showInicio = false;
-    this.showUsuarios = false;
-    this.showDonantes = false;
-    this.showBeneficiados = true;
+  mostrarPagina(pagina: string): void {
+    for (const key in this.Paginas) {
+      if (key === pagina) {
+        this.Paginas[key] = true;
+      } else {
+        this.Paginas[key] = false;
+      }
+    }
   }
 
   salir(): void {

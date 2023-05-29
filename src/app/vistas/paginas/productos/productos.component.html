@@ -1,0 +1,143 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">PRODUCTOS</h1>
+        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" (click)="resetForm()">Crear Nuevo</a>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+
+        
+    </div>
+
+    
+
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Project Card Example -->
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">Listado Productos</h6>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="listaProductos.length>0">
+                        
+                        <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                            <!-- nombre usuario Column -->
+                            <ng-container matColumnDef="producto">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
+                                <td mat-cell *matCellDef="let element"><a (click)="verProductoData(element.codigo)">{{element.Nombre}}</a></td>
+                              </ng-container>
+
+                              <!-- nombres Column -->
+                            <ng-container matColumnDef="peso">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Peso</th>
+                                <td mat-cell *matCellDef="let element"> {{element.peso}} </td>
+                            </ng-container>
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                        <div class="table_footer">
+                            <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                          </div>
+                        </div>
+                    <h3 *ngIf="listaProductos.length==0" class="text-dark">No hay Proveedores para mostrar</h3>
+                </div>
+            </div>
+
+            
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            <!-- data -->
+            <div *ngIf="isFormVisible" class="card shadow mb-4">
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">Información del Proveedor: {{selectProducto}}</h6>
+                </div>
+                <div class="card-body">
+                    <!--formulario-->
+                    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+                        <div class="row">
+                            <!--nombre-->
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Nombre Producto</span>
+                                    <input type="text" class="form-control"  formControlName="nombre_producto">
+                                  </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            
+                            <!--id-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Codigo</span>
+                                    <input type="text" class="form-control"  formControlName="id_producto">
+                                  </div>
+                            </div>
+                            <!--precio-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Precio $</span>
+                                    <input type="text" class="form-control"  formControlName="precio">
+                                  </div>
+                            </div>
+                            <!--peso-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Peso</span>
+                                    <input type="text" class="form-control"  formControlName="peso">
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            
+                            <!--id-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Grasa %</span>
+                                    <input type="text" class="form-control"  formControlName="grasa">
+                                  </div>
+                            </div>
+                            <!--precio-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Azucar %</span>
+                                    <input type="text" class="form-control"  formControlName="azucar">
+                                  </div>
+                            </div>
+                            <!--peso-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Fibra %</span>
+                                    <input type="text" class="form-control"  formControlName="fibra">
+                                  </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+

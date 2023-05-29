@@ -33,7 +33,7 @@
 
             <!-- Nav Item - Dashboard -->
             <li class="nav-item active">
-                <a class="nav-link" (click)="mostrarInicio()">
+                <a class="nav-link" (click)="mostrarPagina('Inicio')">
                     <i class="bi bi-house-fill"></i>
                     <span>Inicio</span></a>
             </li>
@@ -56,7 +56,7 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Administración Usuarios:</h6>
-                        <a class="collapse-item" (click)="mostrarUsuarios()">Usuarios</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Usuarios')">Usuarios</a>
                     </div>
                 </div>
             </li>
@@ -82,8 +82,8 @@
                     data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Entidades:</h6>
-                        <a class="collapse-item" (click)="mostrarDonantes()">Proveedores</a>
-                        <a class="collapse-item" (click)="mostrarBeneficiados()" >Beneficiarios</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Proveedores')">Proveedores</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Beneficiados')" >Beneficiarios</a>
                     </div>
                 </div>
             </li>
@@ -115,7 +115,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Procedimientos:</h6>
                         <a class="collapse-item" >Inventario Diario</a>
-                        <a class="collapse-item" >Productos</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Productos')" >Productos</a>
                     </div>
                 </div>
             </li>
@@ -231,18 +231,22 @@
 
                 <!-- Begin Page Content -->
                 <!-- Renderizar componente app-inicio si showInicio es true -->
-                <app-inicio *ngIf="showInicio"></app-inicio>
+                <app-inicio *ngIf="Paginas['Inicio']"></app-inicio>
 
                 <!-- Renderizar componente app-usuarios si showUsuarios es true -->
-                <app-usuarios *ngIf="showUsuarios"></app-usuarios>
+                <app-usuarios *ngIf="Paginas['Usuarios']"></app-usuarios>
                 <!-- /.container-fluid -->
 
-                <!-- Renderizar componente app-usuarios si showDonantes es true -->
-                <app-donantes *ngIf="showDonantes"></app-donantes>
+                <!-- Renderizar componente app- si showDonantes es true -->
+                <app-donantes *ngIf="Paginas['Proveedores']"></app-donantes>
                 <!-- /.container-fluid -->
 
-                <!-- Renderizar componente app-usuarios si showDonantes es true -->
-                <app-beneficiados *ngIf="showBeneficiados"></app-beneficiados>
+                <!-- Renderizar componente app- si showDonantes es true -->
+                <app-beneficiados *ngIf="Paginas['Beneficiados']"></app-beneficiados>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente app- si showProductos es true -->
+                <app-productos *ngIf="Paginas['Productos']"></app-productos>
                 <!-- /.container-fluid -->
                 
 
