@@ -3,7 +3,8 @@
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">INVENTARIOS</h1>
-        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" (click)="resetForm()">Agregar Producto</a>
+        
+        <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" (click)="mostrarHistoricoInventarios()">Historico Inventarios</a>
     </div>
 
     <!-- Content Row -->
@@ -26,18 +27,15 @@
                     <h6 class="m-0 font-weight-bold text-white">Inventarios</h6>
                 </div>
                 <div class="card-body">
-                    <div *ngIf="listaInventarios.length>0">
-                        
-                        <mat-list>
-                            <mat-list-item *ngFor="let i of listaInventarios">
-                                {{i}}
-                                <mat-divider></mat-divider>
-                            </mat-list-item>
-                            
-                        </mat-list>
-                        
+                    <div *ngIf="listaInventarios.length > 0" class="scroll-container">
+                      <mat-list>
+                        <mat-list-item *ngFor="let i of listaInventarios">
+                          {{i}}
+                          <mat-divider></mat-divider>
+                        </mat-list-item>
+                      </mat-list>
                     </div>
-                    <h3 *ngIf="listaInventarios.length==0" class="text-dark">No hay Inventarios para mostrar</h3>
+                    <h3 *ngIf="listaInventarios.length == 0" class="text-dark">No hay Inventarios para mostrar</h3>
                 </div>
             </div>
 

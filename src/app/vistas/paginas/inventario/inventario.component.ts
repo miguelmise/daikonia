@@ -111,4 +111,8 @@ export class InventarioComponent implements OnInit {
     })
   }
 
+  mostrarHistoricoInventarios():void{
+    
+  }
+
 }
