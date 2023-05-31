@@ -26,6 +26,6 @@ table {
   }
 
  .scroll-container {
-    max-height: 100px; /* Ajusta la altura máxima según tus necesidades */
+    max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
     overflow-y: auto;
   }
