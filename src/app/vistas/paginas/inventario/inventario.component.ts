@@ -16,9 +16,47 @@ export class InventarioComponent implements OnInit {
     '2023-05-05','2023-05-29','2023-05-30'
   ]
 
-  listaProductos:any
+  datos: any[] = [
+    {
+      "Ubicacion": "N32 - RACK N C3 F2",
+      "Caducidad": "11/05/2023",
+      "Codigo": 1780,
+      "Lote": "LR/7",
+      "Descripción": "CAJA FIDEO CORTO 20 UN DE 350-400 GR",
+      "Proveedor": "GRUPO SUPERIOR",
+      "U/M": "UN",
+      "Stock": 3.000000,
+      "Precio_Promedio": 35.000000,
+      "Costo_Total": "490.00"
+    },
+    {
+      "Ubicacion": "I31 - RACK I C3 F1",
+      "Caducidad": "12/05/2023",
+      "Codigo": 3219,
+      "Lote": "LTR/7",
+      "Descripción": "CAJA FIDEO CORTO 12 UN DE 350-400 GR",
+      "Proveedor": "CALBAQ",
+      "U/M": "UN",
+      "Stock": 37.000000,
+      "Precio_Promedio": 42.000000,
+      "Costo_Total": "1,554.00"
+    },
+    {
+      "Ubicacion": "CC001 - CÁMARA DE CONGELACIÓN 1",
+      "Caducidad": "13/05/2023",
+      "Codigo": 2169,
+      "Lote": "3198C",
+      "Descripción": "UNIDAD CERDO   DE 4.5-5 KG",
+      "Proveedor": "P049 - PROCESADORA NACIONAL DE ALIMENTOS C.A. PRONACA",
+      "U/M": "UN",
+      "Stock": 95.000000,
+      "Precio_Promedio": 6.600000,
+      "Costo_Total": "759.00"
+    }
+  ]
 
-  displayedColumns: string[] = ['producto', 'peso'];
+  displayedColumns: string[] = [
+    'Codigo', 'Ubicacion'];
 
   dataSource!: MatTableDataSource<any>;
 
@@ -31,6 +69,11 @@ export class InventarioComponent implements OnInit {
   submitted = false;
   isFormVisible: boolean = false;
   selectProducto = "";
+
+  formData:FormData = new FormData();
+  fileFotoUsuario: File | null = null;
+  archivoSeleccionado: File | undefined;
+
 
   constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) { 
     this.registerForm = this.formBuilder.group({
@@ -45,10 +88,32 @@ export class InventarioComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.listaProductos);
+    this.dataSource = new MatTableDataSource(this.datos);
     this.cdr.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  seleccionarArchivo(event: any) {
+    this.archivoSeleccionado = event.target.files[0];
+  }
+
+  enviarFormulario() {
+    if (this.archivoSeleccionado) {
+      const formData = new FormData();
+      formData.append('archivo', this.archivoSeleccionado, this.archivoSeleccionado.name);
+
+      // Aquí puedes hacer la llamada a tu servicio para enviar el formulario con el archivo
+      // utilizando formData como el cuerpo de la solicitud.
+      // Por ejemplo:
+      // this.tuServicio.enviarArchivo(formData).subscribe(response => {
+      //   console.log('Archivo enviado exitosamente');
+      // }, error => {
+      //   console.error('Error al enviar el archivo', error);
+      // });
+
+      console.log('Archivo enviado exitosamente');
+    }
   }
 
   resetForm():void{
@@ -84,7 +149,7 @@ export class InventarioComponent implements OnInit {
   }
 
   verProductoData(id:number):void{
-    const producto = this.listaProductos.find((item: { codigo: number; }) => item.codigo === id);
+    const producto = this.datos.find((item: { codigo: number; }) => item.codigo === id);
 
     if (producto) {
       this.isFormVisible = true;
