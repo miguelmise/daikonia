@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener  } from '@angular/core';
 //import $ from 'jquery';
 import "../../../../assets/js/home.js";
 import "../../../../assets/js/jqmin.js";
@@ -28,11 +28,28 @@ export class PrincipalComponent implements OnInit {
     Inventario: false
   };
 
+  private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios'];
+
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+
+    for (const collapseId of this.collapseIds) {
+      const collapseElement = document.getElementById(collapseId);
+      const isClickInside = collapseElement?.contains(target);
+
+      if (collapseElement && !isClickInside) {
+        collapseElement.classList.remove("show");
+      }
+    }
+  }
+
   constructor(private router: Router,private titleService: Title) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Kairo');
   }
+  
 
   mostrarPagina(pagina: string): void {
     for (const key in this.Paginas) {

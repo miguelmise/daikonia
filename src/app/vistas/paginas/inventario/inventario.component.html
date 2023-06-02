@@ -2,7 +2,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">INVENTARIOS</h1>
+        <h1 class="h3 mb-0 text-gray-800">INVENTARIO</h1>
         <!-- Botón para abrir el modal -->
         <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" data-bs-toggle="modal" data-bs-target="#myModal">Historico Inventarios</a>
     </div>
@@ -37,7 +37,7 @@
     
     <!-- Formulario Carga Archivo -->
     <div class="row" *ngIf="datos.length>0">
-        <div class="col-lg-12 mb-4">
+        <div class="col-lg-12 mb-2">
             <div class="card shadow mb-4">
                 <div class="card-header py-3 bg-secondary">
                     <h6 class="m-0 font-weight-bold text-white">Cargar Archivo de Inventario</h6>
@@ -45,13 +45,13 @@
                 <div class="card-body">
                     <div class="row">
                         <!--nombre-->
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-12 mb-2">
                             <input type="file" class="file-upload form-control" (change)="seleccionarArchivo($event)" />
                         </div>
                     </div>
                     <div class="row">
                         <!--nombre-->
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-12 mb-2">
                             <button type="button" class="btn btn-success" [disabled]="!archivoSeleccionado" (click)="enviarFormulario()">Enviar</button>
                         </div>
                     </div>
@@ -60,39 +60,15 @@
         </div>
     </div>
 
-    <!-- Content Row -->
-    <div class="row">
-        <div *ngIf="datos.length>0">
-            <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
-                <!-- Column -->
-                <ng-container matColumnDef="Codigo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
-                    <td mat-cell *matCellDef="let element"><a (click)="verProductoData(element.Codigo)">{{element.Codigo}}</a></td>
-                  </ng-container>
-
-                  <!-- Column -->
-                <ng-container matColumnDef="Ubicacion">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Ubicacion}} </td>
-                  </ng-container>
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <div class="table_footer">
-                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
-              </div>
-        </div>
-        <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
-    </div>
-
     <!-- Formulario Actualizar Registro-->
     <div class="row">
-        <div class="col-lg-6 mb-4">
+        <div *ngIf="isFormVisible" class="col-lg-12 mb-2">
 
             <!-- data -->
-            <div *ngIf="isFormVisible" class="card shadow mb-4">
-                <div class="card-header py-3 bg-secondary">
+            <div  class="card shadow mb-4">
+                <div class="card-header py-3 bg-secondary d-flex justify-content-between">
                     <h6 class="m-0 font-weight-bold text-white">Información del Producto: {{selectProducto}}</h6>
+                    <button class="btn btn-sm btn-secondary btn-transparent" (click)="resetForm()">x</button>
                 </div>
                 <div class="card-body">
                     <!--formulario-->
@@ -101,8 +77,8 @@
                             <!--nombre-->
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Nombre Producto</span>
-                                    <input type="text" class="form-control"  formControlName="nombre_producto">
+                                    <span class="input-group-text">Descripción</span>
+                                    <input type="text" class="form-control"  formControlName="Descripcion">
                                   </div>
                             </div>
                             
@@ -113,45 +89,63 @@
                             <div class="col-md-4">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Codigo</span>
-                                    <input type="text" class="form-control"  formControlName="id_producto">
+                                    <input type="text" class="form-control"  formControlName="Codigo">
                                   </div>
                             </div>
                             <!--precio-->
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Precio $</span>
-                                    <input type="text" class="form-control"  formControlName="precio">
+                                    <span class="input-group-text">Ubicación</span>
+                                    <input type="text" class="form-control"  formControlName="Ubicacion">
                                   </div>
                             </div>
                             <!--peso-->
-                            <div class="col-md-4">
+                            <div class="col-md-2">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Peso</span>
-                                    <input type="text" class="form-control"  formControlName="peso">
+                                    <span class="input-group-text">Lote</span>
+                                    <input type="text" class="form-control"  formControlName="Lote">
                                   </div>
                             </div>
                         </div>
                         <div class="row">
                             
                             <!--id-->
-                            <div class="col-md-4">
+                            <div class="col-md-8">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Grasa %</span>
-                                    <input type="text" class="form-control"  formControlName="grasa">
+                                    <span class="input-group-text">Proveedor</span>
+                                    <input type="text" class="form-control"  formControlName="Proveedor">
                                   </div>
                             </div>
                             <!--precio-->
                             <div class="col-md-4">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Azucar %</span>
-                                    <input type="text" class="form-control"  formControlName="azucar">
+                                    <span class="input-group-text">U/M</span>
+                                    <input type="text" class="form-control"  formControlName="UM">
                                   </div>
                             </div>
-                            <!--peso-->
+                            
+                        </div>
+
+                        <div class="row">
+                            <!--Stock-->
                             <div class="col-md-4">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Fibra %</span>
-                                    <input type="text" class="form-control"  formControlName="fibra">
+                                    <span class="input-group-text">Stock</span>
+                                    <input type="number" class="form-control"  formControlName="Stock">
+                                  </div>
+                            </div>
+                            <!--Costo_Total-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Costo_Total</span>
+                                    <input type="text" class="form-control"  formControlName="Costo_Total">
+                                  </div>
+                            </div>
+                            <!--Precio_Promedio-->
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Precio_Promedio</span>
+                                    <input type="text" class="form-control"  formControlName="Precio_Promedio">
                                   </div>
                             </div>
                         </div>
@@ -166,6 +160,86 @@
             </div>
         </div>
     </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div *ngIf="datos.length>0">
+            <div class="mb-2 ">
+                <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+            </div>
+            <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                <!-- Column -->
+                <ng-container matColumnDef="Codigo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+                    <td mat-cell *matCellDef="let element"><a (click)="verProductoData(element.Codigo)">{{element.Codigo}}</a></td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Ubicacion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Ubicacion}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Caducidad">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Caducidad}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Descripcion">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Lote">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Lote</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Lote}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Proveedor">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Proveedor}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="UM">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> U/M</th>
+                    <td mat-cell *matCellDef="let element"> {{element.UM}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Stock">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Stock}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Precio_Promedio">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio_Promedio</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Precio_Promedio}} </td>
+                </ng-container>
+
+                <!-- Column -->
+                <ng-container matColumnDef="Costo_Total">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo_Total</th>
+                    <td mat-cell *matCellDef="let element"> {{element.Costo_Total}} </td>
+                </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div class="table_footer">
+                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+              </div>
+        </div>
+        <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
+    </div>
+
+    
 
 </div>
 

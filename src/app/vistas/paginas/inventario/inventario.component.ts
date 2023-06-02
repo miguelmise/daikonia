@@ -22,9 +22,9 @@ export class InventarioComponent implements OnInit {
       "Caducidad": "11/05/2023",
       "Codigo": 1780,
       "Lote": "LR/7",
-      "Descripción": "CAJA FIDEO CORTO 20 UN DE 350-400 GR",
+      "Descripcion": "CAJA FIDEO CORTO 20 UN DE 350-400 GR",
       "Proveedor": "GRUPO SUPERIOR",
-      "U/M": "UN",
+      "UM": "UN",
       "Stock": 3.000000,
       "Precio_Promedio": 35.000000,
       "Costo_Total": "490.00"
@@ -34,9 +34,9 @@ export class InventarioComponent implements OnInit {
       "Caducidad": "12/05/2023",
       "Codigo": 3219,
       "Lote": "LTR/7",
-      "Descripción": "CAJA FIDEO CORTO 12 UN DE 350-400 GR",
+      "Descripcion": "CAJA FIDEO CORTO 12 UN DE 350-400 GR",
       "Proveedor": "CALBAQ",
-      "U/M": "UN",
+      "UM": "UN",
       "Stock": 37.000000,
       "Precio_Promedio": 42.000000,
       "Costo_Total": "1,554.00"
@@ -46,9 +46,9 @@ export class InventarioComponent implements OnInit {
       "Caducidad": "13/05/2023",
       "Codigo": 2169,
       "Lote": "3198C",
-      "Descripción": "UNIDAD CERDO   DE 4.5-5 KG",
+      "Descripcion": "UNIDAD CERDO   DE 4.5-5 KG",
       "Proveedor": "P049 - PROCESADORA NACIONAL DE ALIMENTOS C.A. PRONACA",
-      "U/M": "UN",
+      "UM": "UN",
       "Stock": 95.000000,
       "Precio_Promedio": 6.600000,
       "Costo_Total": "759.00"
@@ -56,7 +56,7 @@ export class InventarioComponent implements OnInit {
   ]
 
   displayedColumns: string[] = [
-    'Codigo', 'Ubicacion'];
+    'Codigo', 'Ubicacion','Caducidad','Descripcion','Lote','Proveedor','UM','Stock','Precio_Promedio','Costo_Total'];
 
   dataSource!: MatTableDataSource<any>;
 
@@ -78,12 +78,15 @@ export class InventarioComponent implements OnInit {
   constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) { 
     this.registerForm = this.formBuilder.group({
       id_producto: [""],
-      nombre_producto: ["",Validators.required],
-      precio: ["",Validators.required],
-      peso: ["",Validators.required],
-      grasa: ["",Validators.required],
-      azucar: ["",Validators.required],
-      fibra: ["",Validators.required]
+      Codigo: ["",Validators.required],
+      Descripcion: ["",Validators.required],
+      Ubicacion: ["",Validators.required],
+      Lote: ["",Validators.required],
+      Proveedor: ["",Validators.required],
+      UM: ["",Validators.required],
+      Stock: ["",Validators.required],
+      Precio_Promedio: ["",Validators.required],
+      Costo_Total: ["",Validators.required]
     });
   }
 
@@ -96,6 +99,11 @@ export class InventarioComponent implements OnInit {
 
   seleccionarArchivo(event: any) {
     this.archivoSeleccionado = event.target.files[0];
+  }
+
+  applyFilter(event: Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   enviarFormulario() {
@@ -116,15 +124,15 @@ export class InventarioComponent implements OnInit {
     }
   }
 
-  resetForm():void{
-    this.selectProducto = "[Nuevo Producto]"
-    this.isFormVisible = true;
-    this.submitted = false;
-    this.registerForm.reset();
-  }
-
   onSubmit():void {
     this.guardarDatosProducto()
+  }
+
+  resetForm():void{
+    this.selectProducto = ""
+    this.isFormVisible = false;
+    this.submitted = false;
+    this.registerForm.reset();
   }
 
   guardarDatosProducto(){
@@ -148,19 +156,21 @@ export class InventarioComponent implements OnInit {
     })
   }
 
-  verProductoData(id:number):void{
-    const producto = this.datos.find((item: { codigo: number; }) => item.codigo === id);
+  verProductoData(codigo:number):void{
+    const producto = this.datos.find((item: { Codigo: number; }) => item.Codigo === codigo);
 
     if (producto) {
       this.isFormVisible = true;
-      this.selectProducto = producto.Nombre
-      this.registerForm.controls["id_producto"].setValue(producto.codigo)
-      this.registerForm.controls["nombre_producto"].setValue(producto.Nombre)
-      this.registerForm.controls["precio"].setValue(producto.precio)
-      this.registerForm.controls["peso"].setValue(producto.peso)
-      this.registerForm.controls["grasa"].setValue(producto.grasa)
-      this.registerForm.controls["azucar"].setValue(producto.azucar)
-      this.registerForm.controls["fibra"].setValue(producto.fibra)
+      this.selectProducto = producto.Descripcion
+      this.registerForm.controls["Codigo"].setValue(producto.Codigo)
+      this.registerForm.controls["Descripcion"].setValue(producto.Descripcion)
+      this.registerForm.controls["Ubicacion"].setValue(producto.Ubicacion)
+      this.registerForm.controls["Lote"].setValue(producto.Lote)
+      this.registerForm.controls["Proveedor"].setValue(producto.Proveedor)
+      this.registerForm.controls["UM"].setValue(producto.UM)
+      this.registerForm.controls["Stock"].setValue(producto.Stock)
+      this.registerForm.controls["Precio_Promedio"].setValue(producto.Precio_Promedio)
+      this.registerForm.controls["Costo_Total"].setValue(producto.Costo_Total)
     } else {
       this.alerta("Error","No se encontro la información del Producto.","warning")
     }
