@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -111,7 +112,7 @@ export class ProductosComponent implements OnInit {
   isFormVisible: boolean = false;
   selectProducto = "";
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
     this.registerForm = this.formBuilder.group({
       id_producto: [""],
       nombre_producto: ["",Validators.required],
@@ -157,7 +158,7 @@ export class ProductosComponent implements OnInit {
           if (this.registerForm.invalid) {
             return;
           }
-          this.alerta("Data",JSON.stringify(this.registerForm.value),"info")
+          this._util.alerta("Data",JSON.stringify(this.registerForm.value),"info")
       }
     })
   }
@@ -176,18 +177,9 @@ export class ProductosComponent implements OnInit {
       this.registerForm.controls["azucar"].setValue(producto.azucar)
       this.registerForm.controls["fibra"].setValue(producto.fibra)
     } else {
-      this.alerta("Error","No se encontro la información del Producto.","warning")
+      this._util.alerta("Error","No se encontro la información del Producto.","warning")
     }
   }
 
-  alerta(titulo:string,contenido:string,icono:any){
-    Swal.fire({
-      title:titulo,
-      text:contenido,
-      toast:true,
-      icon:icono,
-      confirmButtonColor: '#d21e2a'
-    })
-  }
 
 }

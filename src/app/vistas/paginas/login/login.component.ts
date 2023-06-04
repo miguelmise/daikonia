@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { LoginService } from 'src/app/servicios/seguridad/login.service';
 import { catchError, finalize, tap } from 'rxjs/operators';
 import { Title } from '@angular/platform-browser';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
 //import { of } from 'rxjs';
 
 
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private formBuilder: FormBuilder,
     private _login_service : LoginService,
-    private titleService: Title
+    private titleService: Title,
+    private _util: UtilService
     ) { 
     this.registerForm = this.formBuilder.group({
       username: ["",Validators.required],
@@ -52,28 +54,19 @@ export class LoginComponent implements OnInit {
         if(response.user != ""){
           this.router.navigate(['principal']);
         }else{
-          this.alerta("Error","Usuario o Clave Incorrectos","error")
+          this._util.alerta("Error","Usuario o Clave Incorrectos","error")
         }
       },
       error: e => {
-        this.alerta("Error",JSON.stringify(e),"error")
+        this._util.alerta("Error",JSON.stringify(e),"error")
       }
     });
     
   }
 
   recuperarPassword():void {
-    this.alerta("No disponible","Contacte al administrador del sistema","warning")
+    this._util.alerta("No disponible","Contacte al administrador del sistema","warning")
   }
 
-  alerta(titulo:string,contenido:string,icono:any){
-    Swal.fire({
-      title:titulo,
-      text:contenido,
-      toast:true,
-      icon:icono,
-      confirmButtonColor: '#d21e2a'
-    })
-  }
 
 }

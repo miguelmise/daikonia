@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -75,7 +76,7 @@ export class InventarioComponent implements OnInit {
   archivoSeleccionado: File | undefined;
 
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
     this.registerForm = this.formBuilder.group({
       id_producto: [""],
       Codigo: ["",Validators.required],
@@ -151,7 +152,7 @@ export class InventarioComponent implements OnInit {
           if (this.registerForm.invalid) {
             return;
           }
-          this.alerta("Data",JSON.stringify(this.registerForm.value),"info")
+          this._util.alerta("Data",JSON.stringify(this.registerForm.value),"info")
       }
     })
   }
@@ -172,18 +173,8 @@ export class InventarioComponent implements OnInit {
       this.registerForm.controls["Precio_Promedio"].setValue(producto.Precio_Promedio)
       this.registerForm.controls["Costo_Total"].setValue(producto.Costo_Total)
     } else {
-      this.alerta("Error","No se encontro la información del Producto.","warning")
+      this._util.alerta("Error","No se encontro la información del Producto.","warning")
     }
-  }
-
-  alerta(titulo:string,contenido:string,icono:any){
-    Swal.fire({
-      title:titulo,
-      text:contenido,
-      toast:true,
-      icon:icono,
-      confirmButtonColor: '#d21e2a'
-    })
   }
 
   mostrarHistoricoInventarios():void{

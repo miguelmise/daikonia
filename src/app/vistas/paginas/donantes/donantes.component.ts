@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -62,7 +63,7 @@ export class DonantesComponent implements OnInit {
   selectProveedor = "";
   
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
     this.registerForm = this.formBuilder.group({
       id: [""],
       nombre_proveedor: ["",Validators.required],
@@ -105,7 +106,7 @@ export class DonantesComponent implements OnInit {
           if (this.registerForm.invalid) {
             return;
           }
-          this.alerta("Data",JSON.stringify(this.registerForm.value),"info")
+          this._util.alerta("Data",JSON.stringify(this.registerForm.value),"info")
       }
     })
   }
@@ -121,18 +122,9 @@ export class DonantesComponent implements OnInit {
       this.registerForm.controls["tipo"].setValue(proveedor.tipo)
       this.registerForm.controls["descripcion"].setValue(proveedor.descripcion)
     } else {
-      this.alerta("Error","No se encontro la información del Proveedor.","warning")
+      this._util.alerta("Error","No se encontro la información del Proveedor.","warning")
     }
   }
 
-  alerta(titulo:string,contenido:string,icono:any){
-    Swal.fire({
-      title:titulo,
-      text:contenido,
-      toast:true,
-      icon:icono,
-      confirmButtonColor: '#d21e2a'
-    })
-  } 
 
 }
