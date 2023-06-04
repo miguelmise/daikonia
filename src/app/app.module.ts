@@ -20,6 +20,8 @@ import { ProductosComponent } from './vistas/paginas/productos/productos.compone
 import { InventarioComponent } from './vistas/paginas/inventario/inventario.component';
 import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
+import { ReglasComponent } from './vistas/paginas/reglas/reglas.component';
+import { PlanificadorComponent } from './vistas/paginas/planificador/planificador.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +33,9 @@ import {MatDividerModule} from '@angular/material/divider';
     DonantesComponent,
     BeneficiadosComponent,
     ProductosComponent,
-    InventarioComponent
+    InventarioComponent,
+    ReglasComponent,
+    PlanificadorComponent
   ],
   imports: [
     BrowserModule,

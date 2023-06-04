@@ -98,8 +98,8 @@
                 <div id="collapseProcesos" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Procedimientos:</h6>
-                        <a class="collapse-item" >Reglas</a>
-                        <a class="collapse-item" >Planificador</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Reglas')">Reglas</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Planificador')">Planificador</a>
                     </div>
                 </div>
             </li>
@@ -251,6 +251,14 @@
 
                 <!-- Renderizar componente -->
                 <app-inventario *ngIf="Paginas['Inventario']"></app-inventario>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-reglas *ngIf="Paginas['Reglas']"></app-reglas>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-planificador *ngIf="Paginas['Planificador']"></app-planificador>
                 <!-- /.container-fluid -->
                 
 
