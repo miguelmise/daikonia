@@ -22,6 +22,7 @@ import {MatListModule} from '@angular/material/list';
 import {MatDividerModule} from '@angular/material/divider';
 import { ReglasComponent } from './vistas/paginas/reglas/reglas.component';
 import { PlanificadorComponent } from './vistas/paginas/planificador/planificador.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { PlanificadorComponent } from './vistas/paginas/planificador/planificado
     MatPaginatorModule,
     MatIconModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,6 +1,61 @@
 <div class="container-fluid">
     <!-- Cabecera -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">PROGRAMACIÓN DE ORDENES</h1>
+        <h1 class="h3 mb-0 text-gray-800">GENERACIÓN DE ORDENES</h1>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <div class="card shadow mb-4">
+                <!-- Titulo Formulario -->
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">Cantidades</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Beneficiados</span>
+                                <span class="input-group-text form-control">{{numBeneficiados}}</span>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Requerido(kg)</span>
+                                <span class="input-group-text form-control">{{kgRequerido}}</span>
+                              </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="input-group mb-3">
+                                <span class="input-group-text">Personas</span>
+                                <span class="input-group-text form-control">{{numpersonas}}</span>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12 mb-4">
+            <div class="card shadow mb-4">
+                <!-- Titulo Formulario -->
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">Confirmar Beneficiados</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div *ngFor="let fundacion of listaBeneficiados">
+                            <label>
+                                <input type="checkbox" [ngModel]="selectedItems.has(fundacion.id)" (change)="toggleSelection(fundacion.id)">
+                              {{ fundacion.nombre_beneficiado }}
+                            </label>
+                          </div>
+                          <div class="col-md-3 mt-2">
+                            <button class="btn btn-success" (click)="enviar()">Generar orden alimentos</button>
+                          </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
