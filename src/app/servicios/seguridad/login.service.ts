@@ -31,10 +31,12 @@ export class LoginService {
   constructor(private http:HttpClient) { 
   }
 
+  /**Retorna el token de acceso */
   login_user(data: any): Observable<any> {
     return this.http.post<any>(this.url + "user_login.php", data);
   }
 
+  /**Servicio de prueba */
   login(data:any): Observable<respuesta_login> {
     if(data.username == "admin" && data.password == "admin") {
       const respuesta: respuesta_login = {

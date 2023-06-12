@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
 
@@ -13,14 +14,17 @@ import Swal from 'sweetalert2';
 })
 export class UsuariosComponent implements OnInit {
 
-  data : any = [
+  data: any[] = [];
+  update_user = true;
+
+  data1 : any = [
     {id : 1,user : 'admin', nombre : 'Administrador', correo : 'admin@dk.com', rol : 'admin', estado: 1},
     {id : 2,user : 'sintriago', nombre : 'Sandy Intriago', correo : 'sintrig@dk.com', rol : 'user', estado: 1}]
 
   /* tipos de rol - esta lista deberia cargarse usando un servicio que verifique los roles existentes*/
   roles: any[] = [
-    { valor: "admin", etiqueta: "Administrador" },
-    { valor: "user", etiqueta: "Usuario" }]
+    { valor: 1, etiqueta: "Administrador" },
+    { valor: 2, etiqueta: "Usuario" }]
 
   /* tipos de estado - esta lista deberia cargarse usando un servicio que verifique los roles existentes*/
   estados: any[] = [
@@ -45,24 +49,28 @@ export class UsuariosComponent implements OnInit {
   selectUser = "";
 
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) {
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService,
+    private _usuario: UsuarioService) {
     this.registerForm = this.formBuilder.group({
-      id: [""],
-      nombre: ["",Validators.required],
-      correo: ["",Validators.required],
-      rol: ["",Validators.required],
-      user: ["",Validators.required],
-      estado: ["",Validators.required],
-      clave: [""],
+      user_id: [""],
+      user_nombres: ["",Validators.required],
+      user_correo: ["",[Validators.required, Validators.email]],
+      user_rol: ["",Validators.required],
+      user_nick: ["",Validators.required],
+      user_estado: ["",Validators.required],
+      user_clave: [""],
       clave2: [""]
     });
    }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.data);
-    this.cdr.detectChanges();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    
+    this.cargarListaUsuarios()
+  }
+
+  applyFilter(event: Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
   onSubmit():void {
@@ -71,6 +79,23 @@ export class UsuariosComponent implements OnInit {
     }else{
       this._util.alerta("Error","Las claves no coinciden","warning")
     }
+  }
+
+  cargarListaUsuarios():void{
+    this._usuario.list_user().subscribe(
+      (result) => {
+        this.data = result
+        this.dataSource = new MatTableDataSource(this.data);
+        this.cdr.detectChanges();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        
+      },
+      (error) => {
+        this._util.alerta("Error",JSON.stringify(error),"warning")
+      }
+    );
+    
   }
 
   mostrarContrasena():void {
@@ -95,27 +120,40 @@ export class UsuariosComponent implements OnInit {
 
   resetForm():void{
     this.selectUser = "[Nuevo Usuario]"
+    this.update_user = false;
     this.isFormVisible = true;
     this.submitted = false;
     this.registerForm.reset();
   }
 
   verUsuarioData(id:number):void{
-    const usuario = this.data.find((item: { id: number; }) => item.id === id);
+    this.update_user = true;
+    const usuario = this.data.find((item: { user_id: number; }) => item.user_id == id);
 
     if (usuario) {
       this.isFormVisible = true;
       this.selectUser = usuario.user
-      this.registerForm.controls["id"].setValue(usuario.id)
-      this.registerForm.controls["user"].setValue(usuario.user)
-      this.registerForm.controls["nombre"].setValue(usuario.nombre)
-      this.registerForm.controls["correo"].setValue(usuario.correo)
-      this.registerForm.controls["rol"].setValue(usuario.rol)
-      this.registerForm.controls["estado"].setValue(usuario.estado)
-      this.registerForm.controls["clave"].setValue(usuario.clave)
+      this.registerForm.controls["user_id"].setValue(usuario.user_id)
+      this.registerForm.controls["user_nick"].setValue(usuario.user_nick)
+      this.registerForm.controls["user_nombres"].setValue(usuario.user_nombres)
+      this.registerForm.controls["user_correo"].setValue(usuario.user_correo)
+      this.registerForm.controls["user_rol"].setValue(usuario.user_rol)
+      this.registerForm.controls["user_estado"].setValue(usuario.user_estado)
+      this.registerForm.controls["user_clave"].setValue(usuario.clave)
       this.registerForm.controls["clave2"].setValue(usuario.clave2)
     } else {
       this._util.alerta("Error","No se encontro la información del usuario.","warning")
+    }
+    
+  }
+
+  existeNick():boolean{
+    var nick = this.registerForm.controls["user_nick"].value
+    const usuario_nick = this.data.find((item: { user_nick: Text; }) => item.user_nick == nick) ?? null;
+    if(usuario_nick != null){
+      return true;
+    }else{
+      return false;
     }
   }
 
@@ -135,7 +173,23 @@ export class UsuariosComponent implements OnInit {
           if (this.registerForm.invalid) {
             return;
           }
-          this._util.alerta("Data",JSON.stringify(this.registerForm.value),"info")
+          if(this.update_user){
+            this._usuario.update_User(this.registerForm.value)
+            .subscribe({
+              next: response =>{
+                this._util.alerta("Procesado",JSON.stringify(response.mensaje),"info")
+              }, error : e => this._util.alerta("Error",JSON.stringify(e),"error")
+            })
+          }else{
+            if(this.existeNick()){this._util.alerta("Error","Ya existe el nombre de usuario","warning"); return;}
+              this._usuario.create_User(this.registerForm.value)
+              .subscribe({
+                next: response =>{
+                  this._util.alerta("Procesado",JSON.stringify(response.mensaje),"info")
+                },error: e => this._util.alerta("Error",JSON.stringify(e),"error")
+              })
+          }
+          this.cargarListaUsuarios()
       }
     })
   }

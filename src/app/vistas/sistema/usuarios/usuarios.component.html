@@ -43,18 +43,21 @@
                 </div>
                 <div class="card-body">
                     <div *ngIf="data.length>0">
-                        
+                        <div class="mb-2 ">
+                            <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                            placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                        </div>
                         <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
                             <!-- nombre usuario Column -->
                             <ng-container matColumnDef="nombreUsuario">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Usuario</th>
-                                <td mat-cell *matCellDef="let element"><a (click)="verUsuarioData(element.id)">{{element.user}}</a></td>
+                                <td mat-cell *matCellDef="let element"><a (click)="verUsuarioData(element.user_id)">{{element.user_nick}}</a></td>
                               </ng-container>
 
                               <!-- nombres Column -->
                             <ng-container matColumnDef="nombres">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres</th>
-                                <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.user_nombres}} </td>
                               </ng-container>
                               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -86,14 +89,29 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Usuario</span>
-                                    <input type="text" class="form-control"  formControlName="user">
+                                    <input [readOnly]="update_user" type="text" class="form-control" (change)="existeNick()"  formControlName="user_nick">
                                   </div>
                             </div>
-                            <!--Nombre Completo-->
+                            <!--Rol-->
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
+                                    <span class="input-group-text">Rol</span>
+                                    <select class="form-select bg-white text-dark" formControlName="user_rol">
+                                        <option value="" [disabled]="true" >Seleccione Rol..</option>
+                                      <option *ngFor="let rol of roles" [value]="rol.valor">
+                                        {{rol.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+                            
+                        </div>
+                        <div class="row">
+                            <!--Nombre Completo-->
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
                                     <span class="input-group-text">Nombres</span>
-                                    <input type="text" class="form-control"  formControlName="nombre">
+                                    <input type="text" class="form-control"  formControlName="user_nombres">
                                   </div>
                             </div>
                         </div>
@@ -102,28 +120,14 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Correo</span>
-                                    <input type="email" class="form-control"  formControlName="correo">
+                                    <input type="email" class="form-control"  formControlName="user_correo">
                                   </div>
                             </div>
-                            <!--Rol-->
-                            <div class="col-md-6">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Rol</span>
-                                    <select class="form-select bg-white text-dark" formControlName="rol">
-                                        <option value="" [disabled]="true" >Seleccione Rol..</option>
-                                      <option *ngFor="let rol of roles" [value]="rol.valor">
-                                        {{rol.etiqueta}}
-                                      </option>
-                                    </select>
-                                  </div>
-                            </div>
-                        </div>
-                        <div class="row">
                             <!--estado-->
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Estado</span>
-                                    <select class="form-select bg-white text-dark" formControlName="estado">
+                                    <select class="form-select bg-white text-dark" formControlName="user_estado">
                                         <option value="" [disabled]="true" >Seleccione Estado..</option>
                                       <option *ngFor="let estado of estados" [value]="estado.valor">
                                         {{estado.etiqueta}}
@@ -131,13 +135,14 @@
                                     </select>
                                   </div>
                             </div>
+                            
                         </div>
                         <div class="row">
                             <!--clave-->
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Clave</span>
-                                    <input #claveInput type="password" class="form-control" placeholder="Nueva Clave"  formControlName="clave">
+                                    <input #claveInput type="password" class="form-control" placeholder="Nueva Clave"  formControlName="user_clave">
                                     <label class="input-group-text pointer" id="eye" (click)="mostrarContrasena()" ><mat-icon>visibility</mat-icon></label>
                                   </div>
                             </div>

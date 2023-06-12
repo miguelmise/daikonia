@@ -8,6 +8,7 @@ import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
+import { UsuarioService } from 'src/app/servicios/usuario.service';
 
 
 @Component({
@@ -51,13 +52,15 @@ export class PrincipalComponent implements OnInit {
 
   constructor(private router: Router,
     private titleService: Title,
-    private _util: UtilService) { }
+    private _util: UtilService, private _usuario: UsuarioService) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Kairo');
     this.mostrarPagina(this._util.getPagina())
     this.NombreUsuario = this._util.getUserName()
+    
   }
+  
   
 
   mostrarPagina(pagina: string): void {
