@@ -16,6 +16,7 @@ import { UtilService } from 'src/app/servicios/utilidades/util.service';
 })
 export class LoginComponent implements OnInit {
 
+  mensaje_fail_login = 'Error al iniciar sesión';
   invalido = "Usuario o clave incorrectos";
   registerForm: FormGroup;
   submitted = false;
@@ -42,7 +43,7 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit():void {
-    this._login_service.login(this.registerForm.value)
+    this._login_service.login_user(this.registerForm.value)
     .pipe(
       finalize(() => {
         
@@ -50,12 +51,18 @@ export class LoginComponent implements OnInit {
     )
     .subscribe({
       next: response => {
-        // código a ejecutar cuando la operación Observable tenga éxito
-        if(response.user != ""){
-          this.router.navigate(['principal']);
+        var token:any = JSON.parse(atob(response.token));
+
+        if(token.error!=null){
+          this._util.alerta(this.mensaje_fail_login,token.error,"info")
+          this._util.removeToken()
         }else{
-          this._util.alerta("Error","Usuario o Clave Incorrectos","error")
+          this._util.setToken(response.token)
+          this._util.setPagina("Inicio")
+          this.router.navigate(['/principal'])
         }
+        
+        
       },
       error: e => {
         this._util.alerta("Error",JSON.stringify(e),"error")

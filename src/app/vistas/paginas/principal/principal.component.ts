@@ -7,6 +7,7 @@ import "../../../../assets/js/bundle.js";
 import Swal from 'sweetalert2';
 import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
 
 
 @Component({
@@ -17,10 +18,12 @@ import { Title } from '@angular/platform-browser';
 export class PrincipalComponent implements OnInit {
 
   isCollapsed = true;
+  NombreUsuario = "";
+
 
   //Paginas
   Paginas: { [key: string]: boolean } = {
-    Inicio: true,
+    Inicio: false,
     Usuarios: false,
     Proveedores: false,
     Beneficiados: false,
@@ -46,16 +49,21 @@ export class PrincipalComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router,private titleService: Title) { }
+  constructor(private router: Router,
+    private titleService: Title,
+    private _util: UtilService) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Kairo');
+    this.mostrarPagina(this._util.getPagina())
+    this.NombreUsuario = this._util.getUserName()
   }
   
 
   mostrarPagina(pagina: string): void {
+    this._util.setPagina(pagina)
     for (const key in this.Paginas) {
-      if (key === pagina) {
+      if (key == pagina) {
         this.Paginas[key] = true;
       } else {
         this.Paginas[key] = false;
