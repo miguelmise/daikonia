@@ -82,9 +82,11 @@ export class PrincipalComponent implements OnInit {
       toast:true,
       confirmButtonText: 'Continuar',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#d21e2a'
+      confirmButtonColor: '#36b9cc'
     }).then((result) => {
       if (result.isConfirmed) {
+        this._util.deleteCookie('_page');
+        this._util.removeToken();
         this.router.navigate(['login']);
       } else if (result.isDenied) {
       }

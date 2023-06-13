@@ -14,7 +14,7 @@ export class UtilService {
       text:contenido,
       toast:true,
       icon:icono,
-      confirmButtonColor: '#d21e2a'
+      confirmButtonColor: '#006e8c'
     })
   }
 

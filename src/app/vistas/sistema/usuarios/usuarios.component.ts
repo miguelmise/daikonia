@@ -178,6 +178,7 @@ export class UsuariosComponent implements OnInit {
             .subscribe({
               next: response =>{
                 this._util.alerta("Procesado",JSON.stringify(response.mensaje),"info")
+                this.cargarListaUsuarios()
               }, error : e => this._util.alerta("Error",JSON.stringify(e),"error")
             })
           }else{
@@ -186,10 +187,11 @@ export class UsuariosComponent implements OnInit {
               .subscribe({
                 next: response =>{
                   this._util.alerta("Procesado",JSON.stringify(response.mensaje),"info")
+                  this.cargarListaUsuarios()
                 },error: e => this._util.alerta("Error",JSON.stringify(e),"error")
               })
           }
-          this.cargarListaUsuarios()
+          
       }
     })
   }
