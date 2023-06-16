@@ -43,18 +43,21 @@
                 </div>
                 <div class="card-body">
                     <div *ngIf="listaProveedores.length>0">
-                        
+                        <div class="mb-2 ">
+                            <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                            placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                        </div>
                         <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
                             <!-- nombre usuario Column -->
                             <ng-container matColumnDef="nombreProveedor">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre</th>
-                                <td mat-cell *matCellDef="let element"><a (click)="verProveedorData(element.id)">{{element.nombre_proveedor}}</a></td>
+                                <td mat-cell *matCellDef="let element"><a (click)="verProveedorData(element.donante_id)">{{element.donante_nombre}}</a></td>
                               </ng-container>
 
                               <!-- nombres Column -->
                             <ng-container matColumnDef="tipo">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo</th>
-                                <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+                                <td mat-cell *matCellDef="let element"> {{element.donante_tipo}} </td>
                               </ng-container>
                               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -86,7 +89,7 @@
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Nombre Institución</span>
-                                    <input type="text" class="form-control"  formControlName="nombre_proveedor">
+                                    <input type="text" class="form-control"  formControlName="donante_nombre">
                                   </div>
                             </div>
                             
@@ -94,12 +97,25 @@
                         <div class="row">
                             
                             <!--tipo-->
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Tipo</span>
-                                    <select class="form-select bg-white text-dark" formControlName="tipo">
+                                    <select class="form-select bg-white text-dark" formControlName="donante_tipo">
                                         <option value="" [disabled]="true" >Seleccione Tipo..</option>
                                       <option *ngFor="let tipo of tipos_proveedor" [value]="tipo.valor">
+                                        {{tipo.etiqueta}}
+                                      </option>
+                                    </select>
+                                  </div>
+                            </div>
+
+                            <!--estado-->
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Estado</span>
+                                    <select class="form-select bg-white text-dark" formControlName="donante_estado">
+                                        <option value="" [disabled]="true" >Seleccione Estado..</option>
+                                      <option *ngFor="let tipo of estados" [value]="tipo.valor">
                                         {{tipo.etiqueta}}
                                       </option>
                                     </select>
@@ -112,7 +128,7 @@
                             <div class="col-md-12">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Descripción</span>
-                                    <textarea type="text" rows="4" class="form-control" formControlName="descripcion"></textarea>
+                                    <textarea type="text" rows="4" class="form-control" formControlName="donante_descripcion"></textarea>
                                 </div>
                             </div>
                         </div>

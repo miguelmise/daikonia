@@ -26,7 +26,7 @@ export class LoginService {
 
   respuesta!: respuesta_login;
   //url : string = "https://diakoniaweb.000webhostapp.com/kairo/back/api/";
-  url : string = "http://172.23.145.214/kairo/back/api/";
+  url : string = "http://172.19.214.177/kairo/back/api/";
 
   constructor(private http:HttpClient) { 
   }
