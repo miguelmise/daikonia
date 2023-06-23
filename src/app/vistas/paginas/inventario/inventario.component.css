@@ -1,7 +1,7 @@
 .mat-table {
     background-color: white; /* Cambia el fondo a blanco */
     border-collapse: separate;
-    border-spacing: 0;
+    border-spacing: 2%;
   }
   
 .mat-table td{
@@ -11,9 +11,10 @@
   }
 
 .mat-table th {
-    color: gray; /* Cambia el color de texto a gris */
+    color: gray; /* Cambia el color de texto a gris 087E8B*/
     border-bottom: 1px solid gray;
     font-weight: bold;
+    background-color:#e6e9ecbd;
     padding: 8px; /* Añade un espacio interno a las celdas */
   }
 
@@ -29,3 +30,42 @@ table {
     max-height: 300px; /* Ajusta la altura máxima según tus necesidades */
     overflow-y: auto;
   }
+
+
+.mat-column-Ubicacion {
+  flex: none;
+  width: 15%;
+}
+.mat-column-Caducidad {
+  flex: none;
+  width: 10%;
+  text-align: center;
+}
+.mat-column-Descripcion {
+  flex: none;
+  width: 30%;
+}
+.mat-column-Lote,.mat-column-UM,.mat-column-Codigo {
+  flex: none;
+  width: 5%;
+}
+.mat-column-Proveedor {
+  flex: none;
+  width: 15%;
+}
+
+.mat-column-Stock,.mat-column-Precio_Promedio,.mat-column-Costo_Total{
+  flex: none;
+  text-align: center;
+  width: 5%;
+  /*background-color:#e6e9ec; */
+}
+
+.mat-column-Stock td{
+  color:aqua;
+}
+.mat-column-Codigo{
+  background-color:#e6e9ec; 
+
+}
+

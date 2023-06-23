@@ -161,17 +161,38 @@
         </div>
     </div>
 
+    
     <!-- Content Row -->
     <div class="row">
         <div *ngIf="datos.length>0">
-            <div class="mb-2 ">
-                <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
-                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+            <div class="col-md-8 col-md-12">
+                <div class="input-group mb-2">
+                    <div class="input-group-prepend">
+                        <button class="btn"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">tune</span></button>
+                        
+                        <div class="dropdown-menu" >
+                            <a class="dropdown-item" *ngFor="let columna of listaColumnas">
+                                <input type="checkbox" [ngModel]="selectedItems.has(columna.id)" (change)="toggleSelection(columna.id)">
+                              {{ columna.nombre }}
+                            </a>
+                          </div>
+                        
+                    </div>
+                    <input type="text" class="form-control" 
+                        placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                    
+                    <!--<input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                        placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">--->
+                    
+                </div>
+                
+                
             </div>
+            
             <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
                 <!-- Column -->
                 <ng-container matColumnDef="Codigo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
                     <td mat-cell *matCellDef="let element"><a (click)="verProductoData(element.Codigo)">{{element.Codigo}}</a></td>
                 </ng-container>
 
@@ -189,7 +210,7 @@
 
                 <!-- Column -->
                 <ng-container matColumnDef="Descripcion">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
                     <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
                 </ng-container>
 
@@ -212,21 +233,21 @@
                 </ng-container>
 
                 <!-- Column -->
-                <ng-container matColumnDef="Stock">
+                <ng-container matColumnDef="Stock" >
                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock</th>
                     <td mat-cell *matCellDef="let element"> {{element.Stock}} </td>
                 </ng-container>
 
                 <!-- Column -->
-                <ng-container matColumnDef="Precio_Promedio">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio_Promedio</th>
+                <ng-container matColumnDef="Precio_Promedio" *ngIf="listaColumnas[8].mostrar">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio Promedio</th>
                     <td mat-cell *matCellDef="let element"> {{element.Precio_Promedio}} </td>
                 </ng-container>
 
                 <!-- Column -->
-                <ng-container matColumnDef="Costo_Total">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo_Total</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Costo_Total}} </td>
+                <ng-container matColumnDef="Costo_Total" *ngIf="listaColumnas[9].mostrar">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo Total</th>
+                    <td mat-cell *matCellDef="let element" > {{element.Costo_Total}} </td>
                 </ng-container>
 
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

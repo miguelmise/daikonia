@@ -12,7 +12,97 @@ import Swal from 'sweetalert2';
   styleUrls: ['./inventario.component.css']
 })
 export class InventarioComponent implements OnInit {
+  listaColumnas: any[] = [
+    {
+      id: 1,
+      nombre:'Código',
+      col:'Codigo', 
+      mostrar:true
+    },
+    {
+      id: 2,
+      nombre:'Ubicación',
+      col:'Ubicacion',
+      mostrar:true
+    },
+    {
+      id: 3,
+      nombre:'Caducidad',
+      col:'Caducidad',
+      mostrar:true
+    },
+    {
+      id: 4,
+      nombre:'Descripción',
+      col:'Descripcion',
+      mostrar:true
+    }
+    ,
+    {
+      id: 5,
+      nombre:'Lote',
+      col:'Lote',
+      mostrar:true
+    },
+    {
+      id: 6,
+      nombre:'Proveedor',
+      col:'Proveedor',
+      mostrar:true
+    },
+    {
+      id: 7,
+      nombre:'U/M',
+      col:'UM',
+      mostrar:true
+    },
+    {
+      id: 8,
+      nombre:'Stock',
+      col:'Stock',
+      mostrar:true
+    },
+    {
+      id: 9,
+      nombre:'Precio Promedio',
+      col:'Precio_Promedio',
+      mostrar:false
+    },
+    {
+      id: 10,
+      nombre:'Costo Total',
+      col:'Costo_Total',
+      mostrar:false
+    }
+  ];
+  
+  toggleSelection(id: number) {
+    if (this.selectedItems.has(id)) {
+      this.selectedItems.delete(id);
+    } else {
+      this.selectedItems.add(id);
+    }
+    this.displayedColumns= new Set<string>(); 
 
+    for (const columna of this.listaColumnas) {
+      if (this.selectedItems.has(columna.id)) {
+        //console.log(this.listaColumnas[columna.id-1].nombre);
+        //console.log("After update: ",this.listaColumnas[columna.id-1].mostrar);
+        this.listaColumnas[columna.id-1].mostrar = true;
+        this.displayedColumns.add(this.listaColumnas[columna.id-1].col);
+      }
+      else{
+        //console.log(this.listaColumnas[columna.id-1].nombre);
+        //console.log("After update: ",this.listaColumnas[columna.id-1].mostrar);
+        this.listaColumnas[columna.id-1].mostrar = false;
+      }
+    }
+    console.log("After update: ");
+    console.log("After update: ", this.listaColumnas);
+
+  }
+  
+  selectedItems: Set<number> = new Set<number>();
   listaInventarios : any[] = [
     '2023-05-05','2023-05-29','2023-05-30'
   ]
@@ -56,9 +146,10 @@ export class InventarioComponent implements OnInit {
     }
   ]
 
-  displayedColumns: string[] = [
+  /*displayedColumns: string[] = [
     'Codigo', 'Ubicacion','Caducidad','Descripcion','Lote','Proveedor','UM','Stock','Precio_Promedio','Costo_Total'];
-
+*/
+  displayedColumns: Set<string> = new Set<string>(); 
   dataSource!: MatTableDataSource<any>;
 
   dataTable!: MatTableDataSource<any>;
@@ -96,6 +187,12 @@ export class InventarioComponent implements OnInit {
     this.cdr.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    for (const columna of this.listaColumnas) {
+      if (columna.mostrar){
+        this.displayedColumns.add(columna.col);
+      }
+
+    }
   }
 
   seleccionarArchivo(event: any) {
