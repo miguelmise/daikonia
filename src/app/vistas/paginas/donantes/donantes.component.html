@@ -114,10 +114,9 @@
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Estado</span>
                                     <select class="form-select bg-white text-dark" formControlName="donante_estado">
-                                        <option value="" [disabled]="true" >Seleccione Estado..</option>
-                                      <option *ngFor="let tipo of estados" [value]="tipo.valor">
-                                        {{tipo.etiqueta}}
-                                      </option>
+                                        <option *ngFor="let estado of estados" [value]="estado.valor">
+                                            {{estado.etiqueta}}
+                                          </option>
                                     </select>
                                   </div>
                             </div>

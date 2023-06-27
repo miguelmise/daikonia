@@ -25,8 +25,8 @@ export class DonantesComponent implements OnInit {
     { valor: "OTRO", etiqueta: "Otro" }]
 
   estados: any[] = [
-    { valor: "1", etiqueta: "Activo" },
-    { valor: "0", etiqueta: "Inactivo" }]
+    { valor: '1', etiqueta: "Activo" },
+    { valor: '0', etiqueta: "Inactivo" }]
 
   displayedColumns: string[] = ['nombreProveedor', 'tipo'];
 
@@ -113,6 +113,7 @@ export class DonantesComponent implements OnInit {
               next: result =>{
                 this._util.alerta("Procesado",JSON.stringify(result.mensaje),"info")
                 this.cargarListaDonantes()
+                console.log(this.registerForm.value)
               },error : e =>{
                 this._util.alerta("Error",JSON.stringify(e),"error")
               }
