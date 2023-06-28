@@ -1,8 +1,10 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { BeneficiadosService } from 'src/app/servicios/beneficiados.service';
+import { CategoriasService } from 'src/app/servicios/categorias.service';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
 
@@ -13,96 +15,7 @@ import Swal from 'sweetalert2';
 })
 export class BeneficiadosComponent implements OnInit {
 
-  listaBeneficiados: any[] = [
-    {
-      id: 1,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'JUEVES',
-      nombre_beneficiado: 'Ciudadela Reeducativa Sembradores De Vida',
-      numero_personas: 300,
-      tipo_actividad: 'Comedor',
-      edad_promedio_beneficiados: 25,
-      tipo_alimento_restringido: null
-    },
-    {
-      id: 2,
-      tipo_asignacion: 'CUOTA/DESAYUNOS/KILOS DE AMOR',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Fundación Puro Corazón',
-      numero_personas: 111,
-      tipo_actividad: 'Comedor',
-      edad_promedio_beneficiados: 30,
-      tipo_alimento_restringido: null
-    },
-    {
-      id: 3,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Fundación Caminando Juntos por el Cambio Sira Macias',
-      numero_personas: 1431,
-      tipo_actividad: 'Entrega de Víveres',
-      edad_promedio_beneficiados: 40,
-      tipo_alimento_restringido: ['Lácteos', 'Alimentos fritos']
-    },
-    {
-      id: 4,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Iglesia del Nazareno Jesús La Esperanza',
-      numero_personas: 286,
-      tipo_actividad: 'Entrega de Víveres',
-      edad_promedio_beneficiados: 35,
-      tipo_alimento_restringido: null
-    },
-    {
-      id: 5,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Parroquia San Juan Bautista',
-      numero_personas: 40,
-      tipo_actividad: 'Entrega de Víveres',
-      edad_promedio_beneficiados: 28,
-      tipo_alimento_restringido: null
-    },
-    {
-      id: 6,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Asociación de Mujeres Afroecuatorianas Eloy Alfaro',
-      numero_personas: 307,
-      tipo_actividad: 'Entrega de Víveres',
-      edad_promedio_beneficiados: 32,
-      tipo_alimento_restringido: null
-    },
-    {
-      id: 7,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Fundación "Unidos para Todos" 5 de Junio',
-      numero_personas: 138,
-      tipo_actividad: 'Refrigerios',
-      edad_promedio_beneficiados: 38,
-      tipo_alimento_restringido: ['Alimentos con alto contenido de azúcar']
-    },
-    {
-      id: 8,
-      tipo_asignacion: 'CUOTA',
-      periodo_asignacion: 'QUINCENAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Unidad Educativa Nuestra Madre de la Alborada',
-      numero_personas: 21,
-      tipo_actividad: 'Entrega de víveres',
-      edad_promedio_beneficiados: 22,
-      tipo_alimento_restringido: null
-    }
-  ];
+  listaBeneficiados: any[] = [];
 
   periocidad: any[] = [
     {valor: "SEMANAL", etiqueta: "Semanal"},
@@ -118,6 +31,10 @@ export class BeneficiadosComponent implements OnInit {
     {valor: "VIERNES", etiqueta: "Viernes"}
   ]
 
+  estados: any[] = [
+    { valor: '1', etiqueta: "Activo" },
+    { valor: '0', etiqueta: "Inactivo" }]
+
   displayedColumns: string[] = ['nombreBeneficiado', 'actividad'];
 
   dataSource!: MatTableDataSource<any>;
@@ -128,34 +45,114 @@ export class BeneficiadosComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   registerForm: FormGroup;
+  registerForm2: FormGroup;
   submitted = false;
   isFormVisible: boolean = false;
   selectBeneficiado = "";
   
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder,private _util: UtilService) { 
+  constructor(
+    private cdr: ChangeDetectorRef, 
+    private formBuilder: FormBuilder,
+    private _util: UtilService,
+    private _beneficiado: BeneficiadosService,
+    private _categorias: CategoriasService) { 
+
     this.registerForm = this.formBuilder.group({
-      id: [""],
-      nombre_beneficiado: ["",Validators.required],
-      tipo_actividad: ["",Validators.required],
-      tipo_asignacion: ["",Validators.required],
-      periodo_asignacion: ["",Validators.required],
-      dia_asignacion: ["",Validators.required],
-      numero_personas: ["",Validators.required],
-      edad_promedio_beneficiados: ["",Validators.required],
-      tipo_alimento_restringido: [""]
+      beneficiado_id: [""],
+      beneficiado_nombre: ["",Validators.required],
+      beneficiado_actividad: ["",Validators.required],
+      beneficiado_periodo: ["",Validators.required],
+      beneficiado_dia_entrega: ["",Validators.required],
+      beneficiado_ultima_entrega: ["",Validators.required],
+      beneficiado_telefono: ["",Validators.required],
+      beneficiado_representante: ["",Validators.required],
+      beneficiado_estado: [""]
     });
+
+    this.registerForm2 = this.formBuilder.group({
+      categorias: this.formBuilder.array([])
+    })
+  }
+
+  get categorias(){
+    return this.registerForm2.controls["categorias"] as FormArray;
+  }
+
+  cargarCategorias(beneficiado:any){
+    this._categorias.listar_categorias_persona_beneficiado(beneficiado).subscribe({
+      next: result=>{
+        this.removeAllCategoriasForm()
+        result.forEach((element:any) => {
+          this.agregarCategoriaForm(element.cat_persona_beneficiado_id,
+                                    element.beneficiado_id,
+                                    element.categoria_persona_id,
+                                    element.cat_persona_beneficiado_cantidad,
+                                    element.categoria_persona_nombre,
+                                    element.categoria_persona_descripcion,
+                                    element.categoria_persona_estado)
+        });
+        console.log(this.registerForm2.value)
+      },
+      error: e =>{
+        this._util.alerta("Error",JSON.stringify(e),"warning")
+      }
+    })
+  }
+
+  agregarCategoriaForm(cat_persona_beneficiado_id:number,
+    beneficiado_id:number,
+    categoria_persona_id:number,
+    cat_persona_beneficiado_cantidad:number,
+    categoria_persona_nombre:string,
+    categoria_persona_descripcion:string,
+    categoria_persona_estado:number,) {
+    this.categorias.push(this.formBuilder.group({
+      cat_persona_beneficiado_id: [cat_persona_beneficiado_id],
+      beneficiado_id: [beneficiado_id],
+      categoria_persona_id:[categoria_persona_id],
+      cat_persona_beneficiado_cantidad:[cat_persona_beneficiado_cantidad],
+      categoria_persona_nombre:[categoria_persona_nombre],
+      categoria_persona_descripcion:[categoria_persona_descripcion],
+      categoria_persona_estado:[categoria_persona_estado]
+    }));
+  }
+
+  removeCategoriaForm(index: number) {
+    this.categorias.removeAt(index);
+  }
+
+  removeAllCategoriasForm() {
+    this.categorias.clear();
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.listaBeneficiados);
-    this.cdr.detectChanges();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.cargarListaBeneficiados()
   }
 
   onSubmit():void {
     this.guardarDatosBeneficiado()
+  }
+
+  applyFilter(event: Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
+  cargarListaBeneficiados():void{
+    this._beneficiado.listar_beneficiados().subscribe({
+      next: result =>{
+        this.listaBeneficiados = result
+        this.dataSource = new MatTableDataSource(this.listaBeneficiados);
+        this.cdr.detectChanges();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error : e => {
+        this._util.alerta("Error",JSON.stringify(e),"warning")
+      }
+    })
+    
   }
 
   guardarDatosBeneficiado(){
@@ -187,20 +184,21 @@ export class BeneficiadosComponent implements OnInit {
   }
 
   verBeneficiadoData(id:number):void{
-    const beneficiado = this.listaBeneficiados.find((item: { id: number; }) => item.id === id);
+    const beneficiado = this.listaBeneficiados.find((item: { beneficiado_id: number; }) => item.beneficiado_id === id);
 
     if (beneficiado) {
+      this.cargarCategorias(beneficiado.beneficiado_id)
       this.isFormVisible = true;
-      this.selectBeneficiado = beneficiado.nombre_beneficiado
-      this.registerForm.controls["id"].setValue(beneficiado.id)
-      this.registerForm.controls["nombre_beneficiado"].setValue(beneficiado.nombre_beneficiado)
-      this.registerForm.controls["tipo_actividad"].setValue(beneficiado.tipo_actividad)
-      this.registerForm.controls["tipo_asignacion"].setValue(beneficiado.tipo_asignacion)
-      this.registerForm.controls["dia_asignacion"].setValue(beneficiado.dia_asignacion)
-      this.registerForm.controls["periodo_asignacion"].setValue(beneficiado.periodo_asignacion)
-      this.registerForm.controls["numero_personas"].setValue(beneficiado.numero_personas)
-      this.registerForm.controls["edad_promedio_beneficiados"].setValue(beneficiado.edad_promedio_beneficiados)
-      this.registerForm.controls["tipo_alimento_restringido"].setValue(beneficiado.tipo_alimento_restringido)
+      this.selectBeneficiado = beneficiado.beneficiado_nombre
+      this.registerForm.controls["beneficiado_id"].setValue(beneficiado.beneficiado_id)
+      this.registerForm.controls["beneficiado_nombre"].setValue(beneficiado.beneficiado_nombre)
+      this.registerForm.controls["beneficiado_actividad"].setValue(beneficiado.beneficiado_actividad)
+      this.registerForm.controls["beneficiado_periodo"].setValue(beneficiado.beneficiado_periodo)
+      this.registerForm.controls["beneficiado_dia_entrega"].setValue(beneficiado.beneficiado_dia_entrega)
+      this.registerForm.controls["beneficiado_ultima_entrega"].setValue(beneficiado.beneficiado_ultima_entrega)
+      this.registerForm.controls["beneficiado_telefono"].setValue(beneficiado.beneficiado_telefono)
+      this.registerForm.controls["beneficiado_representante"].setValue(beneficiado.beneficiado_representante)
+      this.registerForm.controls["beneficiado_estado"].setValue(beneficiado.beneficiado_estado)
     } else {
       this._util.alerta("Error","No se encontro la información del Proveedor.","warning")
     }

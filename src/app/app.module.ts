@@ -23,6 +23,7 @@ import {MatDividerModule} from '@angular/material/divider';
 import { ReglasComponent } from './vistas/paginas/reglas/reglas.component';
 import { PlanificadorComponent } from './vistas/paginas/planificador/planificador.component';
 import { FormsModule } from '@angular/forms';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { FormsModule } from '@angular/forms';
     MatIconModule,
     MatListModule,
     MatDividerModule,
-    FormsModule
+    FormsModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]
