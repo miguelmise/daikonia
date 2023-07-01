@@ -1,5 +1,32 @@
 <div class="container-fluid">
 
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Crear Nueva Categoría</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div *ngIf="listaCatPersonas.length > 0" class="scroll-container">
+                <mat-list>
+                  <mat-list-item *ngFor="let i of listaCatPersonas">
+                    {{i}}
+                    <mat-divider></mat-divider>
+                  </mat-list-item>
+                </mat-list>
+              </div>
+              <h3 *ngIf="listaCatPersonas.length == 0" class="text-dark">No hay nada para mostrar</h3>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Modal -->
+
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">BENEFICIADOS</h1>
@@ -155,11 +182,11 @@
                                   </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <!--<div class="row">
                             <div class="col-md-4">
                                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
                             </div>
-                        </div>
+                        </div>-->
                         
                     </form>
                     
@@ -168,7 +195,9 @@
                 <hr class="sidebar-divider d-none d-md-block">
 
                 <div class="card-body">
-                    <h5 class="card-title">Cantidad Personas:</h5>
+                    <h5 class="card-title"><button type="button" class="btn btn-sm btn-transparent" data-bs-toggle="modal" data-bs-target="#myModal">
+                        <mat-icon class="mx-2" style="color:#006e8c;">person_add</mat-icon></button>
+                        Categorías Personas:</h5>
                     <!--Formulario Categorias-->
                     <form (ngSubmit)="onSubmit()" [formGroup]="registerForm2">
                         <ng-container formArrayName="categorias">
@@ -177,11 +206,14 @@
                                     <mat-expansion-panel hideToggle>
                                         <mat-expansion-panel-header class="border border-white">
                                             <mat-panel-title>
-                                                <mat-icon class="mx-2">account_circle</mat-icon>
+                                                <mat-icon class="mx-2">face</mat-icon>
                                                 {{registerForm2.get('categoria_persona_nombre')?.value}}
                                             </mat-panel-title>
                                             <mat-panel-description>
                                                 {{registerForm2.get('cat_persona_beneficiado_cantidad')?.value}} - Personas
+                                            </mat-panel-description>
+                                            <mat-panel-description>
+                                                <button type="button" class="btn btn-sm btn-transparent" (click)="eliminarCategoria(registerForm2.get('cat_persona_beneficiado_cantidad')?.value)"><mat-icon class="text-danger">delete_forever</mat-icon></button>
                                             </mat-panel-description>
                                         </mat-expansion-panel-header>
                                         <div class="row" [formGroupName]="i">
@@ -209,6 +241,11 @@
                                 </ng-container>
                             </mat-accordion>
                         </ng-container>
+                        <div class="row mt-3">
+                            <div class="col-md-4">
+                                <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
+                            </div>
+                        </div>
                     </form>
                 </div>
                 

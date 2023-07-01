@@ -14,10 +14,11 @@ table {
     padding: 8px; /* Añade un espacio interno a las celdas */
   }
 
-.mat-table th {
-    color: gray; /* Cambia el color de texto a gris */
+  .mat-table th {
+    color: white; /* Cambia el color de texto a gris */
     border-bottom: 1px solid gray;
     font-weight: bold;
+    background-color:#006e8c;
     padding: 8px; /* Añade un espacio interno a las celdas */
   }
 

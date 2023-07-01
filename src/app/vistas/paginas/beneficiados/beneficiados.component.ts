@@ -17,18 +17,21 @@ export class BeneficiadosComponent implements OnInit {
 
   listaBeneficiados: any[] = [];
 
+  listaCatPersonas: any[] = [];
+
   periocidad: any[] = [
-    {valor: "SEMANAL", etiqueta: "Semanal"},
-    {valor: "QUINCENAL", etiqueta: "Quincenal"},
-    {valor: "MENSUAL", etiqueta: "Mensual"}
+    {valor: "Semanal", etiqueta: "Semanal"},
+    {valor: "Quincenal", etiqueta: "Quincenal"},
+    {valor: "Mensual", etiqueta: "Mensual"},
+    {valor: "Diario", etiqueta: "Diario"}
   ]
 
   dias: any[] = [
-    {valor: "LUNES", etiqueta: "Lunes"},
-    {valor: "MARTES", etiqueta: "Martes"},
-    {valor: "MIERCOLES", etiqueta: "Miércoles"},
-    {valor: "JUEVES", etiqueta: "Jueves"},
-    {valor: "VIERNES", etiqueta: "Viernes"}
+    {valor: "Lunes", etiqueta: "Lunes"},
+    {valor: "Martes", etiqueta: "Martes"},
+    {valor: "Miercoles", etiqueta: "Miércoles"},
+    {valor: "Jueves", etiqueta: "Jueves"},
+    {valor: "Viernes", etiqueta: "Viernes"}
   ]
 
   estados: any[] = [
@@ -65,8 +68,8 @@ export class BeneficiadosComponent implements OnInit {
       beneficiado_periodo: ["",Validators.required],
       beneficiado_dia_entrega: ["",Validators.required],
       beneficiado_ultima_entrega: ["",Validators.required],
-      beneficiado_telefono: ["",Validators.required],
-      beneficiado_representante: ["",Validators.required],
+      beneficiado_telefono: [""],
+      beneficiado_representante: [""],
       beneficiado_estado: [""]
     });
 
@@ -124,6 +127,31 @@ export class BeneficiadosComponent implements OnInit {
 
   removeAllCategoriasForm() {
     this.categorias.clear();
+  }
+
+  nuevaCategoria(){
+    //crear nueva categoria en la base
+  }
+
+  eliminarCategoria(id:any):void{
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se eliminará la categoría de persona, ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        this.submitted = true;
+          if (this.registerForm.invalid) {
+            return;
+          }
+          //code
+      }
+    })
   }
 
   ngOnInit(): void {

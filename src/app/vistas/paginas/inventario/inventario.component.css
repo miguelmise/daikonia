@@ -10,11 +10,11 @@
     padding: 8px; /* Añade un espacio interno a las celdas */
   }
 
-.mat-table th {
-    color: gray; /* Cambia el color de texto a gris 087E8B*/
+  .mat-table th {
+    color: white; /* Cambia el color de texto a gris */
     border-bottom: 1px solid gray;
     font-weight: bold;
-    background-color:#e6e9ecbd;
+    background-color:#006e8c;
     padding: 8px; /* Añade un espacio interno a las celdas */
   }
 
@@ -64,8 +64,5 @@ table {
 .mat-column-Stock td{
   color:aqua;
 }
-.mat-column-Codigo{
-  background-color:#e6e9ec; 
 
-}
 

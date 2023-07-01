@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 
 interface respuesta_login{
@@ -26,7 +27,8 @@ export class LoginService {
 
   respuesta!: respuesta_login;
   //url : string = "https://diakoniaweb.000webhostapp.com/kairo/back/api/";
-  url : string = "http://172.19.214.177/kairo/back/api/";
+  //url : string = "http://172.19.214.177/kairo/back/api/";
+  url = environment.apiUrl;
 
   constructor(private http:HttpClient) { 
   }
