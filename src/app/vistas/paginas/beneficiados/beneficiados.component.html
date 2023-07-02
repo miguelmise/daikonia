@@ -5,22 +5,36 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Crear Nueva Categoría</h5>
+          <h5 class="modal-title">Añadir Nueva Categoría</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            <div *ngIf="listaCatPersonas.length > 0" class="scroll-container">
-                <mat-list>
-                  <mat-list-item *ngFor="let i of listaCatPersonas">
-                    {{i}}
-                    <mat-divider></mat-divider>
-                  </mat-list-item>
-                </mat-list>
-              </div>
-              <h3 *ngIf="listaCatPersonas.length == 0" class="text-dark">No hay nada para mostrar</h3>
+
+            <!--categorias-->
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Categoría</span>
+                    <select class="form-select bg-white text-dark" [(ngModel)]="NuevaCategoriaId">
+                        <option value="" [disabled]="true" [selected]="true" >Seleccione..</option>
+                      <option *ngFor="let data of listaCatPersonas" [value]="data.categoria_persona_id">
+                        {{data.categoria_persona_nombre}}
+                      </option>
+                    </select>
+                  </div>
+            </div>
+            <!--cantidades-->
+            <div class="col-md-12">
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Cantidad Personas</span>
+                    <input type="text" class="form-control"  [(ngModel)]="cantidad_categoria">
+                </div>
+            </div>
+
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-success" (click)="nuevaCategoriaPersona()"
+            [disabled]="cantidad_categoria <= 0 || NuevaCategoriaId == ''" data-bs-dismiss="modal">Confirmar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div>

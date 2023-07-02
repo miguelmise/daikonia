@@ -52,6 +52,9 @@ export class BeneficiadosComponent implements OnInit {
   submitted = false;
   isFormVisible: boolean = false;
   selectBeneficiado = "";
+
+  NuevaCategoriaId="";
+  cantidad_categoria = 0;
   
 
   constructor(
@@ -95,7 +98,6 @@ export class BeneficiadosComponent implements OnInit {
                                     element.categoria_persona_descripcion,
                                     element.categoria_persona_estado)
         });
-        console.log(this.registerForm2.value)
       },
       error: e =>{
         this._util.alerta("Error",JSON.stringify(e),"warning")
@@ -129,8 +131,35 @@ export class BeneficiadosComponent implements OnInit {
     this.categorias.clear();
   }
 
-  nuevaCategoria(){
+  nuevaCategoriaPersona():void{
     //crear nueva categoria en la base
+    const data = {
+      beneficiado_id: this.registerForm.controls['beneficiado_id'].value,
+      cat_persona_beneficiado_cantidad: this.cantidad_categoria,
+      categoria_persona_id: this.NuevaCategoriaId
+    };
+    this._categorias.crear_categoria_persona_beneficiado(data).subscribe({
+      next: resultado=>{
+        this.verBeneficiadoData(this.registerForm.controls['beneficiado_id'].value)
+        this.cantidad_categoria = 0
+        this.NuevaCategoriaId = ""
+        this._util.alerta("Exito","Se agregó la categoria de persona","success")
+      },
+      error: error=>{
+        this._util.alerta("Error",JSON.stringify(error),"warning")
+      }
+    })
+  }
+
+  listar_categorias_personas():void{
+    this._categorias.listar_categorias_personas().subscribe({
+      next:result=>{
+        this.listaCatPersonas = result
+      },
+      error:error=>{
+        this._util.alerta("Error",JSON.stringify(error),"error")
+      }
+    })
   }
 
   eliminarCategoria(id:any):void{
@@ -156,6 +185,7 @@ export class BeneficiadosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarListaBeneficiados()
+    this.listar_categorias_personas()
   }
 
   onSubmit():void {

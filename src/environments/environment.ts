@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://172.19.214.177/kairo/back/api/'
+  apiUrl: 'http://localhost/kairo/back/api/'
 };
 
 /*
