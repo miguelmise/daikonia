@@ -21,11 +21,11 @@ export class BeneficiadosService {
   }
 
   update_beneficiado(data:any): Observable<any> {
-    return this.http.put<any>(this.url + "beneficiado_ws.php",data);
+    return this.http.put<any>(this.url + "beneficiado_update_ws.php",data);
   }
 
   create_beneficiado(data:any): Observable<any> {
-    return this.http.post<any>(this.url + "beneficiado_ws.php",data);
+    return this.http.post<any>(this.url + "beneficiado_create_ws.php",data);
   }
 
 }
