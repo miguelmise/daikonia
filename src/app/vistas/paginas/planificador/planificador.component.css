@@ -1,0 +1,54 @@
+
+ .mat-table th {
+    color: white; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    font-weight: bold;
+    background-color:#006e8c;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+    text-align: center;
+  }
+  .mat-table td {
+    font-size: 13px;
+    text-align: center;
+    padding: 8px;
+  }
+  .mat-column-InstitucionSocial {
+    flex: none;
+    width: 15%;
+    /*text-transform: uppercase;*/
+  }
+.mat-column-Ubicacion {
+    flex: none;
+    width: 10%;
+  }
+  .mat-column-Caducidad,.mat-column-FechaOrden  {
+    flex: none;
+    width: 10%;
+    text-align: center;
+  }
+  .mat-column-Descripcion {
+    flex: none;
+    width: 15%;
+  }
+ 
+  .mat-column-Usuario,.mat-column-Precio,.mat-column-Cantidad {
+    flex: none;
+    width: 5%;
+    text-align: center;
+  }
+  .mat-column-Codigo{
+    flex: none;
+    width: 5%;
+  }
+  .mat-column-Proveedor {
+    flex: none;
+    width: 15%;
+  }
+  .BeneficiadoBoton{
+    background-color: white;
+    border-color:white;
+    width: 100%;
+  }
+
+ 
+  

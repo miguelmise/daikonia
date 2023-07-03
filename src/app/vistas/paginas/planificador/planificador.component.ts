@@ -1,4 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 @Component({
   selector: 'app-planificador',
@@ -54,20 +60,202 @@ export class PlanificadorComponent implements OnInit {
     }
   ]
 
+  listaColumnas: any[] = [
+    {
+      id: 1,
+      nombre:'Institución Social',
+      col:'InstitucionSocial', 
+      mostrar:true
+    },
+    {
+      id: 2,
+      nombre:'Ubicación',
+      col:'Ubicacion',
+      mostrar:true
+    },
+    {
+      id: 3,
+      nombre:'Caducidad',
+      col:'Caducidad',
+      mostrar:true
+    },
+    {
+      id: 4,
+      nombre:'Código',
+      col:'Codigo',
+      mostrar:true
+    } 
+    ,
+    {
+      id: 5,
+      nombre:'Descripción',
+      col:'Descripcion',
+      mostrar:true
+    },
+    {
+      id: 6,
+      nombre:'Proveedor',
+      col:'Proveedor',
+      mostrar:true
+    },
+    {
+      id: 7,
+      nombre:'Precio',
+      col:'Precio',
+      mostrar:true
+    },
+    {
+      id: 8,
+      nombre:'Cantidad',
+      col:'Cantidad',
+      mostrar:true
+    },
+    {
+      id: 9,
+      nombre:'Fecha Orden',
+      col:'FechaOrden',
+      mostrar:true
+    },
+    {
+      id: 10,
+      nombre:'Usuario',
+      col:'Usuario',
+      mostrar:true
+    }
+  ];
+
+
+
+  datos: any[] = [
+    {
+      id: 1,
+      "InstitucionSocial": "Ciudadela Reeducativa Sembradores De Vida",
+      "Ubicacion": "A11 - RACK A C1 F1",
+      "Caducidad": "11/05/2023",
+      "Codigo": "2072",
+      "Descripcion": "UNIDAD ATUN DE 150-200 GR",
+      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
+      "Precio": 0.30,
+      "Cantidad": 3.000000,
+      "FechaOrden": "12/05/2023",
+      "Usuario": "saintria",
+      agrega:false
+    },
+    {
+      id: 12,
+      "InstitucionSocial": "Fundación Puro Corazón",
+      "Ubicacion": "A11 - RACK A C1 F1",
+      "Caducidad": "11/05/2023",
+      "Codigo": "2082",
+      "Descripcion": "UNIDAD CAFÉ DE 0-50 GR",
+      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
+      "Precio": 0.57,
+      "Cantidad": 3.000000,
+      "FechaOrden": "12/05/2023",
+      "Usuario": "saintra",
+      agrega:false
+    },
+    {
+      id: 13,
+      "InstitucionSocial": "Fundación Caminando Juntos por el Cambio Sira Macias",
+      "Ubicacion": "A11 - RACK A C1 F1",
+      "Caducidad": "11/05/2023",
+      "Codigo": "2085",
+      "Descripcion": "UNIDAD SAL DE 950-1000 GR",
+      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
+      "Precio": 0.55,
+      "Cantidad": 3.000000,
+      "FechaOrden": "12/05/2023",
+      "Usuario": "saintria",
+      agrega:false
+    },
+    {
+      id: 14,
+      "InstitucionSocial": "Iglesia del Nazareno Jesús La Esperanza",
+      "Ubicacion": "A11 - RACK A C1 F1",
+      "Caducidad": "11/05/2023",
+      "Codigo": "2085",
+      "Descripcion": "UNIDAD SAL DE 950-1000 GR",
+      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
+      "Precio": 0.55,
+      "Cantidad": 3.000000,
+      "FechaOrden": "12/05/2023",
+      "Usuario": "saintria",
+      agrega:false
+    }
+  ];
+  listaInventarios : any[] = [
+    '2023-05-05','2023-05-29','2023-05-30'
+  ]
+
+  displayedColumns: Set<string> = new Set<string>(); 
+  selectedItems2: Set<number> = new Set<number>();
+  dataSource!: MatTableDataSource<any>;
+  registerForm: FormGroup;
+  generaOrden=false;
+
+  toggleSelection2(id: number) {
+    if (this.selectedItems2.has(id)) {
+      this.selectedItems2.delete(id);
+    } else {
+      this.selectedItems2.add(id);
+    }
+    this.displayedColumns= new Set<string>(); 
+
+    for (const columna of this.listaColumnas) {
+      if (this.selectedItems2.has(columna.id)) {
+        this.listaColumnas[columna.id-1].mostrar = true;
+        this.displayedColumns.add(this.listaColumnas[columna.id-1].col);
+      }
+      else{
+        this.listaColumnas[columna.id-1].mostrar = false;
+      }
+    }
+
+  }
+  applyFilter(event: Event){
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  };
+
+  muestraOrden(valor:boolean){
+    this.generaOrden=valor;
+  }
+
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
+    this.registerForm = this.formBuilder.group({
+      
+    });
+  }
   
   selectedItems: Set<number> = new Set<number>();
   numBeneficiados: number = 0;
   numpersonas: number = 0;
   kgRequerido: number = 0;
-
-  constructor() { }
+  datosPresentar =new Array();
+  beneficiadosEscogidos =new Array();
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+    
+    this.dataSource = new MatTableDataSource(this.datosPresentar);
+    this.cdr.detectChanges();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    for (const columna of this.listaColumnas) {
+      if (columna.mostrar){
+        this.displayedColumns.add(columna.col);
+      }
+
+    }
   }
 
   toggleSelection(id: number) {
+    this.beneficiadosEscogidos=new Array();
     if (this.selectedItems.has(id)) {
       this.selectedItems.delete(id);
+      
     } else {
       this.selectedItems.add(id);
     }
@@ -79,6 +267,7 @@ export class PlanificadorComponent implements OnInit {
 
   for (const beneficiado of this.listaBeneficiados) {
     if (this.selectedItems.has(beneficiado.id)) {
+      this.beneficiadosEscogidos.push(beneficiado);
       this.numpersonas += beneficiado.numero_personas;
       this.kgRequerido += beneficiado.alimento_requerido;
     }
@@ -88,7 +277,15 @@ export class PlanificadorComponent implements OnInit {
 
   enviar() {
     // Lógica para enviar los IDs seleccionados
+    this.datosPresentar =new Array();
     console.log(Array.from(this.selectedItems));
+    for(const genera of this.datos){
+      if (this.selectedItems.has(genera.id)) {
+        this.datosPresentar.push(genera);
+      }
+    }
+    this.dataSource = new MatTableDataSource(this.datosPresentar);
+    this.muestraOrden(true);
   }
 
 }
