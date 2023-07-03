@@ -49,7 +49,7 @@
                             <div class="card-header py-3 bg-secondary">
                                 <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados</h6>
                             </div>
-                            <div  *ngFor="let fundacion of listaBeneficiados">
+                            <div  *ngFor="let fundacion of beneficiadosNoEscogidos">
                                 <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
                                     <span class="btn-label" >
                                         <i class="glyphicon glyphicon-ok"></i>
@@ -176,7 +176,15 @@
             <div class="table_footer">
                 <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
               </div>
+            <div class="center">
+                <button class="btn btn-success align-items-center" (click)="enviar()">
+                    Aceptar y Descargar  
+                    <i class="fa-solid fa-file-export"></i>
+                </button>
+                <button class="btn btn-danger align-items-center" (click)="enviar()">Rechazar</button>
+            </div>
         </div>
+        
         <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
     </div>
 

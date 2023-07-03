@@ -234,6 +234,8 @@ export class PlanificadorComponent implements OnInit {
   kgRequerido: number = 0;
   datosPresentar =new Array();
   beneficiadosEscogidos =new Array();
+  beneficiadosNoEscogidos=new Array();
+  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -243,6 +245,7 @@ export class PlanificadorComponent implements OnInit {
     this.cdr.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.beneficiadosNoEscogidos=this.listaBeneficiados;
     for (const columna of this.listaColumnas) {
       if (columna.mostrar){
         this.displayedColumns.add(columna.col);
@@ -253,6 +256,7 @@ export class PlanificadorComponent implements OnInit {
 
   toggleSelection(id: number) {
     this.beneficiadosEscogidos=new Array();
+    this.beneficiadosNoEscogidos=new Array();
     if (this.selectedItems.has(id)) {
       this.selectedItems.delete(id);
       
@@ -268,10 +272,23 @@ export class PlanificadorComponent implements OnInit {
   for (const beneficiado of this.listaBeneficiados) {
     if (this.selectedItems.has(beneficiado.id)) {
       this.beneficiadosEscogidos.push(beneficiado);
+      //this.beneficiadosNoEscogidos=this.listaBeneficiados.filter((item) => item.id !== beneficiado.id);
       this.numpersonas += beneficiado.numero_personas;
       this.kgRequerido += beneficiado.alimento_requerido;
     }
-  }
+    else{
+      this.beneficiadosNoEscogidos.push(beneficiado);
+      //this.listaBeneficiados.push(beneficiado)
+    }
+  };
+  this.beneficiadosNoEscogidos = this.beneficiadosNoEscogidos.filter((item,index)=>{
+    return this.beneficiadosNoEscogidos.indexOf(item) === index;
+  })
+  console.log("empieza");
+  console.log("no"+this.beneficiadosNoEscogidos.length);
+  console.log("si"+this.beneficiadosEscogidos.length);
+  console.log("bene"+this.listaBeneficiados.length);
+
 
   }
 
