@@ -151,21 +151,8 @@ export class BeneficiadosComponent implements OnInit {
     })
   }
 
-  listar_categorias_personas():void{
-    this._categorias.listar_categorias_personas().subscribe({
-      next:result=>{
-        this.listaCatPersonas = result
-      },
-      error:error=>{
-        this._util.alerta("Error",JSON.stringify(error),"error")
-      }
-    })
-  }
-
-
   ngOnInit(): void {
     this.cargarListaBeneficiados()
-    this.listar_categorias_personas()
   }
 
   onSubmit():void {
@@ -213,10 +200,43 @@ export class BeneficiadosComponent implements OnInit {
             this._beneficiado.update_beneficiado(this.registerForm.value)
             .subscribe({
               next:response=>{
-                console.log(response)
+
+                //actualizar_categorias
+                this.categorias.controls.forEach(element => {
+                  console.log(element.value)
+                  if(element.value.cat_persona_beneficiado_id != null){
+                    this._categorias.actualizar_categoria_persona_beneficiado(element.value).subscribe({
+                      next:response=>{
+                        //todo correcto
+                      },
+                      error:e=>{
+                        this._util.alerta("Error",JSON.stringify(e),"error")
+                      }
+                    })
+                  }else{
+                    if(element.value.cat_persona_beneficiado_cantidad != null){
+                      element.value.beneficiado_id = this.registerForm.controls['beneficiado_id'].value
+                      this._categorias.crear_categoria_persona_beneficiado(element.value).subscribe({
+                        next:response=>{
+                          //ok
+                        },
+                        error:e=>{
+                          this._util.alerta("Error",JSON.stringify(e),"error")
+                        }
+                      })
+                    }
+                    
+                    
+                  }
+                });
+                    this.cargarListaBeneficiados()
+                    this.cargarCategorias(this.registerForm.controls['beneficiado_id'].value)
+                    
+                    
+
                 this._util.alerta("Mensaje",response.mensaje,"info")
-                this.cargarListaBeneficiados()
-                this.listar_categorias_personas()
+                this.isFormVisible = false;
+                
                 
                 
               },
@@ -224,13 +244,13 @@ export class BeneficiadosComponent implements OnInit {
                 this._util.alerta("Error",JSON.stringify(e),"warning")
               }
             })
+            
           }else{
             this._beneficiado.create_beneficiado(this.registerForm.value)
             .subscribe({
               next:response=>{
                 this._util.alerta("Mensaje",response.mensaje,"info")
                 this.cargarListaBeneficiados()
-                this.listar_categorias_personas()
                 this.isFormVisible = false;
               },
               error:e=>{

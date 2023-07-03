@@ -22,9 +22,13 @@ export class CategoriasService {
   }
 
   crear_categoria_persona_beneficiado(data:any):Observable<any>{
-    console.log(data)
-    const params = new HttpParams().set('beneficiado_id', data.toString());
-    return this.http.post<any>(this.url + "cat_per_beneficiado_ws.php",{ params });
+    return this.http.post<any>(this.url + "categ_pers_benef_create_ws.php",data);
   }
+
+  actualizar_categoria_persona_beneficiado(data:any):Observable<any>{
+    return this.http.put<any>(this.url+"categ_pers_benef_update_ws.php",data);
+  }
+
+
 
 }
