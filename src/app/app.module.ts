@@ -24,6 +24,13 @@ import { ReglasComponent } from './vistas/paginas/reglas/reglas.component';
 import { PlanificadorComponent } from './vistas/paginas/planificador/planificador.component';
 import { FormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { ConfirmDialogComponent } from './confirm-dialog/confirm-dialog.component';
+import { RouterModule } from '@angular/router';
+import { MatDialogModule } from '@angular/material/dialog';
+
+
+import { CustomMaterialModule } from './custom-material/custom-material.module';
+
 
 @NgModule({
   declarations: [
@@ -37,7 +44,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     ProductosComponent,
     InventarioComponent,
     ReglasComponent,
-    PlanificadorComponent
+    PlanificadorComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -51,7 +59,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatListModule,
     MatDividerModule,
     FormsModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatDialogModule,
+    CustomMaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,10 @@
+.mat-dialog-title .mat-icon {
+    top: 5px;
+    position: relative;
+    cursor: grab;
+}
+
+.bConfirm{
+    background-color:#006e8c;
+}
+

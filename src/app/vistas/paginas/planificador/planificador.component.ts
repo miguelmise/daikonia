@@ -6,6 +6,13 @@ import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
+import { MatDialog } from "@angular/material/dialog";
+import { ConfirmDialogComponent } from "../../../confirm-dialog/confirm-dialog.component";
+import { ConfirmDialogModel} from '../../../confirm-dialog/confirm-dialog.component';
+
+
+
+
 @Component({
   selector: 'app-planificador',
   templateUrl: './planificador.component.html',
@@ -219,14 +226,67 @@ export class PlanificadorComponent implements OnInit {
   };
 
   muestraOrden(valor:boolean){
-    this.generaOrden=valor;
-  }
+    if(this.beneficiadosEscogidos.length>0){
+      this.generaOrden=valor;
+    }else{
+      this._util.alerta("Alerta","No se han escogido beneficiarios","warning")
+    }
+    
+  };
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService,
+    public dialog: MatDialog) { 
     this.registerForm = this.formBuilder.group({
       
     });
+    
+
+    
+  };
+  result: string = '';
+  result2: string = '';
+
+
+  confirmDialog(): void {
+    const message = "Está seguro de querer confirmar esta Orden?";
+
+    const dialogData = new ConfirmDialogModel("Confirmar Orden", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.result = dialogResult;
+    });
+    /*if(!this.result){
+      this.beneficiadosEscogidos=new Array();
+      this.beneficiadosNoEscogidos=this.listaBeneficiados;
+    }*/
   }
+ 
+  rechazarOrden(): void {
+    const message = "Está seguro de querer descartar esta Orden?";
+
+    const dialogData = new ConfirmDialogModel("Confirmar", message);
+
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      maxWidth: "400px",
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe(dialogResult => {
+      this.result2 = dialogResult;
+      if(dialogResult){
+        this.beneficiadosEscogidos=new Array();
+        this.beneficiadosNoEscogidos=this.listaBeneficiados;
+        
+      }
+    });
+    
+  }
+  
   
   selectedItems: Set<number> = new Set<number>();
   numBeneficiados: number = 0;
@@ -252,7 +312,7 @@ export class PlanificadorComponent implements OnInit {
       }
 
     }
-  }
+  };
 
   toggleSelection(id: number) {
     this.beneficiadosEscogidos=new Array();
@@ -290,7 +350,7 @@ export class PlanificadorComponent implements OnInit {
   console.log("bene"+this.listaBeneficiados.length);
 
 
-  }
+  };
 
   enviar() {
     // Lógica para enviar los IDs seleccionados
@@ -303,6 +363,6 @@ export class PlanificadorComponent implements OnInit {
     }
     this.dataSource = new MatTableDataSource(this.datosPresentar);
     this.muestraOrden(true);
-  }
+  };
 
 }

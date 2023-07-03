@@ -1,4 +1,7 @@
 
+ h6{
+  font-size: 100%;
+ }
  .mat-table th {
     color: white; /* Cambia el color de texto a gris */
     border-bottom: 1px solid gray;

@@ -83,7 +83,7 @@
     </div>
 
     <div class="row">
-        <div *ngIf="generaOrden">
+        <div *ngIf="generaOrden && beneficiadosEscogidos.length>0">
             <div class="col-md-8 col-md-12">
                 <div class="input-group mb-2">
                     <div class="input-group-prepend">
@@ -175,18 +175,44 @@
             </table>
             <div class="table_footer">
                 <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
-              </div>
-            <div class="center">
-                <button class="btn btn-success align-items-center" (click)="enviar()">
-                    Aceptar y Descargar  
-                    <i class="fa-solid fa-file-export"></i>
-                </button>
-                <button class="btn btn-danger align-items-center" (click)="enviar()">Rechazar</button>
             </div>
+            <div class="bGeneral">
+                <div class="botones" style=" display: flex; align-items: center; justify-content: center ;">
+                
+                    <button mat-button class="btn btn-success align-items-center" (click)="confirmDialog()" >
+                        Aceptar 
+                        
+                    </button> 
+                    
+                    <div style=" width: 5%;">
+                        
+                    </div>
+                    <button class="btn btn-danger align-items-center" (click)="rechazarOrden()">Rechazar</button>
+               
+                </div>
+                <div class="d-flex justify-content-end">
+                    <a *ngIf="result" href="assets/document/Prueba.xlsx" download="Archivo-Prueba">
+                        <button mat-button class="btn btn-success align-items-center">
+                            Descargar  
+                            <i class="fa-solid fa-file-export"></i>
+                            
+                        </button> 
+                    </a>
+                </div>
+
+            </div>
+
+            
+            
         </div>
         
         <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
     </div>
 
 
+
+
+
 </div>
+
+
