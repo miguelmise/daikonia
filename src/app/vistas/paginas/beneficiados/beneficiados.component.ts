@@ -70,7 +70,7 @@ export class BeneficiadosComponent implements OnInit {
       beneficiado_actividad: ["",Validators.required],
       beneficiado_periodo: ["",Validators.required],
       beneficiado_dia_entrega: ["",Validators.required],
-      beneficiado_ultima_entrega: ["",Validators.required],
+      beneficiado_ultima_entrega: [""],
       beneficiado_telefono: [""],
       beneficiado_representante: [""],
       beneficiado_estado: [""]
@@ -133,17 +133,17 @@ export class BeneficiadosComponent implements OnInit {
 
   nuevaCategoriaPersona():void{
     //crear nueva categoria en la base
-    const data = {
-      beneficiado_id: this.registerForm.controls['beneficiado_id'].value,
-      cat_persona_beneficiado_cantidad: this.cantidad_categoria,
-      categoria_persona_id: this.NuevaCategoriaId
-    };
-    this._categorias.crear_categoria_persona_beneficiado(data).subscribe({
+    const formData = new FormData();
+    formData.append('beneficiado_id', this.registerForm.controls['beneficiado_id'].value);
+    formData.append('cat_persona_beneficiado_cantidad', this.cantidad_categoria.toString());
+    formData.append('categoria_persona_id', this.NuevaCategoriaId);
+    
+    this._categorias.crear_categoria_persona_beneficiado(this.registerForm.controls['beneficiado_id'].value).subscribe({
       next: resultado=>{
         this.verBeneficiadoData(this.registerForm.controls['beneficiado_id'].value)
         this.cantidad_categoria = 0
         this.NuevaCategoriaId = ""
-        this._util.alerta("Exito","Se agregó la categoria de persona","success")
+        this._util.alerta("Exito",JSON.stringify(resultado),"success")
       },
       error: error=>{
         this._util.alerta("Error",JSON.stringify(error),"warning")
@@ -162,26 +162,6 @@ export class BeneficiadosComponent implements OnInit {
     })
   }
 
-  eliminarCategoria(id:any):void{
-    Swal.fire({
-      title: 'Confirmación',
-      text: 'Se eliminará la categoría de persona, ¿Continuar?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Continuar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#1cc88a',
-      toast:true
-    }).then((result)=>{
-      if(result.value){
-        this.submitted = true;
-          if (this.registerForm.invalid) {
-            return;
-          }
-          //code
-      }
-    })
-  }
 
   ngOnInit(): void {
     this.cargarListaBeneficiados()
@@ -229,7 +209,36 @@ export class BeneficiadosComponent implements OnInit {
           if (this.registerForm.invalid) {
             return;
           }
-          this._util.alerta("Data",JSON.stringify(this.registerForm.value),"info")
+          if(this.registerForm.controls['beneficiado_id'].value != null){
+            this._beneficiado.update_beneficiado(this.registerForm.value)
+            .subscribe({
+              next:response=>{
+                console.log(response)
+                this._util.alerta("Mensaje",response.mensaje,"info")
+                this.cargarListaBeneficiados()
+                this.listar_categorias_personas()
+                
+                
+              },
+              error:e=>{
+                this._util.alerta("Error",JSON.stringify(e),"warning")
+              }
+            })
+          }else{
+            this._beneficiado.create_beneficiado(this.registerForm.value)
+            .subscribe({
+              next:response=>{
+                this._util.alerta("Mensaje",response.mensaje,"info")
+                this.cargarListaBeneficiados()
+                this.listar_categorias_personas()
+                this.isFormVisible = false;
+              },
+              error:e=>{
+                this._util.alerta("Error",JSON.stringify(e),"warning")
+              }
+            })
+          }
+          
       }
     })
   }
@@ -239,6 +248,7 @@ export class BeneficiadosComponent implements OnInit {
     this.isFormVisible = true;
     this.submitted = false;
     this.registerForm.reset();
+    this.removeAllCategoriasForm()
   }
 
   verBeneficiadoData(id:number):void{
@@ -258,7 +268,7 @@ export class BeneficiadosComponent implements OnInit {
       this.registerForm.controls["beneficiado_representante"].setValue(beneficiado.beneficiado_representante)
       this.registerForm.controls["beneficiado_estado"].setValue(beneficiado.beneficiado_estado)
     } else {
-      this._util.alerta("Error","No se encontro la información del Proveedor.","warning")
+      this._util.alerta("Error","No se encontro la información del Beneficiado.","warning")
     }
   }
 

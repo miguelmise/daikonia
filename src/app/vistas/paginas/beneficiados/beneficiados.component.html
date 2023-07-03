@@ -1,45 +1,6 @@
 <div class="container-fluid">
 
-    <!-- Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">Añadir Nueva Categoría</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-
-            <!--categorias-->
-            <div class="col-md-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Categoría</span>
-                    <select class="form-select bg-white text-dark" [(ngModel)]="NuevaCategoriaId">
-                        <option value="" [disabled]="true" [selected]="true" >Seleccione..</option>
-                      <option *ngFor="let data of listaCatPersonas" [value]="data.categoria_persona_id">
-                        {{data.categoria_persona_nombre}}
-                      </option>
-                    </select>
-                  </div>
-            </div>
-            <!--cantidades-->
-            <div class="col-md-12">
-                <div class="input-group mb-3">
-                    <span class="input-group-text">Cantidad Personas</span>
-                    <input type="text" class="form-control"  [(ngModel)]="cantidad_categoria">
-                </div>
-            </div>
-
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-success" (click)="nuevaCategoriaPersona()"
-            [disabled]="cantidad_categoria <= 0 || NuevaCategoriaId == ''" data-bs-dismiss="modal">Confirmar</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- End Modal -->
+    
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -135,7 +96,7 @@
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Ultima Entrega</span>
-                                    <input type="text" class="form-control"  formControlName="beneficiado_ultima_entrega">
+                                    <input type="text" class="form-control" [readOnly]="true"  formControlName="beneficiado_ultima_entrega">
                                   </div>
                             </div>
                             
@@ -209,8 +170,7 @@
                 <hr class="sidebar-divider d-none d-md-block">
 
                 <div class="card-body">
-                    <h5 class="card-title"><button type="button" class="btn btn-sm btn-transparent" data-bs-toggle="modal" data-bs-target="#myModal">
-                        <mat-icon class="mx-2" style="color:#006e8c;">person_add</mat-icon></button>
+                    <h5 class="card-title">
                         Categorías Personas:</h5>
                     <!--Formulario Categorias-->
                     <form (ngSubmit)="onSubmit()" [formGroup]="registerForm2">
@@ -224,11 +184,9 @@
                                                 {{registerForm2.get('categoria_persona_nombre')?.value}}
                                             </mat-panel-title>
                                             <mat-panel-description>
-                                                {{registerForm2.get('cat_persona_beneficiado_cantidad')?.value}} - Personas
+                                                {{registerForm2.get('cat_persona_beneficiado_cantidad')?.value??0}} - Personas
                                             </mat-panel-description>
-                                            <mat-panel-description>
-                                                <button type="button" class="btn btn-sm btn-transparent" (click)="eliminarCategoria(registerForm2.get('cat_persona_beneficiado_cantidad')?.value)"><mat-icon class="text-danger">delete_forever</mat-icon></button>
-                                            </mat-panel-description>
+                                            
                                         </mat-expansion-panel-header>
                                         <div class="row" [formGroupName]="i">
                                             <div class="card-body">
@@ -236,7 +194,7 @@
                                                     <div class="col-md-6">
                                                         <div class="input-group">
                                                             <span class="input-group-text">Descripción</span>
-                                                            <input type="text" class="form-control"  
+                                                            <input type="text" [readOnly]="true" class="form-control"  
                                                             formControlName="categoria_persona_descripcion">
                                                           </div>
                                                     </div>
