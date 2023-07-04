@@ -17,7 +17,7 @@
               <button class="nav-link mat-elevation-z8" id="nav-categoria-productos-tab" data-bs-toggle="tab" 
                 data-bs-target="#nav-categoria-productos" type="button" role="tab">PRODUCTOS</button>
               <button class="nav-link mat-elevation-z8" id="nav-categoria-subproductos-tab" data-bs-toggle="tab" 
-                data-bs-target="#nav-categoria-productos" type="button" role="tab">PRODUCTOS</button>
+                data-bs-target="#nav-categoria-subproductos" type="button" role="tab">SUBCATEGORIA PRODUCTOS</button>
             </div>
           </nav>
 
@@ -28,14 +28,10 @@
                     <div class="container-fluid">
                         <div class="d-flex flex-row-reverse pt-2">
                             <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm align-self-end "  (click)="resetForm()">Crear Nuevo</a>
-                        </div>
-                        
-                        <div class="row">
-                            
+                        </div>                      
+                        <div class="row">                           
                             <div class="col-lg-4 mb-4">
-                                <div class="card shadow mb-4">
-                                    
-   
+                                <div class="card shadow mb-4">                                 
                                     <div class="card-header py-3 bg-secondary">
                                         <h6 class="m-0 font-weight-bold text-white">Listado</h6>
                                     </div>
@@ -58,12 +54,7 @@
                                                         <span class="material-symbols-outlined align-self-center"> delete</span>
                                                     </a></td>
                                                  </ng-container>
-                    
-                                                  <!-- tipo Column 
-                                                <ng-container matColumnDef="actividad"> (click)="verBeneficiadoData(element.beneficiado_id)"
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Actividad</th>
-                                                    <td mat-cell *matCellDef="let element"> hola</td>
-                                                  </ng-container>-->
+                
                                                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                                             </table>
@@ -71,7 +62,6 @@
                                                 <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
                                               </div>
                                             </div>
-                                        <!--<h3 *ngIf="listaBeneficiados.length==0" class="text-dark">No hay Beneficiarios para mostrar</h3> -->
                                     </div>
                                 </div>
                             </div>
@@ -115,10 +105,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        
-                        
+                        </div>                      
                     </div>
                     <!-- ========== End Section Categorias Personas========== -->
                   </div>
@@ -128,9 +115,86 @@
                 <div class="card mat-elevation-z8">
                     <!-- ========== Start Section Categorias Productos========== -->
                     <div class="container-fluid">
-                        <div class="row">
-                            <p>Contenido Productos</p>
-                        </div>
+                        <div class="d-flex flex-row-reverse pt-2">
+                            <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm align-self-end "  (click)="resetFormCategoriaProducto()">Crear Nuevo</a>
+                        </div>                      
+                        <div class="row">                           
+                            <div class="col-lg-4 mb-4">
+                                <div class="card shadow mb-4">                                 
+                                    <div class="card-header py-3 bg-secondary">
+                                        <h6 class="m-0 font-weight-bold text-white">Listado</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div *ngIf="true">
+                                            <div class="mb-2 ">
+                                                <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                                                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                                            </div>
+                                            <table  mat-table [dataSource]="dataSourceCategoriaProducto" matSort matSortActive="created"> 
+                                                <!-- nombre  Column -->
+                                                <ng-container matColumnDef="categoriaNombre">
+                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoria</th>
+                                                    <td mat-cell *matCellDef="let element"><a (click)="verCategoriaProductoData(element.id)">{{element.categoriaNombre}}</a></td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="id">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                                   <td mat-cell *matCellDef="let element">
+                                                    <a (click)="eliminar()">
+                                                        <span class="material-symbols-outlined align-self-center"> delete</span>
+                                                    </a></td>
+                                                 </ng-container>
+                
+                                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                            </table>
+                                            <div class="table_footer">
+                                                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                                              </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 mb-8">
+                                <div *ngIf="isFormVisible" class="card shadow mb-4">
+                                    <div class="card-header py-3 bg-secondary">
+                                        <h6 class="m-0 font-weight-bold text-white">Información Categoria de Producto: {{selectCategoriaProducto}}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--formulario-->
+                                        <form (ngSubmit)="onSubmit()" [formGroup]="registerFormCategoria">
+                                            <div class="row">
+                                                <!--nombre-->
+                                                <div class="col-md-12">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Nombre Categoría</span>
+                                                        <input type="text" class="form-control"  formControlName="categoria_nombre">
+                                                      </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">                      
+                                                <!--Descripcion-->
+                                                <div class="col-md-12">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Descripción</span>
+                                                        <textarea type="text" rows="4" class="form-control" formControlName="categoria_descripcion"></textarea>
+                                                    </div>
+                                                 
+                                                </div>
+                                            
+                                            </div>
+                                            
+                                            
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <button type="submit" class="btn btn-success" [disabled]="registerFormCategoria.invalid" (click)="guardar()">Guardar</button>
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                     <!-- ========== End Section Categorias Productos========== -->
                   </div>
@@ -140,9 +204,103 @@
                 <div class="card mat-elevation-z8">
                     <!-- ========== Start Section SubCategorias Productos========== -->
                     <div class="container-fluid">
-                        <div class="row">
-                            <p>Contenido Productos</p>
-                        </div>
+                        <div class="d-flex flex-row-reverse pt-2">
+                            <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm align-self-end "  (click)="resetFormSubCategoriaProducto()">Crear Nuevo</a>
+                        </div>                      
+                        <div class="row">                           
+                            <div class="col-lg-4 mb-4">
+                                <div class="card shadow mb-4">                                 
+                                    <div class="card-header py-3 bg-secondary">
+                                        <h6 class="m-0 font-weight-bold text-white">Listado</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div *ngIf="true">
+                                            <div class="mb-2 ">
+                                                <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                                                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                                            </div>
+                                            <table  mat-table [dataSource]="dataSourceSubCategoriaProducto" matSort matSortActive="created"> 
+                                                
+                                                <ng-container matColumnDef="subcategoriaNombre">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Sub Categoria</th>
+                                                   <td mat-cell *matCellDef="let element"><a (click)="verSubCategoriaProductoData(element.id)">{{element.subcategoriaNombre}}</a></td>
+                                                 </ng-container>
+                                                 
+                                                <ng-container matColumnDef="categoriaNombre">
+                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoria</th>
+                                                    <td mat-cell *matCellDef="let element"><a>{{element.categoriaNombre}}</a></td>
+                                                  </ng-container>
+
+                                                  <ng-container matColumnDef="id">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                                   <td mat-cell *matCellDef="let element">
+                                                    <a (click)="eliminar()">
+                                                        <span class="material-symbols-outlined align-self-center"> delete</span>
+                                                    </a></td>
+                                                 </ng-container>
+                
+                                                  <tr mat-header-row *matHeaderRowDef="displayedColumnsSubProduct"></tr>
+                                                  <tr mat-row *matRowDef="let row; columns: displayedColumnsSubProduct;"></tr>
+                                            </table>
+                                            <div class="table_footer">
+                                                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                                              </div>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 mb-8">
+                                <div *ngIf="isFormVisible" class="card shadow mb-4">
+                                    <div class="card-header py-3 bg-secondary">
+                                        <h6 class="m-0 font-weight-bold text-white">Información Sub Categoria de Producto: {{selectSubCategoriaProducto}}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--formulario-->
+                                        <form (ngSubmit)="onSubmit()" [formGroup]="registerFormSubCategoria">
+                                            <div class="row">
+                                                <!--nombre-->
+                                                <div class="col-md-6">
+                                                    <div class="input-group mb-6">
+                                                        <span class="input-group-text">Nombre</span>
+                                                        <input type="text" class="form-control"  formControlName="sub_categoria_nombre">
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Categoría</span>
+                                                        <select class="form-select bg-white text-dark" formControlName="categoria_nombre">
+                                                            <option value="" [disabled]="true" >Seleccione..</option>
+                                                        <option *ngFor="let tipo of categoriaProductos" [value]="tipo.categoriaNombre">
+                                                            {{tipo.categoriaNombre}}
+                                                        </option>
+                                                        </select>
+                                                      </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">                      
+                                                <!--Descripcion-->
+                                                <div class="col-md-12">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Descripción</span>
+                                                        <textarea type="text" rows="4" class="form-control" formControlName="categoria_descripcion"></textarea>
+                                                    </div>
+                                                 
+                                                </div>
+                                            
+                                            </div>
+                                            
+                                            
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <button type="submit" class="btn btn-success" [disabled]="registerFormSubCategoria.invalid" (click)="guardar()">Guardar</button>
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                     <!-- ========== End Section SubCategorias Productos========== -->
                   </div>
