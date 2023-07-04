@@ -6,11 +6,8 @@ import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 
-import { MatDialog } from "@angular/material/dialog";
-import { ConfirmDialogComponent } from "../../../confirm-dialog/confirm-dialog.component";
-import { ConfirmDialogModel} from '../../../confirm-dialog/confirm-dialog.component';
 
-
+import Swal from 'sweetalert2';
 
 
 @Component({
@@ -234,8 +231,7 @@ export class PlanificadorComponent implements OnInit {
     
   };
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService,
-    public dialog: MatDialog) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
     this.registerForm = this.formBuilder.group({
       
     });
@@ -243,12 +239,35 @@ export class PlanificadorComponent implements OnInit {
 
     
   };
-  result: string = '';
-  result2: string = '';
+  resultado: string = '';
+  //resul: string = '';
+  //result2: string = '';
 
+  submitted = false;
 
-  confirmDialog(): void {
-    const message = "Está seguro de querer confirmar esta Orden?";
+  confirmDialog() {
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se confirmará la Orden ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        this.submitted = true;
+         this.resultado="true"; 
+          console.log("Estoy aceptando");
+          //aqui va lo que pasa si dan click en aceptar
+      }else{
+        console.log("No Estoy aceptando");
+        this.beneficiadosEscogidos=new Array();
+        this.beneficiadosNoEscogidos=this.listaBeneficiados;
+      }
+    })
+    /*const message = "Está seguro de querer confirmar esta Orden?";
 
     const dialogData = new ConfirmDialogModel("Confirmar Orden", message);
 
@@ -261,13 +280,31 @@ export class PlanificadorComponent implements OnInit {
       this.result = dialogResult;
     });
     /*if(!this.result){
-      this.beneficiadosEscogidos=new Array();
-      this.beneficiadosNoEscogidos=this.listaBeneficiados;
+      
     }*/
   }
  
-  rechazarOrden(): void {
-    const message = "Está seguro de querer descartar esta Orden?";
+  rechazarOrden() {
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se rechazará la Orden, ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        this.submitted = true;
+         this.resultado="true"; 
+          console.log("Estoy aceptando Rechazar");
+          this.beneficiadosEscogidos=new Array();
+          this.beneficiadosNoEscogidos=this.listaBeneficiados;
+
+      }
+    })
+    /*const message = "Está seguro de querer descartar esta Orden?";
 
     const dialogData = new ConfirmDialogModel("Confirmar", message);
 
@@ -283,7 +320,7 @@ export class PlanificadorComponent implements OnInit {
         this.beneficiadosNoEscogidos=this.listaBeneficiados;
         
       }
-    });
+    });*/
     
   }
   
