@@ -60,6 +60,9 @@ import { CategoriasComponent } from './vistas/paginas/categorias/categorias.comp
     MatExpansionModule,
     MatDialogModule
   ],
+  exports: [
+    HttpClientModule
+  ],
   providers: [],
   bootstrap: [AppComponent]
 })
