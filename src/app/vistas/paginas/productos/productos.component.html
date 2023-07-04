@@ -101,29 +101,50 @@
                         </div>
                         <div class="row">
                             
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">SubCategoría</span>
+                                    <select class="form-control form-select bg-white text-dark" formControlName="subcategoria_Nombre"  [(ngModel)]="selected_categoria">
+                                        <option value="" [disabled]="true">Seleccione..</option>
+                                    <option *ngFor="let tipo of subcategoriaProductos" [value]="tipo.categoriaNombre"  >
+                                        {{tipo.subcategoriaNombre}}
+                                    </option>
+                                    </select>
+                                  </div>
+                                  <div class="result"></div>
+                            </div>
+                            
                             <!--id-->
-                            <div class="col-md-4">
+                            <!--<div class="col-md-4">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Grasa %</span>
                                     <input type="text" class="form-control"  formControlName="grasa">
                                   </div>
-                            </div>
+                            </div>-->
                             <!--precio-->
-                            <div class="col-md-4">
+                            <!--<div class="col-md-4">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Azucar %</span>
                                     <input type="text" class="form-control"  formControlName="azucar">
                                   </div>
-                            </div>
+                            </div>-->
                             <!--peso-->
-                            <div class="col-md-4">
+                            <!--<div class="col-md-4">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Fibra %</span>
                                     <input type="text" class="form-control"  formControlName="fibra">
                                   </div>
+                            </div>-->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Categoría</span>                                           
+                                    <input type="text" class="form-control" [readOnly]="true"  formControlName="categoria_Nombre" value={{selected_categoria}}>
+                                    
+                                  </div>
                             </div>
                         </div>
-                        
                         <div class="row">
                             <div class="col-md-4">
                                 <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid">Guardar</button>
