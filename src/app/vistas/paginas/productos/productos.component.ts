@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ProductosService } from 'src/app/servicios/productos.service';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
 
@@ -112,7 +113,7 @@ export class ProductosComponent implements OnInit {
   isFormVisible: boolean = false;
   selectProducto = "";
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService, private _producto : ProductosService) { 
     this.registerForm = this.formBuilder.group({
       id_producto: [""],
       nombre_producto: ["",Validators.required],
@@ -129,6 +130,18 @@ export class ProductosComponent implements OnInit {
     this.cdr.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.cargarListaProductos();
+  }
+
+  cargarListaProductos():void{
+    this._producto.listar_productos().subscribe({
+      next: res=>{
+        console.log(res)
+      },
+      error: err=>{
+        console.log(err)
+      }
+    })
   }
 
   resetForm():void{
