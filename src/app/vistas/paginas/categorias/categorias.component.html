@@ -1,4 +1,6 @@
 <div class="container-fluid">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+                                                        
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -14,6 +16,8 @@
                 data-bs-target="#nav-categoria-personas" type="button" role="tab">PERSONAS</button>
               <button class="nav-link mat-elevation-z8" id="nav-categoria-productos-tab" data-bs-toggle="tab" 
                 data-bs-target="#nav-categoria-productos" type="button" role="tab">PRODUCTOS</button>
+              <button class="nav-link mat-elevation-z8" id="nav-categoria-subproductos-tab" data-bs-toggle="tab" 
+                data-bs-target="#nav-categoria-productos" type="button" role="tab">PRODUCTOS</button>
             </div>
           </nav>
 
@@ -22,9 +26,98 @@
                 <div class="card mat-elevation-z8">
                     <!-- ========== Start Section Categorias Personas========== -->
                     <div class="container-fluid">
-                        <div class="row">
-                            <p>Contenido Personas</p>
+                        <div class="d-flex flex-row-reverse pt-2">
+                            <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm align-self-end "  (click)="resetForm()">Crear Nuevo</a>
                         </div>
+                        
+                        <div class="row">
+                            
+                            <div class="col-lg-4 mb-4">
+                                <div class="card shadow mb-4">
+                                    
+   
+                                    <div class="card-header py-3 bg-secondary">
+                                        <h6 class="m-0 font-weight-bold text-white">Listado</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <div *ngIf="true">
+                                            <div class="mb-2 ">
+                                                <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                                                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                                            </div>
+                                            <table  mat-table [dataSource]="dataSource" matSort matSortActive="created"> 
+                                                <!-- nombre  Column -->
+                                                <ng-container matColumnDef="categoriaNombre">
+                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoria</th>
+                                                    <td mat-cell *matCellDef="let element"><a (click)="verCategoriaPersonaData(element.id)">{{element.categoriaNombre}}</a></td>
+                                                  </ng-container>
+                                                  <ng-container matColumnDef="id">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+                                                   <td mat-cell *matCellDef="let element">
+                                                    <a (click)="eliminar()">
+                                                        <span class="material-symbols-outlined align-self-center"> delete</span>
+                                                    </a></td>
+                                                 </ng-container>
+                    
+                                                  <!-- tipo Column 
+                                                <ng-container matColumnDef="actividad"> (click)="verBeneficiadoData(element.beneficiado_id)"
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Actividad</th>
+                                                    <td mat-cell *matCellDef="let element"> hola</td>
+                                                  </ng-container>-->
+                                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                            </table>
+                                            <div class="table_footer">
+                                                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                                              </div>
+                                            </div>
+                                        <!--<h3 *ngIf="listaBeneficiados.length==0" class="text-dark">No hay Beneficiarios para mostrar</h3> -->
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8 mb-8">
+                                <div *ngIf="isFormVisible" class="card shadow mb-4">
+                                    <div class="card-header py-3 bg-secondary">
+                                        <h6 class="m-0 font-weight-bold text-white">Información Categoria de Persona: {{selectCategoriaPersona}}</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!--formulario-->
+                                        <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+                                            <div class="row">
+                                                <!--nombre-->
+                                                <div class="col-md-12">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Nombre Categoría</span>
+                                                        <input type="text" class="form-control"  formControlName="categoria_nombre">
+                                                      </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">                      
+                                                <!--Descripcion-->
+                                                <div class="col-md-12">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Descripción</span>
+                                                        <textarea type="text" rows="4" class="form-control" formControlName="categoria_descripcion"></textarea>
+                                                    </div>
+                                                 
+                                                </div>
+                                            
+                                            </div>
+                                            
+                                            
+                                            <div class="row">
+                                                <div class="col-md-4">
+                                                    <button type="submit" class="btn btn-success" [disabled]="registerForm.invalid" (click)="guardar()">Guardar</button>
+                                                </div>
+                                            </div>
+                                            
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
                         
                     </div>
                     <!-- ========== End Section Categorias Personas========== -->
@@ -40,6 +133,18 @@
                         </div>
                     </div>
                     <!-- ========== End Section Categorias Productos========== -->
+                  </div>
+            </div>
+
+            <div class="tab-pane fade" id="nav-categoria-subproductos" role="tabpanel">
+                <div class="card mat-elevation-z8">
+                    <!-- ========== Start Section SubCategorias Productos========== -->
+                    <div class="container-fluid">
+                        <div class="row">
+                            <p>Contenido Productos</p>
+                        </div>
+                    </div>
+                    <!-- ========== End Section SubCategorias Productos========== -->
                   </div>
             </div>
 

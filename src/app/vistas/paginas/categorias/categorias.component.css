@@ -1,0 +1,42 @@
+.mat-table {
+    background-color: white; /* Cambia el fondo a blanco */
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+.mat-table td{
+    color: gray; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+    text-align: center;
+  }
+
+.mat-table th {
+    color: white; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    font-weight: bold;
+    background-color:#006e8c;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+    text-align: center;
+  }
+
+#eye{
+    background-color: white; /* Cambia el fondo a blanco */
+}
+
+table {
+    width: 100%;
+  }
+
+  .material-symbols-outlined {
+    color: #c95b5b;
+    font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 48
+  }
+  .swal-icon img{
+    width: 10px;
+    height: 100px;
+  }
