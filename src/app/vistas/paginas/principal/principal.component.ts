@@ -31,7 +31,8 @@ export class PrincipalComponent implements OnInit {
     Productos: false,
     Inventario: false,
     Reglas: false,
-    Planificador: false
+    Planificador: false,
+    Categoria:false
   };
 
   private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios'];

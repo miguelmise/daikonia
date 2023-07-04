@@ -99,7 +99,7 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Variables:</h6>
                         <a class="collapse-item" (click)="mostrarPagina('Reglas')">Reglas</a>
-                        <a class="collapse-item">Categorías</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Categoria')">Categorías</a>
                     </div>
                 </div>
             </li>
@@ -262,6 +262,10 @@
 
                 <!-- Renderizar componente -->
                 <app-planificador *ngIf="Paginas['Planificador']"></app-planificador>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-categorias *ngIf="Paginas['Categoria']"></app-categorias>
                 <!-- /.container-fluid -->
                 
 

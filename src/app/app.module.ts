@@ -27,6 +27,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
+import { CategoriasComponent } from './vistas/paginas/categorias/categorias.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     ProductosComponent,
     InventarioComponent,
     ReglasComponent,
-    PlanificadorComponent
+    PlanificadorComponent,
+    CategoriasComponent
   ],
   imports: [
     BrowserModule,
