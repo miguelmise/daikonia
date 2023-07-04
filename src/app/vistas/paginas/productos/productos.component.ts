@@ -226,9 +226,11 @@ export class ProductosComponent implements OnInit {
       this.registerForm.controls["fibra"].setValue(producto.fibra)
       this.registerForm.controls["categoria_Nombre"].setValue(producto.categoriaNombre)
       this.registerForm.controls["subcategoria_Nombre"].setValue(producto.subcategoriaNombre)
-      this.selected_categoria=producto.subcategoriaNombre;
+      this.selected_categoria=producto.categoriaNombre;
     } else {
       this._util.alerta("Error","No se encontro la información del Producto.","warning")
+      this.selected_categoria="";
+
     }
   }
 
