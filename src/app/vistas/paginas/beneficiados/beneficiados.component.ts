@@ -180,7 +180,65 @@ export class BeneficiadosComponent implements OnInit {
     
   }
 
-  guardarDatosBeneficiado(){
+  guardarDatosBeneficiado() {
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se guardarán los cambios, ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast: true
+    }).then(async (result) => {
+      if (result.value) {
+        this.submitted = true;
+        if (this.registerForm.invalid) {
+          return;
+        }
+  
+        if (this.registerForm.controls['beneficiado_id'].value != null) {
+          try {
+            const response = await this._beneficiado.update_beneficiado(this.registerForm.value).toPromise();
+  
+            // Actualizar categorias
+            for (const element of this.categorias.controls) {
+              console.log(element.value);
+              if (element.value.cat_persona_beneficiado_id != null) {
+                await this._categorias.actualizar_categoria_persona_beneficiado(element.value).toPromise();
+              } else {
+                if (element.value.cat_persona_beneficiado_cantidad != null) {
+                  element.value.beneficiado_id = this.registerForm.controls['beneficiado_id'].value;
+                  await this._categorias.crear_categoria_persona_beneficiado(element.value).toPromise();
+                }
+              }
+            }
+  
+            this.cargarListaBeneficiados();
+            this.cargarCategorias(this.registerForm.controls['beneficiado_id'].value);
+  
+            this._util.alerta('Mensaje', response.mensaje, 'info');
+            this.isFormVisible = false;
+          } catch (e) {
+            this._util.alerta('Error', JSON.stringify(e), 'warning');
+          }
+        } else {
+          try {
+            const response = await this._beneficiado.create_beneficiado(this.registerForm.value).toPromise();
+  
+            this._util.alerta('Mensaje', response.mensaje, 'info');
+            this.cargarListaBeneficiados();
+            this.isFormVisible = false;
+          } catch (e) {
+            this._util.alerta('Error', JSON.stringify(e), 'warning');
+          }
+        }
+      }
+    });
+  }
+  
+
+  guardarDatosBeneficiado2(){
     Swal.fire({
       title: 'Confirmación',
       text: 'Se guardará los cambios, ¿Continuar?',

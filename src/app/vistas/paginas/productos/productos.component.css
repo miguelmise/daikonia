@@ -25,3 +25,18 @@
 table {
     width: 100%;
   }
+
+  .table_footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    align-content: space-around;
+    }
+
+  #download{
+    color: #006e8c;
+  }
+
+  
+  

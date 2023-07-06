@@ -12,6 +12,11 @@ export class CategoriasService {
 
   constructor(private http:HttpClient) { }
 
+  
+  listar_categorias_productos():Observable<any>{
+    return this.http.get<any>(this.url + "categoria_producto_ws.php",{});
+  }
+
   listar_categorias_personas():Observable<any>{
     return this.http.get<any>(this.url+"categoria_persona_ws.php",{});
   }

@@ -18,6 +18,26 @@ export class UtilService {
     })
   }
 
+  alerta_error(contenido:string):void{
+    Swal.fire({
+      title:"Error",
+      text:contenido,
+      toast:true,
+      icon:"error",
+      confirmButtonColor: '#006e8c'
+    })
+  }
+
+  alerta_success(contenido:string):void{
+    Swal.fire({
+      title:"Éxito",
+      text:contenido,
+      toast:true,
+      icon:"success",
+      confirmButtonColor: '#006e8c'
+    })
+  }
+
   getToken(): string {
     return sessionStorage.getItem('token') ?? '';
   }

@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://172.19.214.177/kairo/back/api/'
+  apiUrl: 'http://172.22.28.254/kairo/back/api/'
 };

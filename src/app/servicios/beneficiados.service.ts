@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -7,6 +7,8 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class BeneficiadosService {
+
+  
 
   url = environment.apiUrl;
 
@@ -21,7 +23,8 @@ export class BeneficiadosService {
   }
 
   update_beneficiado(data:any): Observable<any> {
-    return this.http.put<any>(this.url + "beneficiado_update_ws.php",data);
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.put<any>(this.url + "beneficiado_update_ws.php",data,{headers});
   }
 
   create_beneficiado(data:any): Observable<any> {

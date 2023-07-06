@@ -49,7 +49,7 @@ export class DonantesComponent implements OnInit {
       donante_id: [""],
       donante_nombre: ["",Validators.required],
       donante_tipo: ["",Validators.required],
-      donante_descripcion: [""],
+      donante_descripcion: ["",Validators.required],
       donante_estado: ["",Validators.required]
     });
   }

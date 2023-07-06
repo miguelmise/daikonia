@@ -24,6 +24,8 @@ import { ReglasComponent } from './vistas/paginas/reglas/reglas.component';
 import { PlanificadorComponent } from './vistas/paginas/planificador/planificador.component';
 import { FormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -58,10 +60,14 @@ import { CategoriasComponent } from './vistas/paginas/categorias/categorias.comp
     MatDividerModule,
     FormsModule,
     MatExpansionModule,
-    MatDialogModule
+    MatDialogModule,
+    MatTableExporterModule,
+    MatTooltipModule
   ],
   exports: [
-    HttpClientModule
+    HttpClientModule,
+    MatTableExporterModule,
+    MatTooltipModule
   ],
   providers: [],
   bootstrap: [AppComponent]
