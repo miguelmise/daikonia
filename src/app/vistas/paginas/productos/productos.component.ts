@@ -72,7 +72,6 @@ export class ProductosComponent implements OnInit {
         this.cdr.detectChanges();
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        console.log(this.listaProductos)
       },
       error: err=>{
         this._util.alerta_error(JSON.stringify(err));

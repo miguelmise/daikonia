@@ -5,6 +5,7 @@ import { MatSort } from '@angular/material/sort';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
+import { CategoriasService } from 'src/app/servicios/categorias.service';
 
 @Component({
   selector: 'app-categorias',
@@ -31,14 +32,16 @@ export class CategoriasComponent implements OnInit {
   selectCategoriaPersona = "";
   selectCategoriaProducto ="";
   selectSubCategoriaProducto="";
-  displayedColumns: string[] = ['categoriaNombre','id'];
+  displayedColumns: string[] = ['categoriaNombre','descripcion'];
   displayedColumnsProduct: string[] = ['categoriaNombre','id'];
   displayedColumnsSubProduct: string[] = ['subcategoriaNombre','categoriaNombre','id'];
-  categoriaPersona: any[] = [
-    {id: 1, categoriaNombre:"Adulto", descripcion:"De 16 a 28 años"},
-    {id: 2, categoriaNombre:"Niño", descripcion:"De 0 a 15 años"}
-    
-  ];
+
+  listaCategoriaPersonas:any[] = [];
+
+  estados: any[] = [
+    { valor: '1', etiqueta: "Activo" },
+    { valor: '0', etiqueta: "Inactivo" }]
+
   categoriaProductos: any[] = [
     {id: 1, categoriaNombre:"Proteínas", descripcion:""},
     {id: 2, categoriaNombre:"Grasas", descripcion:""},
@@ -56,12 +59,15 @@ export class CategoriasComponent implements OnInit {
     {id: 6, subcategoriaNombre:"Sub Categoria 6",categoriaNombre:"Lácteos", descripcion:"Descripcion Sub Categoria 6"}
   ];
   
-  constructor(private formBuilder: FormBuilder,private _util: UtilService,) {
+  constructor(private formBuilder: FormBuilder,
+              private _util: UtilService,
+              private _categorias :CategoriasService) {
     
     this.registerForm = this.formBuilder.group({
-      categoria_id: [""],
-      categoria_nombre: ["",Validators.required],
-      categoria_descripcion: ["",Validators.required]
+      categoria_persona_id: [""],
+      categoria_persona_nombre: ["",Validators.required],
+      categoria_persona_descripcion: ["",Validators.required],
+      categoria_persona_estado: ["",Validators.required]
     });
     this.registerFormCategoria = this.formBuilder.group({
       categoria_id: [""],
@@ -77,10 +83,8 @@ export class CategoriasComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.categoriaPersona);
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-
+    this.cargarListaCategoriasPersonas()
+    
     this.dataSourceCategoriaProducto = new MatTableDataSource(this.categoriaProductos);
     this.dataSourceCategoriaProducto.paginator = this.paginatorCategoriaProducto;
     this.dataSourceCategoriaProducto.sort = this.sortCategoriaProducto;
@@ -89,6 +93,21 @@ export class CategoriasComponent implements OnInit {
     this.dataSourceSubCategoriaProducto.paginator = this.paginatorSubCategoriaProducto;
     this.dataSourceSubCategoriaProducto.sort = this.sortSubCategoriaProducto;
   }
+
+  cargarListaCategoriasPersonas():void{
+    this._categorias.listar_categorias_personas().subscribe({
+      next:res=>{
+        this.listaCategoriaPersonas = res
+        this.dataSource = new MatTableDataSource(this.listaCategoriaPersonas);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },
+      error:err=>{
+        this._util.alerta_error(JSON.stringify(err.error))
+      }
+    })
+  }
+
   onSubmit():void {
     
   }
@@ -119,13 +138,15 @@ export class CategoriasComponent implements OnInit {
   }
   
   verCategoriaPersonaData(id:number):void{
-    const categoriaPersona = this.categoriaPersona.find((item: { id: number; }) => item.id === id);
+    const categoriaPersona = this.listaCategoriaPersonas.find((item: { categoria_persona_id: number; }) => item.categoria_persona_id === id);
 
     if (categoriaPersona) {
       this.isFormVisible = true;
-      this.selectCategoriaPersona = categoriaPersona.categoriaNombre
-      this.registerForm.controls["categoria_nombre"].setValue(categoriaPersona.categoriaNombre)
-      this.registerForm.controls["categoria_descripcion"].setValue(categoriaPersona.descripcion)
+      this.selectCategoriaPersona = categoriaPersona.categoria_persona_nombre
+      this.registerForm.controls["categoria_persona_id"].setValue(categoriaPersona.categoria_persona_id)
+      this.registerForm.controls["categoria_persona_nombre"].setValue(categoriaPersona.categoria_persona_nombre)
+      this.registerForm.controls["categoria_persona_descripcion"].setValue(categoriaPersona.categoria_persona_descripcion)
+      this.registerForm.controls["categoria_persona_estado"].setValue(categoriaPersona.categoria_persona_estado)
     } else {
       this._util.alerta("Error","No se encontro la información de la Categoria.","warning")
     }

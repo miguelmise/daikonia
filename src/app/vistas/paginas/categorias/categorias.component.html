@@ -29,7 +29,7 @@
                             <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm align-self-end "  (click)="resetForm()">Crear Nuevo</a>
                         </div>                      
                         <div class="row">                           
-                            <div class="col-lg-4 mb-4">
+                            <div class="col-lg-6 mb-6">
                                 <div class="card shadow mb-4">                                 
                                     <div class="card-header py-3 bg-secondary">
                                         <h6 class="m-0 font-weight-bold text-white">Listado</h6>
@@ -41,18 +41,17 @@
                                                 placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
                                             </div>
                                             <table  mat-table [dataSource]="dataSource" matSort matSortActive="created"> 
-                                                <!-- nombre  Column -->
+                                                <!-- Column -->
                                                 <ng-container matColumnDef="categoriaNombre">
-                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoria</th>
-                                                    <td mat-cell *matCellDef="let element"><a (click)="verCategoriaPersonaData(element.id)">{{element.categoriaNombre}}</a></td>
+                                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
+                                                    <td mat-cell *matCellDef="let element"><a (click)="verCategoriaPersonaData(element.categoria_persona_id)">{{element.categoria_persona_nombre}}</a></td>
                                                   </ng-container>
-                                                  <ng-container matColumnDef="id">
-                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
-                                                   <td mat-cell *matCellDef="let element">
-                                                    <a (click)="eliminar()">
-                                                        <span class="material-symbols-outlined align-self-center"> delete</span>
-                                                    </a></td>
-                                                 </ng-container>
+
+                                                  <!-- Column -->
+                                                <ng-container matColumnDef="descripcion">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+                                                    <td mat-cell *matCellDef="let element">{{element.categoria_persona_descripcion}}</td>
+                                                </ng-container>
                 
                                                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                                   <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -64,7 +63,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-lg-8 mb-8">
+                            <div class="col-lg-6 mb-8">
                                 <div *ngIf="isFormVisible" class="card shadow mb-4">
                                     <div class="card-header py-3 bg-secondary">
                                         <h6 class="m-0 font-weight-bold text-white">Información Categoria de Persona: {{selectCategoriaPersona}}</h6>
@@ -74,10 +73,20 @@
                                         <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
                                             <div class="row">
                                                 <!--nombre-->
-                                                <div class="col-md-12">
+                                                <div class="col-md-8">
                                                     <div class="input-group mb-3">
                                                         <span class="input-group-text">Nombre Categoría</span>
-                                                        <input type="text" class="form-control"  formControlName="categoria_nombre">
+                                                        <input type="text" class="form-control"  formControlName="categoria_persona_nombre">
+                                                      </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="input-group mb-3">
+                                                        <span class="input-group-text">Estado</span>
+                                                        <select class="form-select bg-white text-dark" formControlName="categoria_persona_estado">
+                                                            <option *ngFor="let estado of estados" [value]="estado.valor">
+                                                                {{estado.etiqueta}}
+                                                              </option>
+                                                        </select>
                                                       </div>
                                                 </div>
                                             </div>
@@ -86,7 +95,7 @@
                                                 <div class="col-md-12">
                                                     <div class="input-group mb-3">
                                                         <span class="input-group-text">Descripción</span>
-                                                        <textarea type="text" rows="4" class="form-control" formControlName="categoria_descripcion"></textarea>
+                                                        <textarea type="text" rows="4" class="form-control" formControlName="categoria_persona_descripcion"></textarea>
                                                     </div>
                                                  
                                                 </div>
