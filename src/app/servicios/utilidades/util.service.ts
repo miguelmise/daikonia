@@ -38,6 +38,26 @@ export class UtilService {
     })
   }
 
+  alerta_info(contenido:string):void{
+    Swal.fire({
+      title:"Informe",
+      text:contenido,
+      toast:true,
+      icon:"info",
+      confirmButtonColor: '#006e8c'
+    })
+  }
+
+  alerta_warning(contenido:string):void{
+    Swal.fire({
+      title:"Atención",
+      text:contenido,
+      toast:true,
+      icon:"warning",
+      confirmButtonColor: '#006e8c'
+    })
+  }
+
   getToken(): string {
     return sessionStorage.getItem('token') ?? '';
   }

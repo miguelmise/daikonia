@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatSortModule } from '@angular/material/sort';
 
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -62,12 +63,14 @@ import { CategoriasComponent } from './vistas/paginas/categorias/categorias.comp
     MatExpansionModule,
     MatDialogModule,
     MatTableExporterModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ],
   exports: [
     HttpClientModule,
     MatTableExporterModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatSortModule
   ],
   providers: [],
   bootstrap: [AppComponent]

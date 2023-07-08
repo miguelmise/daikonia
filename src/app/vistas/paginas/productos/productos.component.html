@@ -61,7 +61,7 @@
                               <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         </table>
                         <div class="table_footer">
-                            <a id="download" class="pointer" matTooltip="Descargar Archivo" (click)="exporter.exportTable('xlsx', {fileName:'Productos',sheet:'Lista Productos'})">Descargar Archivo</a>
+                            <a id="download" class="pointer" matTooltip="Descargar Archivo" (click)="exporter.exportTable('xlsx', {fileName:'Productos',sheet:'Lista Productos',Props:{Author:'Kairo System',Title:'Productos'}})">Descargar Archivo</a>
                             <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
                           </div>
                         </div>

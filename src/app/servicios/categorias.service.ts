@@ -18,7 +18,16 @@ export class CategoriasService {
   }
 
   listar_categorias_personas():Observable<any>{
-    return this.http.get<any>(this.url+"categoria_persona_ws.php",{});
+    return this.http.get<any>(this.url+"categoria_persona2_ws.php",{});
+  }
+
+  nuevo_categoria_persona(data:any):Observable<any>{
+    return this.http.post<any>(this.url + "categoria_persona2_ws.php",data);
+  }
+
+  actualizar_categoria_persona(data:any):Observable<any>{
+    console.log(data)
+    return this.http.put<any>(this.url + "categoria_persona2_ws.php",data);
   }
 
   listar_categorias_persona_beneficiado(beneficiado_id: number): Observable<any> {
