@@ -17,6 +17,14 @@ export class CategoriasService {
     return this.http.get<any>(this.url + "categoria_producto_ws.php",{});
   }
 
+  actualizar_categoria_producto(data:any):Observable<any>{
+    return this.http.put<any>(this.url + "categoria_producto_ws.php",data);
+  }
+
+  nuevo_categoria_producto(data:any):Observable<any>{
+    return this.http.post<any>(this.url + "categoria_producto_ws.php",data);
+  }
+
   listar_categorias_personas():Observable<any>{
     return this.http.get<any>(this.url+"categoria_persona2_ws.php",{});
   }
@@ -26,7 +34,6 @@ export class CategoriasService {
   }
 
   actualizar_categoria_persona(data:any):Observable<any>{
-    console.log(data)
     return this.http.put<any>(this.url + "categoria_persona2_ws.php",data);
   }
 

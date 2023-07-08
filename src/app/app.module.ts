@@ -31,6 +31,7 @@ import { MatSortModule } from '@angular/material/sort';
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CategoriasComponent } from './vistas/paginas/categorias/categorias.component';
+import { CategoriaProductoComponent } from './vistas/paginas/categorias/categoria-producto/categoria-producto.component';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { CategoriasComponent } from './vistas/paginas/categorias/categorias.comp
     InventarioComponent,
     ReglasComponent,
     PlanificadorComponent,
-    CategoriasComponent
+    CategoriasComponent,
+    CategoriaProductoComponent
   ],
   imports: [
     BrowserModule,

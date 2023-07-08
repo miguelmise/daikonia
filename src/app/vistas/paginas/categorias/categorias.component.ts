@@ -16,9 +16,7 @@ export class CategoriasComponent implements OnInit {
   dataSource!: MatTableDataSource<any>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  dataSourceCategoriaProducto!: MatTableDataSource<any>;
-
-  @ViewChild('paginatorCategoriaProducto') paginatorCategoriaProducto!: MatPaginator;
+  
   
 
   registerForm: FormGroup;
@@ -44,19 +42,13 @@ export class CategoriasComponent implements OnInit {
       categoria_persona_id: [""],
       categoria_persona_nombre: ["",Validators.required],
       categoria_persona_descripcion: ["",Validators.required],
-      categoria_persona_estado: ["",Validators.required],
-      cat_pro_id:[""],
-      cat_pro_nombre:[""],
-      cat_pro_descripcion:[""],
-      cat_pro_main_categoria:[""],
-      cat_pro_estado:[""]
+      categoria_persona_estado: ["",Validators.required]
     });
 
    }
 
   ngOnInit(): void {
     this.cargarListaCategoriasPersonas()
-    this.cargarListaCategoriasProductos()
   }
 
   cargarListaCategoriasPersonas():void{
@@ -72,19 +64,7 @@ export class CategoriasComponent implements OnInit {
     })
   }
 
-  cargarListaCategoriasProductos():void{
-    this._categorias.listar_categorias_productos().subscribe({
-      next: res=>{
-        this.listaCategoriaProductos = res;
-        this.dataSourceCategoriaProducto = new MatTableDataSource(this.listaCategoriaProductos);
-        this.dataSourceCategoriaProducto.paginator = this.paginatorCategoriaProducto;
-        console.log(this.listaCategoriaProductos)
-      },
-      error: err=>{
-        this._util.alerta_error(JSON.stringify(err));
-      }
-    })
-  }
+  
 
   onSubmit():void {
     
@@ -94,10 +74,7 @@ export class CategoriasComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  applyFilterProductos(event: Event){
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceCategoriaProducto.filter = filterValue.trim().toLowerCase();
-  }
+  
 
   resetForm():void{
     this.selectCategoriaPersona = "[Nueva Categoria]"
@@ -106,6 +83,7 @@ export class CategoriasComponent implements OnInit {
     this.registerForm.reset();
     this.update_categoria_persona = false;
   }
+  
   
 
   
@@ -124,21 +102,7 @@ export class CategoriasComponent implements OnInit {
       this._util.alerta("Error","No se encontro la información de la Categoria.","warning")
     }
   }
-  verCategoriaProductoData(id:number):void{
-    const categoriaProducto = this.listaCategoriaProductos.find((item: { cat_pro_id: number; }) => item.cat_pro_id === id);
-
-    if (categoriaProducto) {
-      this.isFormVisible = true;
-      this.selectCategoriaProducto = categoriaProducto.cat_pro_nombre
-      this.registerForm.controls["cat_pro_id"].setValue(categoriaProducto.cat_pro_id)
-      this.registerForm.controls["cat_pro_nombre"].setValue(categoriaProducto.cat_pro_nombre)
-      this.registerForm.controls["cat_pro_descripcion"].setValue(categoriaProducto.cat_pro_descripcion)
-      this.registerForm.controls["cat_pro_main_categoria"].setValue(categoriaProducto.cat_pro_main_categoria)
-      this.registerForm.controls["cat_pro_estado"].setValue(categoriaProducto.cat_pro_estado)
-    } else {
-      this._util.alerta("Error","No se encontro la información de la Categoria.","warning")
-    }
-  }
+ 
 
   guardarCategoriaPersona():void{
     Swal.fire({
@@ -160,7 +124,11 @@ export class CategoriasComponent implements OnInit {
           if(this.update_categoria_persona){
             this._categorias.actualizar_categoria_persona(this.registerForm.value).subscribe({
               next:res=>{
-                this._util.alerta_success(res.mensaje)
+                if (res.mensaje) {
+                  this._util.alerta_success(res.mensaje);
+                } else {
+                  this._util.alerta_error(res.error);
+                }
                 this.cargarListaCategoriasPersonas()
               },
               error: err=>{
@@ -170,7 +138,11 @@ export class CategoriasComponent implements OnInit {
           }else{
             this._categorias.nuevo_categoria_persona(this.registerForm.value).subscribe({
               next:res=>{
-                this._util.alerta_success(res.mensaje)
+                if (res.mensaje) {
+                  this._util.alerta_success(res.mensaje);
+                } else {
+                  this._util.alerta_error(res.error);
+                }
                 this.cargarListaCategoriasPersonas()
                 this.resetForm()
                 this.isFormVisible = false;
@@ -185,45 +157,6 @@ export class CategoriasComponent implements OnInit {
     })
   }
 
-  guardar(){
-    const swalWithBootstrapButtons = Swal.mixin({
-      customClass: {
-        confirmButton: 'btn btn-success',
-        cancelButton: 'btn btn-danger',
-        
-      },
-      buttonsStyling: false,
-      
-      toast:true,
-      confirmButtonColor: '#1cc88a',
-    })
-    Swal.fire({
-      title: 'Confirmación',
-      text: 'Se guardará los cambios, ¿Continuar?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Continuar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#1cc88a',
-      toast:true
-    }).then((result)=>{
-      if (result.isConfirmed) {
-        swalWithBootstrapButtons.fire(
-          'Guardado!',
-          'La categoria ha sido guardada.',
-          'success'
-        )
-      } else if (
-        /* Read more about handling dismissals below */
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        swalWithBootstrapButtons.fire(
-          'Cancelado',
-          '',
-          'error'
-        )
-      }
-    })
-  }
+  
   
 }
