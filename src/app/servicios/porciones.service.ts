@@ -19,9 +19,13 @@ export class PorcionesService {
 
   actualizarCantidad(id: number, valor: number): Observable<any> {
     let params = new HttpParams().set('id', id.toString()).set('cantidad', valor.toString());
-    console.log(params.toString());
   
     return this.http.put<any>(this.url + 'porciones_ws.php', null, { params });
+  }
+
+  crearNuevo(id_persona: number,id_producto: number, valor: number):Observable<any>{
+    let params = new HttpParams().set('id_persona', id_persona.toString()).set('id_producto', id_producto.toString()).set('cantidad', valor.toString());
+    return this.http.post<any>(this.url + "porciones_ws.php",null,{params});
   }
 
 }

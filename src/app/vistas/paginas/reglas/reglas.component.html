@@ -29,12 +29,14 @@
                                         </mat-expansion-panel-header>
                                         <div class="row" [formGroupName]="i">
                                             <div class="card-body">
-                                                <button type="button" class="btn btn-secondary btn-sm mb-2" (click)="cargarModal()"
-                                                data-bs-toggle="modal" data-bs-target="#myModal">Agregar Categoría</button>
+                                                <div class="d-flex justify-content-end mb-2">
+                                                <button type="button" class="btn btn-secondary btn-sm" (click)="cargarModal(element.get('categoria_persona_id')?.value,element.get('categoria_persona_nombre')?.value)"
+                                                data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
+                                            </div>
                                                 <div class="row">
                                                     <div class="col-md-4" *ngFor="let producto of element.get('categorias_productos')?.value; let j = index">
                                                         <div class="input-group">
-                                                            <span class="input-group-text">{{ producto.cat_pro_nombre }}</span>
+                                                            <span class="input-group-text">{{ producto.cat_pro_nombre }} (gr)</span>
                                                             <input type="text" [id]="'x'+producto.porciones_id" class="form-control" [value]="producto.porciones_cantidad" (change)="actualizarValor(producto.porciones_id)">
                                                           </div>
                                                     </div>
@@ -60,7 +62,7 @@
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Añadir Categoría para Órdenes.</h5>
+          <h5 class="modal-title">Añadir Porciones Alimentos para {{nombreSelectCategoria}}.</h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
@@ -68,20 +70,29 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="input-group mb-3">
-                            <span class="input-group-text">Selecione:</span>
-                            <select class="form-select bg-white text-dark" [(ngModel)]="selectCatProducto">
+                            <span class="input-group-text">Categoría:</span>
+                            <select class="form-select bg-white text-dark" [(ngModel)]="selectCatProducto" [size]="4">
+                                <option value="0" [disabled]="true">Seleccione..</option>
                                 <option *ngFor="let cat of listaCatProductos" [value]="cat.cat_pro_id">
                                     {{cat.cat_pro_nombre}}
                                   </option>
                             </select>
                           </div>
                     </div>
-                    {{selectCatProducto}}
+                    
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Cantidad (gr)</span>
+                            <input type="number" class="form-control" [(ngModel)]="cantidadCatProducto">
+                          </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
-            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal" [disabled]="botonDeshabilitado()" (click)="agregarNuevaPorcion()">Guardar</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
         </div>
       </div>

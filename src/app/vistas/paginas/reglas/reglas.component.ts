@@ -17,6 +17,8 @@ export class ReglasComponent implements OnInit {
 
   selectCatPersona : number = 0;
   selectCatProducto : number = 0;
+  cantidadCatProducto : number = 0;
+  nombreSelectCategoria: String = ""
 
   registerForm: FormGroup;
 
@@ -34,6 +36,25 @@ export class ReglasComponent implements OnInit {
 
   get categoriasForm(){
     return this.registerForm.controls["categoriasForm"] as FormArray;
+  }
+
+  botonDeshabilitado(): boolean {
+    return this.cantidadCatProducto < 1 || this.selectCatProducto === 0;
+  }
+
+  agregarNuevaPorcion():void{
+    this._porciones.crearNuevo(this.selectCatPersona,this.selectCatProducto,this.cantidadCatProducto).subscribe({
+      next:res=>{
+        if (res.mensaje) {
+          this._util.alerta_temporal(res.mensaje)
+          this.cargarCategorias()
+        } else {
+          this._util.alerta_error(res.error);
+        }
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err));
+      }
+    })
   }
 
   agregarCategoriaForm(categoria_persona_id:number,
@@ -106,7 +127,11 @@ export class ReglasComponent implements OnInit {
     
   }
 
-  cargarModal():void{
+  cargarModal(id:number,nombre:any):void{
+    this.selectCatPersona = id
+    this.selectCatProducto = 0
+    this.cantidadCatProducto = 0
+    this.nombreSelectCategoria = nombre
     this.cargarCategoriasProductos()
   }
 
