@@ -2,7 +2,7 @@
 
     <!-- Cabecera -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">REGLAS PROGRAMACIÓN ORDENES</h1>
+        <h1 class="h3 mb-0 text-gray-800">REGLAS DE PORCIONES</h1>
     </div>
 
     <div class="row">
@@ -10,140 +10,83 @@
             <div class="card shadow mb-4">
                 <!-- Titulo Formulario -->
                 <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Parámetros Generación Ordenes Alimentos</h6>
+                    <h6 class="m-0 font-weight-bold text-white">Porciones Asignadas por Categoría</h6>
                 </div>
                 <!-- Cuerpo Formulario -->
                 <div class="card-body">
-                    <!--formulario-->
-                    <div id="accordion" class="mb-2 text-muted">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-2 text-muted">
-                                    <button class="btn" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        <h5 class="mb-2 text-muted">Niños</h5>
-                                      </button>
-                                </h5>
-                            </div>
-                            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Proteínas(Kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
+                    <!--formulario nuevo-->
+                    <form  [formGroup]="registerForm">
+                        <ng-container formArrayName="categoriasForm">
+                            <mat-accordion class="example-headers-align">
+                                <ng-container *ngFor="let element of categoriasForm.controls; let i = index" >
+                                    <mat-expansion-panel hideToggle>
+                                        <mat-expansion-panel-header class="border border-white">
+                                            <mat-panel-title>
+                                                <mat-icon class="mx-2">face</mat-icon>
+                                                {{element.get('categoria_persona_nombre')?.value}}
+                                            </mat-panel-title>
+                                            
+                                        </mat-expansion-panel-header>
+                                        <div class="row" [formGroupName]="i">
+                                            <div class="card-body">
+                                                <button type="button" class="btn btn-secondary btn-sm mb-2" (click)="cargarModal()"
+                                                data-bs-toggle="modal" data-bs-target="#myModal">Agregar Categoría</button>
+                                                <div class="row">
+                                                    <div class="col-md-4" *ngFor="let producto of element.get('categorias_productos')?.value; let j = index">
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">{{ producto.cat_pro_nombre }}</span>
+                                                            <input type="text" [id]="'x'+producto.porciones_id" class="form-control" [value]="producto.porciones_cantidad" (change)="actualizarValor(producto.porciones_id)">
+                                                          </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Lacteos(Lt)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Frutas(Kg)</span>
-                                                <input type="text" class="form-control" >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Cereales(kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Grasas(kg)</span>
-                                                <input type="text" class="form-control" >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Dulces(kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                    </div>
-                                  </div>
-                            </div>
-                        </div>
-                        <hr class="sidebar-divider my-0 mb-3">
-                        <div class="card">
-                            <div class="card-header">
-                                <h5 class="mb-2 text-muted">
-                                    <button class="btn" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-                                        <h5 class="mb-2 text-muted">Adultos</h5>
-                                      </button>
-                                </h5>
-                            </div>
-                            <div id="collapseTwo" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                <div class="card-body">
-                                    <div class="row">
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Proteínas(Kg)</span>
-                                                <input type="text" class="form-control" >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Lacteos(Lt)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Frutas(Kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Cereales(kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Grasas(kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                        <!--input-->
-                                        <div class="col-md-3">
-                                            <div class="input-group mb-3">
-                                                <span class="input-group-text">Dulces(kg)</span>
-                                                <input type="text" class="form-control"  >
-                                              </div>
-                                        </div>
-                                    </div>
-                                  </div>
-                            </div>
-                        </div>
-                    </div>
+                                    </mat-expansion-panel>
+                                </ng-container>
+                            </mat-accordion>
+                        </ng-container>
+                    </form>
+                    <!--formulario nuevo-->
                     
                     
-                    
-                    <div class="row">
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-success">Guardar</button>
-                        </div>
-                    </div>
                 </div>
             </div>
 
         </div>
     </div>
+
+    <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Añadir Categoría para Órdenes.</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Selecione:</span>
+                            <select class="form-select bg-white text-dark" [(ngModel)]="selectCatProducto">
+                                <option *ngFor="let cat of listaCatProductos" [value]="cat.cat_pro_id">
+                                    {{cat.cat_pro_nombre}}
+                                  </option>
+                            </select>
+                          </div>
+                    </div>
+                    {{selectCatProducto}}
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" data-bs-dismiss="modal">Guardar</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!--End Modal -->
 
 </div>

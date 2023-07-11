@@ -58,6 +58,17 @@ export class UtilService {
     })
   }
 
+  alerta_temporal(contenido:string):void{
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: contenido,
+      showConfirmButton: false,
+      toast:true,
+      timer: 1500
+    })
+  }
+
   getToken(): string {
     return sessionStorage.getItem('token') ?? '';
   }

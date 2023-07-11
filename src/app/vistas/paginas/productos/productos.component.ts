@@ -83,7 +83,6 @@ export class ProductosComponent implements OnInit {
     this._categorias.listar_categorias_productos().subscribe({
       next: res=>{
         this.listaCategorias = res;
-        console.log(this.listaCategorias)
       },
       error: err=>{
         this._util.alerta_error(JSON.stringify(err));
