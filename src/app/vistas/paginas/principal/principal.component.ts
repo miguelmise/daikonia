@@ -75,6 +75,36 @@ export class PrincipalComponent implements OnInit {
     }
   }
 
+  acercaDe():void{
+    Swal.fire({
+      title: '<strong>Acerca de Kairo</strong>',
+      html:
+        '<p>Versión: 1.0</p>' +
+        '<p>Desarrolladores:</p>' +
+        '<ul>' +
+        '<li>Miguel Angel Mise</li>' +
+        '<li>Sandy Intriago</li>' +
+        '</ul>' +
+        '<p>Tecnologías utilizadas:</p>' +
+        '<ul>' +
+        '<li>Angular, PHP y MySQL</li>' +
+        '</ul>' +
+        '<p>Licencia:</p>' +
+        '<p>Kairo se distribuye bajo la licencia GNU General Public License (GPL) versión 3. Esta licencia garantiza la libertad de uso, modificación y distribución del software.</p>' +
+        '<p>Agradecimientos:</p>' +
+        '<p>Agradecemos a nuestros profesores de la Universidad ESPOL y Personal de Diakonía por su apoyo y orientación durante el desarrollo de este proyecto.</p>' +
+        '<p>© 2023 Miguel Angel Mise y Sandy Intriago. Todos los derechos reservados.</p>',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusConfirm: false,
+      confirmButtonText: '<i class="fa fa-thumbs-up"></i> ¡Genial!',
+      confirmButtonAriaLabel: 'Thumbs up, great!',
+      cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
+      cancelButtonAriaLabel: 'Thumbs down'
+    });
+    
+  }
+
   salir(): void {
     Swal.fire({
       icon: 'warning',
