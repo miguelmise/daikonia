@@ -81,14 +81,10 @@ export class PrincipalComponent implements OnInit {
       html:
         '<p>Versión: 1.0</p>' +
         '<p>Desarrolladores:</p>' +
-        '<ul>' +
-        '<li>Miguel Angel Mise</li>' +
-        '<li>Sandy Intriago</li>' +
-        '</ul>' +
+        '<p>Miguel Angel Mise</p>' +
+        '<p>Sandy Intriago</p>' +
         '<p>Tecnologías utilizadas:</p>' +
-        '<ul>' +
-        '<li>Angular, PHP y MySQL</li>' +
-        '</ul>' +
+        '<p>Angular, PHP y MySQL</p>' +
         '<p>Licencia:</p>' +
         '<p>Kairo se distribuye bajo la licencia GNU General Public License (GPL) versión 3. Esta licencia garantiza la libertad de uso, modificación y distribución del software.</p>' +
         '<p>Agradecimientos:</p>' +
@@ -98,6 +94,7 @@ export class PrincipalComponent implements OnInit {
       showCancelButton: true,
       focusConfirm: false,
       confirmButtonText: '<i class="fa fa-thumbs-up"></i> ¡Genial!',
+      confirmButtonColor: '#006e8c',
       confirmButtonAriaLabel: 'Thumbs up, great!',
       cancelButtonText: '<i class="fa fa-thumbs-down"></i>',
       cancelButtonAriaLabel: 'Thumbs down'
