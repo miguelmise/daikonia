@@ -146,8 +146,12 @@ export class ProductosComponent implements OnInit {
           if(this.update_producto){
             this._producto.actualizar_producto(this.registerForm.value).subscribe({
               next:res=>{
-                this._util.alerta_success(res.mensaje)
-                //this.cargarListaCategorias();
+                if(res.mensaje){
+                  this._util.alerta_success(res.mensaje)
+                }else{
+                  this._util.alerta_info(JSON.stringify(res))
+                }
+                
                 this.cargarListaProductos();
               },
               error: err=>{

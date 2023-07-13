@@ -5,6 +5,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
+import * as ExcelJS from 'exceljs';
+import { InventarioService } from 'src/app/servicios/inventario.service';
+
 
 @Component({
   selector: 'app-inventario',
@@ -54,7 +57,7 @@ export class InventarioComponent implements OnInit {
       id: 7,
       nombre:'U/M',
       col:'UM',
-      mostrar:true
+      mostrar:false
     },
     {
       id: 8,
@@ -66,13 +69,13 @@ export class InventarioComponent implements OnInit {
       id: 9,
       nombre:'Precio Promedio',
       col:'Precio_Promedio',
-      mostrar:false
+      mostrar:true
     },
     {
       id: 10,
       nombre:'Costo Total',
       col:'Costo_Total',
-      mostrar:false
+      mostrar:true
     }
   ];
   
@@ -86,19 +89,13 @@ export class InventarioComponent implements OnInit {
 
     for (const columna of this.listaColumnas) {
       if (this.selectedItems.has(columna.id)) {
-        //console.log(this.listaColumnas[columna.id-1].nombre);
-        //console.log("After update: ",this.listaColumnas[columna.id-1].mostrar);
         this.listaColumnas[columna.id-1].mostrar = true;
         this.displayedColumns.add(this.listaColumnas[columna.id-1].col);
       }
       else{
-        //console.log(this.listaColumnas[columna.id-1].nombre);
-        //console.log("After update: ",this.listaColumnas[columna.id-1].mostrar);
         this.listaColumnas[columna.id-1].mostrar = false;
       }
     }
-    console.log("After update: ");
-    console.log("After update: ", this.listaColumnas);
 
   }
   
@@ -107,7 +104,7 @@ export class InventarioComponent implements OnInit {
     '2023-05-05','2023-05-29','2023-05-30'
   ]
 
-  datos: any[] = [
+  datos2: any[] = [
     {
       "Ubicacion": "N32 - RACK N C3 F2",
       "Caducidad": "11/05/2023",
@@ -146,6 +143,8 @@ export class InventarioComponent implements OnInit {
     }
   ]
 
+  datos: any[] = []
+
   /*displayedColumns: string[] = [
     'Codigo', 'Ubicacion','Caducidad','Descripcion','Lote','Proveedor','UM','Stock','Precio_Promedio','Costo_Total'];
 */
@@ -167,36 +166,76 @@ export class InventarioComponent implements OnInit {
   archivoSeleccionado: File | undefined;
 
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService, private _inventario: InventarioService) { 
     this.registerForm = this.formBuilder.group({
-      id_producto: [""],
-      Codigo: ["",Validators.required],
-      Descripcion: ["",Validators.required],
-      Ubicacion: ["",Validators.required],
-      Lote: ["",Validators.required],
-      Proveedor: ["",Validators.required],
-      UM: ["",Validators.required],
-      Stock: ["",Validators.required],
-      Precio_Promedio: ["",Validators.required],
-      Costo_Total: ["",Validators.required]
+      inventario_id: [""],
+      inventario_codigo: ["",Validators.required],
+      inventario_descripcion: ["",Validators.required],
+      inventario_ubicacion: ["",Validators.required],
+      inventario_lote: ["",Validators.required],
+      inventario_proveedor: ["",Validators.required],
+      inventario_um: ["",Validators.required],
+      inventario_stock: ["",Validators.required],
+      inventario_precio_promedio: ["",Validators.required],
+      inventario_costo_total: ["",Validators.required]
     });
   }
 
   ngOnInit(): void {
-    this.dataSource = new MatTableDataSource(this.datos);
-    this.cdr.detectChanges();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    for (const columna of this.listaColumnas) {
-      if (columna.mostrar){
-        this.displayedColumns.add(columna.col);
-      }
+    this.cargarTablaInventario()
+    
+  }
 
-    }
+  cargarTablaInventario():void{
+    this._inventario.listar_inventario().subscribe({
+      next:res=>{
+        this.datos = res
+        this.dataSource = new MatTableDataSource(this.datos);
+        this.cdr.detectChanges();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+        for (const columna of this.listaColumnas) {
+          if (columna.mostrar){
+            this.displayedColumns.add(columna.col);
+          }
+
+        }
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err))
+      }
+    })
   }
 
   seleccionarArchivo(event: any) {
     this.archivoSeleccionado = event.target.files[0];
+  }
+
+  async procesarArchivo(): Promise<void> {
+    if (this.archivoSeleccionado) {
+      const fileReader = new FileReader();
+
+      fileReader.onload = async (e: any) => {
+        const buffer = e.target.result;
+        const workbook = new ExcelJS.Workbook();
+        await workbook.xlsx.load(buffer);
+
+        const worksheet = workbook.worksheets[0];
+        const jsonData = worksheet.getSheetValues();
+
+        //console.log(jsonData);
+        this._inventario.cargarArchivoInventario(jsonData).subscribe({
+          next:res=>{
+            console.log("respuesta service")
+            console.log(res)
+          },error:err=>{
+            this._util.alerta_error(JSON.stringify(err))
+          }
+        })
+        
+      };
+
+      fileReader.readAsArrayBuffer(this.archivoSeleccionado);
+    }
   }
 
   applyFilter(event: Event){
@@ -209,14 +248,7 @@ export class InventarioComponent implements OnInit {
       const formData = new FormData();
       formData.append('archivo', this.archivoSeleccionado, this.archivoSeleccionado.name);
 
-      // Aquí puedes hacer la llamada a tu servicio para enviar el formulario con el archivo
-      // utilizando formData como el cuerpo de la solicitud.
-      // Por ejemplo:
-      // this.tuServicio.enviarArchivo(formData).subscribe(response => {
-      //   console.log('Archivo enviado exitosamente');
-      // }, error => {
-      //   console.error('Error al enviar el archivo', error);
-      // });
+      
 
       console.log('Archivo enviado exitosamente');
     }
@@ -249,26 +281,44 @@ export class InventarioComponent implements OnInit {
           if (this.registerForm.invalid) {
             return;
           }
-          this._util.alerta("Data",JSON.stringify(this.registerForm.value),"info")
+          this._inventario.actualizar_Inventario(this.registerForm.value).subscribe({
+            next:res=>{
+              if(res.mensaje){
+                this._util.alerta_success(res.mensaje)
+              }else{
+                this._util.alerta_info(JSON.stringify(res))
+              }
+              
+              this.cargarTablaInventario()
+            },error:err=>{
+              this._util.alerta_error(JSON.stringify(err))
+            }
+          })
+          
       }
     })
   }
 
+  costoTotal():number{
+    return this.registerForm.controls["inventario_precio_promedio"].value * this.registerForm.controls["inventario_stock"].value;
+  }
+
   verProductoData(codigo:number):void{
-    const producto = this.datos.find((item: { Codigo: number; }) => item.Codigo === codigo);
+    const producto = this.datos.find((item: { inventario_id: number; }) => item.inventario_id === codigo);
 
     if (producto) {
       this.isFormVisible = true;
-      this.selectProducto = producto.Descripcion
-      this.registerForm.controls["Codigo"].setValue(producto.Codigo)
-      this.registerForm.controls["Descripcion"].setValue(producto.Descripcion)
-      this.registerForm.controls["Ubicacion"].setValue(producto.Ubicacion)
-      this.registerForm.controls["Lote"].setValue(producto.Lote)
-      this.registerForm.controls["Proveedor"].setValue(producto.Proveedor)
-      this.registerForm.controls["UM"].setValue(producto.UM)
-      this.registerForm.controls["Stock"].setValue(producto.Stock)
-      this.registerForm.controls["Precio_Promedio"].setValue(producto.Precio_Promedio)
-      this.registerForm.controls["Costo_Total"].setValue(producto.Costo_Total)
+      this.selectProducto = producto.inventario_descripcion
+      this.registerForm.controls["inventario_id"].setValue(producto.inventario_id)
+      this.registerForm.controls["inventario_codigo"].setValue(producto.inventario_codigo)
+      this.registerForm.controls["inventario_descripcion"].setValue(producto.inventario_descripcion)
+      this.registerForm.controls["inventario_ubicacion"].setValue(producto.inventario_ubicacion)
+      this.registerForm.controls["inventario_lote"].setValue(producto.inventario_lote)
+      this.registerForm.controls["inventario_proveedor"].setValue(producto.inventario_proveedor)
+      this.registerForm.controls["inventario_um"].setValue(producto.inventario_um)
+      this.registerForm.controls["inventario_stock"].setValue(producto.inventario_stock)
+      this.registerForm.controls["inventario_precio_promedio"].setValue(producto.inventario_precio_promedio)
+      this.registerForm.controls["inventario_costo_total"].setValue(producto.inventario_costo_total)
     } else {
       this._util.alerta("Error","No se encontro la información del Producto.","warning")
     }
