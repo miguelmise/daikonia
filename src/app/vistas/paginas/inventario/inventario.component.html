@@ -2,7 +2,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">INVENTARIO</h1>
+        <h1 class="h3 mb-0 text-gray-800">CARGA DE INVENTARIO</h1>
         <!-- Botón para abrir el modal 
         <a  class="d-none d-sm-inline-block btn btn-sm btn-secondary shadow-sm" data-bs-toggle="modal" data-bs-target="#myModal">Historico Inventarios</a>-->
     </div>
@@ -46,7 +46,7 @@
                     <div class="row">
                         <!--nombre-->
                         <div class="col-md-12 mb-2">
-                            <input type="file" class="file-upload form-control" (change)="seleccionarArchivo($event)" />
+                            <input #fileInput type="file" class="file-upload form-control" (change)="seleccionarArchivo($event)" accept=".xlsx, .xls"/>
                         </div>
                     </div>
                     <div class="row">
@@ -113,7 +113,7 @@
                             <div class="col-md-8">
                                 <div class="input-group mb-3">
                                     <span class="input-group-text">Proveedor</span>
-                                    <input type="text" class="form-control"  formControlName="inventario_proveedor">
+                                    <input type="text" class="form-control" [readOnly]="true"  formControlName="inventario_proveedor">
                                   </div>
                             </div>
                             <!--precio-->

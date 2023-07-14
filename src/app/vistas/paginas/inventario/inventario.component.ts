@@ -15,6 +15,9 @@ import { InventarioService } from 'src/app/servicios/inventario.service';
   styleUrls: ['./inventario.component.css']
 })
 export class InventarioComponent implements OnInit {
+
+  @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+
   listaColumnas: any[] = [
     {
       id: 1,
@@ -208,6 +211,14 @@ export class InventarioComponent implements OnInit {
 
   seleccionarArchivo(event: any) {
     this.archivoSeleccionado = event.target.files[0];
+
+    if (this.archivoSeleccionado) {
+      const extension = this.archivoSeleccionado.name.split('.').pop()?.toLowerCase();
+      
+      if (extension !== 'xlsx' && extension !== 'xls') {
+        this._util.alerta_error("Por favor, seleccione un archivo de Excel válido.")
+      }
+    }
   }
 
   async procesarArchivo(): Promise<void> {
@@ -225,8 +236,17 @@ export class InventarioComponent implements OnInit {
         //console.log(jsonData);
         this._inventario.cargarArchivoInventario(jsonData).subscribe({
           next:res=>{
-            console.log("respuesta service")
-            console.log(res)
+            if(res.productos_ingresados){
+              this._util.alerta_success('Productos añadidos: '+res.productos_ingresados+' Productos Nuevos: '+res.productos_nuevos+' Donantes Nuevos: '+res.proveedores_nuevos)
+              this.cargarTablaInventario()
+              this.fileInputRef.nativeElement.value = '';
+            }else if(res.error){
+              this._util.alerta_error(res.error)
+              this.fileInputRef.nativeElement.value = '';
+            }else{
+              this._util.alerta_info(JSON.stringify(res))
+              this.fileInputRef.nativeElement.value = '';
+            }
           },error:err=>{
             this._util.alerta_error(JSON.stringify(err))
           }

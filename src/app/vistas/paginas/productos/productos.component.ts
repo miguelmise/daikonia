@@ -21,7 +21,7 @@ export class ProductosComponent implements OnInit {
 
   listaProductos: any[] = [];
   listaCategorias: any[] = [];
-  listaMedidasPeso: any[] = [{"tipo": "KILOS"},{"tipo": "GRAMOS"},{"tipo": "MILILITROS"},{"tipo": "LITROS"},];
+  listaMedidasPeso: any[] = [{"tipo": "KG"},{"tipo": "GR"},{"tipo": "ML"},{"tipo": "LT"},];
 
   displayedColumns: string[] = ['producto','sku', 'codigo', 'peso'];
 
