@@ -87,8 +87,6 @@ export class PrincipalComponent implements OnInit {
         '<p>Angular, PHP y MySQL</p>' +
         '<p>Licencia:</p>' +
         '<p>Kairo se distribuye bajo la licencia GNU General Public License (GPL) versión 3. Esta licencia garantiza la libertad de uso, modificación y distribución del software.</p>' +
-        '<p>Agradecimientos:</p>' +
-        '<p>Agradecemos a nuestros profesores de la Universidad ESPOL y Personal de Diakonía por su apoyo y orientación durante el desarrollo de este proyecto.</p>' +
         '<p>© 2023 Miguel Angel Mise y Sandy Intriago. Todos los derechos reservados.</p>',
       showCloseButton: true,
       showCancelButton: true,

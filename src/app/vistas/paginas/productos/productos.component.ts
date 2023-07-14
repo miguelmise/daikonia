@@ -23,7 +23,7 @@ export class ProductosComponent implements OnInit {
   listaCategorias: any[] = [];
   listaMedidasPeso: any[] = [{"tipo": "KG"},{"tipo": "GR"},{"tipo": "ML"},{"tipo": "LT"},];
 
-  displayedColumns: string[] = ['producto','sku', 'codigo', 'peso'];
+  displayedColumns: string[] = ['codigo','producto','categoria', 'peso', 'stock'];
 
   dataSource!: MatTableDataSource<any>;
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort,Sort  } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
@@ -215,47 +215,75 @@ export class InventarioComponent implements OnInit {
     if (this.archivoSeleccionado) {
       const extension = this.archivoSeleccionado.name.split('.').pop()?.toLowerCase();
       
-      if (extension !== 'xlsx' && extension !== 'xls') {
+      if (extension !== 'xlsx') {
         this._util.alerta_error("Por favor, seleccione un archivo de Excel válido.")
       }
     }
   }
 
+
+
   async procesarArchivo(): Promise<void> {
-    if (this.archivoSeleccionado) {
-      const fileReader = new FileReader();
 
-      fileReader.onload = async (e: any) => {
-        const buffer = e.target.result;
-        const workbook = new ExcelJS.Workbook();
-        await workbook.xlsx.load(buffer);
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se cargará los datos del archivo al inventario',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        if (this.archivoSeleccionado) {
+          const fileReader = new FileReader();
+    
+          fileReader.onload = async (e: any) => {
+            const buffer = e.target.result;
+            const workbook = new ExcelJS.Workbook();
+            await workbook.xlsx.load(buffer);
+    
+            const worksheet = workbook.worksheets[0];
+            const jsonData = worksheet.getSheetValues();
+    
+            //console.log(jsonData);
+            this._inventario.cargarArchivoInventario(jsonData).subscribe({
+              next:res=>{
+                if(res.productos_ingresados){
+                  Swal.fire({
+                    title: 'Inventario Acualizado',
+                    icon: 'success',
+                    html:
+                    '<p>Productos añadidos: '+res.productos_ingresados+'</p>' +
+                    '<p>Productos Nuevos: '+res.productos_nuevos+'</p>' +
+                    '<p>Donantes Nuevos: '+res.proveedores_nuevos+'</p>',
+                    confirmButtonColor: '#006e8c',
+                    toast:true
+                  })
+    
+                  this.cargarTablaInventario()
+                  this.fileInputRef.nativeElement.value = '';
+                }else if(res.error){
+                  this._util.alerta_error(res.error)
+                  this.fileInputRef.nativeElement.value = '';
+                }else{
+                  this._util.alerta_info(JSON.stringify(res))
+                  this.fileInputRef.nativeElement.value = '';
+                }
+              },error:err=>{
+                this._util.alerta_error(JSON.stringify(err))
+              }
+            })
+            
+          };
+    
+          fileReader.readAsArrayBuffer(this.archivoSeleccionado);
+        };  
+      }
+    })
 
-        const worksheet = workbook.worksheets[0];
-        const jsonData = worksheet.getSheetValues();
-
-        //console.log(jsonData);
-        this._inventario.cargarArchivoInventario(jsonData).subscribe({
-          next:res=>{
-            if(res.productos_ingresados){
-              this._util.alerta_success('Productos añadidos: '+res.productos_ingresados+' Productos Nuevos: '+res.productos_nuevos+' Donantes Nuevos: '+res.proveedores_nuevos)
-              this.cargarTablaInventario()
-              this.fileInputRef.nativeElement.value = '';
-            }else if(res.error){
-              this._util.alerta_error(res.error)
-              this.fileInputRef.nativeElement.value = '';
-            }else{
-              this._util.alerta_info(JSON.stringify(res))
-              this.fileInputRef.nativeElement.value = '';
-            }
-          },error:err=>{
-            this._util.alerta_error(JSON.stringify(err))
-          }
-        })
-        
-      };
-
-      fileReader.readAsArrayBuffer(this.archivoSeleccionado);
-    }
+    
   }
 
   applyFilter(event: Event){
@@ -344,8 +372,6 @@ export class InventarioComponent implements OnInit {
     }
   }
 
-  mostrarHistoricoInventarios():void{
-    
-  }
+  
 
 }
