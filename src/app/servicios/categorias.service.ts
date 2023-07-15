@@ -43,11 +43,11 @@ export class CategoriasService {
   }
 
   crear_categoria_persona_beneficiado(data:any):Observable<any>{
-    return this.http.post<any>(this.url + "categ_pers_benef_create_ws.php",data);
+    return this.http.post<any>(this.url + "cat_per_beneficiado_ws.php",data);
   }
 
   actualizar_categoria_persona_beneficiado(data:any):Observable<any>{
-    return this.http.put<any>(this.url+"categ_pers_benef_update_ws.php",data);
+    return this.http.put<any>(this.url+"cat_per_beneficiado_ws.php",data);
   }
 
 
