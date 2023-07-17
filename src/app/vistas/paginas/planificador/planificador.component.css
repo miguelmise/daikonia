@@ -70,6 +70,14 @@
     display: none !important;
   }
 
+  :host ::ng-deep #cdk-step-label-0-1 > div.mat-step-icon.mat-step-icon-state-done > div > span{
+    display: none !important;
+  }
+
+  :host ::ng-deep #cdk-step-label-0-0 > div.mat-step-icon.mat-step-icon-state-edit > div > span{
+    display: none !important;
+  }
+
   :host ::ng-deep #cdk-step-label-0-1 > div.mat-step-icon.mat-step-icon-state-edit > div > span{
     display: none !important;
   }
