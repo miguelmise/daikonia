@@ -27,6 +27,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
+import {MatStepperModule} from '@angular/material/stepper';
 
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -66,13 +67,15 @@ import { CategoriaProductoComponent } from './vistas/paginas/categorias/categori
     MatDialogModule,
     MatTableExporterModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+    MatStepperModule
   ],
   exports: [
     HttpClientModule,
     MatTableExporterModule,
     MatTooltipModule,
-    MatSortModule
+    MatSortModule,
+    MatStepperModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -89,6 +89,20 @@ export class UtilService {
     document.cookie = `_page=${pagina}; expires=${expires}; path=/`;
   }
 
+  setProducto(producto_id: any): void {
+    const expirationDate = new Date();
+    expirationDate.setTime(expirationDate.getTime() + (5 * 1000)); // 5 segundos en milisegundos
+    const expires = expirationDate.toUTCString();
+  
+    document.cookie = `_producto=${producto_id}; expires=${expires}; path=/`;
+  }
+
+  getProducto(): string {
+    const cookieProducto = document.cookie.replace(/(?:(?:^|.*;\s*)_producto\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+    return cookieProducto || "404";
+  }
+  
+
   getUserName():string{
     var token:any = JSON.parse(atob(sessionStorage.getItem('token') ?? ''));
     return token.nombres;

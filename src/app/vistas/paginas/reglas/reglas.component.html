@@ -22,23 +22,25 @@
                                     <mat-expansion-panel hideToggle>
                                         <mat-expansion-panel-header class="border border-white">
                                             <mat-panel-title>
-                                                <mat-icon class="mx-2">face</mat-icon>
-                                                {{element.get('categoria_persona_nombre')?.value}}
+                                                <mat-icon class="mx-2">filter_list</mat-icon>
+                                                <!--<mat-icon class="mx-2">face</mat-icon>-->
+                                                Ver porciones para {{element.get('categoria_persona_nombre')?.value}}
                                             </mat-panel-title>
                                             
                                         </mat-expansion-panel-header>
                                         <div class="row" [formGroupName]="i">
                                             <div class="card-body">
-                                                <div class="d-flex justify-content-end mb-2">
-                                                <button type="button" class="btn btn-secondary btn-sm" (click)="cargarModal(element.get('categoria_persona_id')?.value,element.get('categoria_persona_nombre')?.value)"
-                                                data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
-                                            </div>
                                                 <div class="row">
-                                                    <div class="col-md-4" *ngFor="let producto of element.get('categorias_productos')?.value; let j = index">
+                                                    
+                                                    <div class="col-md-5 mb-1" *ngFor="let producto of element.get('categorias_productos')?.value; let j = index">
                                                         <div class="input-group">
                                                             <span class="input-group-text">{{ producto.cat_pro_nombre }} (gr)</span>
                                                             <input type="text" [id]="'x'+producto.porciones_id" class="form-control" [value]="producto.porciones_cantidad" (change)="actualizarValor(producto.porciones_id)">
                                                           </div>
+                                                    </div>
+                                                    <div class="col-md-1">
+                                                        <button type="button" class="btn btn-secondary btn-sm" (click)="cargarModal(element.get('categoria_persona_id')?.value,element.get('categoria_persona_nombre')?.value)"
+                                                        data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
                                                     </div>
                                                 </div>
                                             </div>

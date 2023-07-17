@@ -173,31 +173,32 @@
                         
 
                         <!-- Nav Item - Alerts -->
-                        <li class="nav-item dropdown no-arrow mx-1">
+                        <li *ngIf="lista_productos_invalidos.length>0" class="nav-item dropdown no-arrow mx-1">
                             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw"></i>
+                                <i class="fas fa-bell fa-fw text-warning"></i>
                                 <!-- Counter - Alerts -->
-                                <span class="badge badge-secondary badge-counter">1+</span>
+                                <span class="badge badge-secondary badge-counter">{{lista_productos_invalidos.length}}+</span>
                             </a>
                             <!-- Dropdown - Alerts -->
                             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                 aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header" style="background-color: #d21e2a; border-color: #d21e2a;">
+                                <h6 class="dropdown-header" style="background-color: #858796; border-color: white;">
                                     Alertas
                                 </h6>
-                                <a class="dropdown-item d-flex align-items-center">
+                                <a *ngFor="let producto of lista_productos_invalidos" class="dropdown-item d-flex align-items-center">
                                     <div class="mr-3">
-                                        <div class="icon-circle bg-primary">
-                                            <i class="fas fa-file-alt text-white"></i>
+                                        <div class="icon-circle bg-warning">
+                                            <i class="fa fa-warning text-white"></i>
                                         </div>
                                     </div>
-                                    <div>
-                                        <div class="small text-gray-500">Fecha hoy</div>
-                                        <span class="font-weight-bold">Productos por expirar</span>
+                                    <div (click)="irAlProducto(producto.producto_id)">
+                                        <div class="small text-gray-900">Producto Còdigo: {{producto.producto_codigo}}</div>
+                                        <span class="font-weight-bold">{{producto.producto_categoria_id == 26 ? "Sin Categoria" : ""}} </span>
+                                        <span class="font-weight-bold">{{producto.producto_peso == 0 ? "Sin Peso" : ""}}</span>
                                     </div>
                                 </a>
-                                <a class="dropdown-item text-center small text-gray-500">Ver todas las alertas</a>
+                                <a class="dropdown-item text-center small text-gray-900">{{lista_productos_invalidos.length}} alertas</a>
                             </div>
                         </li>
 
@@ -261,7 +262,7 @@
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente -->
-                <app-planificador *ngIf="Paginas['Planificador']"></app-planificador>
+                <app-planificador (mostrarPaginaEvent)="mostrarPagina($event)" *ngIf="Paginas['Planificador']"></app-planificador>
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente -->

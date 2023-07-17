@@ -1,13 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import {ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+
 
 
 import Swal from 'sweetalert2';
+import { PlanificadorService } from 'src/app/servicios/planificador.service';
 
 
 @Component({
@@ -16,6 +19,10 @@ import Swal from 'sweetalert2';
   styleUrls: ['./planificador.component.css']
 })
 export class PlanificadorComponent implements OnInit {
+
+  @Output() mostrarPaginaEvent = new EventEmitter();
+
+  lista_productos_invalidos:any[] = [];
 
   listaBeneficiados: any[] = [
     {
@@ -231,7 +238,9 @@ export class PlanificadorComponent implements OnInit {
     
   };
 
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService) { 
+  
+
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService, private _planificador: PlanificadorService) { 
     this.registerForm = this.formBuilder.group({
       
     });
@@ -239,9 +248,22 @@ export class PlanificadorComponent implements OnInit {
 
     
   };
+
+  cargarAlertasProductos():void{
+    this._planificador.listar_productos_invalidos().subscribe({
+      next:res=>{
+        this.lista_productos_invalidos = res
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err))
+      }
+    })
+  }
+
+  llamarMostrarPagina(id:number): void {
+    this.mostrarPaginaEvent.emit("Productos");
+  }
+
   resultado: string = '';
-  //resul: string = '';
-  //result2: string = '';
 
   submitted = false;
 
@@ -267,21 +289,6 @@ export class PlanificadorComponent implements OnInit {
         this.beneficiadosNoEscogidos=this.listaBeneficiados;
       }
     })
-    /*const message = "Está seguro de querer confirmar esta Orden?";
-
-    const dialogData = new ConfirmDialogModel("Confirmar Orden", message);
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result = dialogResult;
-    });
-    /*if(!this.result){
-      
-    }*/
   }
  
   rechazarOrden() {
@@ -304,23 +311,6 @@ export class PlanificadorComponent implements OnInit {
 
       }
     })
-    /*const message = "Está seguro de querer descartar esta Orden?";
-
-    const dialogData = new ConfirmDialogModel("Confirmar", message);
-
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      maxWidth: "400px",
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe(dialogResult => {
-      this.result2 = dialogResult;
-      if(dialogResult){
-        this.beneficiadosEscogidos=new Array();
-        this.beneficiadosNoEscogidos=this.listaBeneficiados;
-        
-      }
-    });*/
     
   }
   
@@ -337,6 +327,8 @@ export class PlanificadorComponent implements OnInit {
   @ViewChild(MatSort) sort!: MatSort;
 
   ngOnInit(): void {
+
+    this.cargarAlertasProductos()
     
     this.dataSource = new MatTableDataSource(this.datosPresentar);
     this.cdr.detectChanges();

@@ -4,210 +4,256 @@
         <h1 class="h3 mb-0 text-gray-800">GENERACIÓN DE ORDENES</h1>
     </div>
     <div class="row">
-        <div class="col-lg-12 mb-4">
-            <div class="card shadow mb-4">
-                <!-- Titulo Formulario -->
-                <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Cantidades</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Establecimientos</span>
-                                <span class="input-group-text form-control">{{numBeneficiados}}</span>
-                              </div>
+        <mat-stepper #stepper>
+            <mat-step label="Verificación" [editable]="false">
+                <div class="row">
+                    <div class="col-lg-12 mb-4" *ngIf="lista_productos_invalidos.length > 0">
+                        <div class="card shadow mb-4">
+                            <div class="card-header py-3 bg-secondary">
+                                <h6 class="m-0 font-weight-bold text-white">Actualizar estos productos para continuar</h6>
+                            </div>
+                            <div class="card-body" style="height: 300px; overflow-y: scroll;">
+                                <mat-list role="list">
+                                    <mat-list-item *ngFor="let producto of lista_productos_invalidos" role="listitem">
+                                       <span (click)="llamarMostrarPagina(producto.producto_id)" class="cursor">{{producto.producto_sku}}</span>
+                                       <span class="bg-warning mx-3 text-white">{{producto.producto_categoria_id == 26 ? " Sin Categoría Asignada" : ""}}</span>
+                                       <span  class="bg-warning text-white">{{producto.producto_peso == 0 ? " Sin Peso Asignado" : ""}}</span>
+                                    </mat-list-item>
+                                </mat-list>
+                            </div>
                         </div>
-                        <div class="col-md-3">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Requerido(kg)</span>
-                                <span class="input-group-text form-control">{{kgRequerido}}</span>
-                              </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="input-group mb-3">
-                                <span class="input-group-text">Personas</span>
-                                <span class="input-group-text form-control">{{numpersonas}}</span>
-                              </div>
+                    </div>
+                    <h3 *ngIf="lista_productos_invalidos.length == 0" class="text-dark">Datos de productos completos para generar la orden.</h3>
+                </div>                
+                
+              <div>
+                <button class="btn btn-success" [disabled]="lista_productos_invalidos.length > 0" matStepperNext>Continuar</button>
+              </div>
+            </mat-step>
+            <mat-step label="Generar">
+              <!--Contenido-->
+              <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow mb-4">
+                            <!-- Titulo Formulario -->
+                            <div class="card-header py-3 bg-secondary">
+                                <h6 class="m-0 font-weight-bold text-white">Cantidades</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Establecimientos</span>
+                                            <span class="input-group-text form-control">{{numBeneficiados}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Requerido(kg)</span>
+                                            <span class="input-group-text form-control">{{kgRequerido}}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="input-group mb-3">
+                                            <span class="input-group-text">Personas</span>
+                                            <span class="input-group-text form-control">{{numpersonas}}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-lg-12 mb-4">
+                        <div class="card shadow mb-4">
+                            <!-- Titulo Formulario -->
+                            <div class="card-header py-3 bg-secondary">
+                                <h6 class="m-0 font-weight-bold text-white">Confirmar Beneficiados</h6>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="card-header py-3 bg-secondary">
+                                            <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados</h6>
+                                        </div>
+                                        <div  *ngFor="let fundacion of beneficiadosNoEscogidos">
+                                            <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
+                                                <span class="btn-label" >
+                                                    <i class="glyphicon glyphicon-ok"></i>
+                                                </span>{{ fundacion.nombre_beneficiado }}
+                                            </button>
+                                            
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="card-header py-3 bg-secondary">
+                                            <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados seleccionados</h6>
+                                        </div>
+                                        <div  *ngFor="let fundacion of beneficiadosEscogidos">
+                                            <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
+                                                <span class="btn-label" >
+                                                    <i class="glyphicon glyphicon-ok"></i>
+                                                </span>{{ fundacion.nombre_beneficiado }}
+                                            </button>
+                                            
+                                        </div>
+                                    </div>
+                                    
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <!--Contenido sep 2-->
+              <div>
+                <button class="btn btn-success" (click)="enviar()" matStepperNext>Generar</button>
+              </div>
+            </mat-step>
+            <mat-step label="Resultados">
+              <!-- Contenido step 3 -->
+              <div class="row">
+                <div *ngIf="generaOrden && beneficiadosEscogidos.length>0">
+                    <div class="col-md-8 col-md-12">
+                        <div class="input-group mb-2">
+                            <div class="input-group-prepend">
+                                <button class="btn"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">tune</span></button>
+                                
+                                <div class="dropdown-menu" >
+                                    <a class="dropdown-item" *ngFor="let columna of listaColumnas">
+                                        <input type="checkbox" [ngModel]="selectedItems2.has(columna.id)" (change)="toggleSelection2(columna.id)">
+                                      {{ columna.nombre }}
+                                    </a>
+                                  </div>
+                                
+                            </div>
+                            <input type="text" class="form-control bg-light border-1 small shadow-lg bg-white rounded" 
+                                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                            
+                            
+                        </div>
+                        
+                        
+                    </div>
+                    
+                    <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                        <!-- Column -->
+                        <ng-container matColumnDef="InstitucionSocial">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Institución Social</th>
+                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"><a >{{element.InstitucionSocial}}</a></td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Ubicacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Ubicacion}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Caducidad">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Caducidad}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Codigo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Codigo}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Descripcion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                        </ng-container>
+                       
+                        <!-- Column -->
+                        <ng-container matColumnDef="Proveedor">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Proveedor}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Precio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Precio}} </td>
+                        </ng-container>
+        
+                        
+                        
+                       
+                        <!-- Column -->
+                        <ng-container matColumnDef="Cantidad" >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+                            <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
+                        </ng-container>
+                        
+                        <!-- Column -->
+                        <ng-container matColumnDef="FechaOrden" *ngIf="listaColumnas[8].mostrar">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Orden</th>
+                            <td mat-cell *matCellDef="let element"> {{element.FechaOrden}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Usuario" *ngIf="listaColumnas[9].mostrar">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
+                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"> {{element.Usuario}} </td>
+                        </ng-container>
+        
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div class="table_footer">
+                        <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                    </div>
+                    <div class="bGeneral">
+                        <div class="botones" style=" display: flex; align-items: center; justify-content: center ;">
+                        
+                            <button mat-button class="btn btn-success align-items-center" (click)="confirmDialog()" >
+                                Aceptar 
+                                
+                            </button> 
+                            
+                            <div style=" width: 5%;">
+                                
+                            </div>
+                            <button class="btn btn-danger align-items-center" (click)="rechazarOrden()">Rechazar</button>
+                       
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <a *ngIf="resultado" href="assets/document/Prueba.xlsx" download="Archivo-Prueba">
+                                <button mat-button class="btn btn-success align-items-center">
+                                    Descargar  
+                                    <i class="fa-solid fa-file-export"></i>
+                                    
+                                </button> 
+                            </a>
+                        </div>
+        
+                    </div>
+        
+                    
+                    
+                </div>
+                
+                <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
             </div>
-        </div>
+              <!-- Contenido step 3-->
+              <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
+              </div>
+            </mat-step>
+          
+          </mat-stepper>
     </div>
     
-    <div class="row">
-        <div class="col-lg-12 mb-4">
-            <div class="card shadow mb-4">
-                <!-- Titulo Formulario -->
-                <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Confirmar Beneficiados</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="card-header py-3 bg-secondary">
-                                <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados</h6>
-                            </div>
-                            <div  *ngFor="let fundacion of beneficiadosNoEscogidos">
-                                <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
-                                    <span class="btn-label" >
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    </span>{{ fundacion.nombre_beneficiado }}
-                                </button>
-                                
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card-header py-3 bg-secondary">
-                                <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados seleccionados</h6>
-                            </div>
-                            <div  *ngFor="let fundacion of beneficiadosEscogidos">
-                                <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
-                                    <span class="btn-label" >
-                                        <i class="glyphicon glyphicon-ok"></i>
-                                    </span>{{ fundacion.nombre_beneficiado }}
-                                </button>
-                                
-                            </div>
-                        </div>
-                        
-                        
-                    </div>
-                    <div class="col-md-3 mt-2">
-                        <button class="btn btn-success" (click)="enviar()">Generar orden alimentos</button>
-                      </div>
-                </div>
-            </div>
-        </div>
-    </div>
+    
+    
 
-    <div class="row">
-        <div *ngIf="generaOrden && beneficiadosEscogidos.length>0">
-            <div class="col-md-8 col-md-12">
-                <div class="input-group mb-2">
-                    <div class="input-group-prepend">
-                        <button class="btn"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="material-icons">tune</span></button>
-                        
-                        <div class="dropdown-menu" >
-                            <a class="dropdown-item" *ngFor="let columna of listaColumnas">
-                                <input type="checkbox" [ngModel]="selectedItems2.has(columna.id)" (change)="toggleSelection2(columna.id)">
-                              {{ columna.nombre }}
-                            </a>
-                          </div>
-                        
-                    </div>
-                    <input type="text" class="form-control bg-light border-1 small shadow-lg bg-white rounded" 
-                        placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
-                    
-                    
-                </div>
-                
-                
-            </div>
-            
-            <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
-                <!-- Column -->
-                <ng-container matColumnDef="InstitucionSocial">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Institución Social</th>
-                    <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"><a >{{element.InstitucionSocial}}</a></td>
-                </ng-container>
-
-                <!-- Column -->
-                <ng-container matColumnDef="Ubicacion">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Ubicacion}} </td>
-                </ng-container>
-
-                <!-- Column -->
-                <ng-container matColumnDef="Caducidad">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Caducidad}} </td>
-                </ng-container>
-
-                <!-- Column -->
-                <ng-container matColumnDef="Codigo">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Codigo}} </td>
-                </ng-container>
-
-                <!-- Column -->
-                <ng-container matColumnDef="Descripcion">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
-                </ng-container>
-               
-                <!-- Column -->
-                <ng-container matColumnDef="Proveedor">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Proveedor}} </td>
-                </ng-container>
-
-                <!-- Column -->
-                <ng-container matColumnDef="Precio">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Precio}} </td>
-                </ng-container>
-
-                
-                
-               
-                <!-- Column -->
-                <ng-container matColumnDef="Cantidad" >
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
-                    <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
-                </ng-container>
-                
-                <!-- Column -->
-                <ng-container matColumnDef="FechaOrden" *ngIf="listaColumnas[8].mostrar">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Orden</th>
-                    <td mat-cell *matCellDef="let element"> {{element.FechaOrden}} </td>
-                </ng-container>
-
-                <!-- Column -->
-                <ng-container matColumnDef="Usuario" *ngIf="listaColumnas[9].mostrar">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
-                    <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"> {{element.Usuario}} </td>
-                </ng-container>
-
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-            <div class="table_footer">
-                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
-            </div>
-            <div class="bGeneral">
-                <div class="botones" style=" display: flex; align-items: center; justify-content: center ;">
-                
-                    <button mat-button class="btn btn-success align-items-center" (click)="confirmDialog()" >
-                        Aceptar 
-                        
-                    </button> 
-                    
-                    <div style=" width: 5%;">
-                        
-                    </div>
-                    <button class="btn btn-danger align-items-center" (click)="rechazarOrden()">Rechazar</button>
-               
-                </div>
-                <div class="d-flex justify-content-end">
-                    <a *ngIf="resultado" href="assets/document/Prueba.xlsx" download="Archivo-Prueba">
-                        <button mat-button class="btn btn-success align-items-center">
-                            Descargar  
-                            <i class="fa-solid fa-file-export"></i>
-                            
-                        </button> 
-                    </a>
-                </div>
-
-            </div>
-
-            
-            
-        </div>
-        
-        <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
-    </div>
+    
 
 
 

@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 import { Title } from '@angular/platform-browser';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
+import { PlanificadorService } from 'src/app/servicios/planificador.service';
 
 
 @Component({
@@ -20,6 +21,7 @@ export class PrincipalComponent implements OnInit {
 
   isCollapsed = true;
   NombreUsuario = "";
+  lista_productos_invalidos:any[] = []; 
 
 
   //Paginas
@@ -53,16 +55,29 @@ export class PrincipalComponent implements OnInit {
 
   constructor(private router: Router,
     private titleService: Title,
-    private _util: UtilService, private _usuario: UsuarioService) { }
+    private _util: UtilService, private _usuario: UsuarioService, private _planificador: PlanificadorService) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Kairo');
     this.mostrarPagina(this._util.getPagina())
     this.NombreUsuario = this._util.getUserName()
+    this.cargarAlertasProductos()
     
   }
+
+  irAlProducto(id:number):void{
+    console.log(id)
+  }
   
-  
+  cargarAlertasProductos():void{
+    this._planificador.listar_productos_invalidos().subscribe({
+      next:res=>{
+        this.lista_productos_invalidos = res
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err))
+      }
+    })
+  }
 
   mostrarPagina(pagina: string): void {
     this._util.setPagina(pagina)
