@@ -67,7 +67,12 @@ export class PrincipalComponent implements OnInit {
 
   irAlProducto(id:number):void{
     this._util.setProducto(id)
-    this.mostrarPagina("Productos")
+    if(this.Paginas['Productos']){
+      window.location.reload();
+    }else{
+      this.mostrarPagina("Productos")
+    }
+    
   }
   
   cargarAlertasProductos():void{

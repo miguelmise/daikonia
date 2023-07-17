@@ -5,7 +5,7 @@
     </div>
     <div class="row">
         <mat-stepper #stepper >
-            <mat-step label="Verificación" [editable]="true">
+            <mat-step label="Verificación" [editable]="false">
                 <div class="row">
                     <div class="col-lg-12 mb-4" *ngIf="lista_productos_invalidos.length > 0">
                         <div class="card shadow mb-4">
@@ -30,7 +30,7 @@
                 <button class="btn btn-success" [disabled]="lista_productos_invalidos.length > 0" matStepperNext>Continuar</button>
               </div>
             </mat-step>
-            <mat-step label="Generar">
+            <mat-step label="Generar" [editable]="false">
               <!--Contenido-->
               <div class="row">
                     <div class="col-lg-12 mb-4">
