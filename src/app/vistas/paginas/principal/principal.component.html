@@ -250,7 +250,7 @@
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente  -->
-                <app-productos *ngIf="Paginas['Productos']"></app-productos>
+                <app-productos (cargarAlertas)="cargarAlertasProductos()" *ngIf="Paginas['Productos']"></app-productos>
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente -->

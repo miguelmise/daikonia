@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
   styleUrls: ['./productos.component.css']
 })
 export class ProductosComponent implements OnInit {
+
+  @Output() cargarAlertas = new EventEmitter();
 
   estados: any[] = [
     { valor: '1', etiqueta: "Activo" },
@@ -161,6 +163,7 @@ export class ProductosComponent implements OnInit {
                 }
                 
                 this.cargarListaProductos();
+                this.cargarAlertas.emit();
               },
               error: err=>{
                 this._util.alerta_error(JSON.stringify(err.error))
@@ -173,6 +176,7 @@ export class ProductosComponent implements OnInit {
                 this.cargarListaCategorias();
                 this.cargarListaProductos();
                 this.minimizarventana();
+                this.cargarAlertas.emit();
               },
               error: err=>{
                 this._util.alerta_error(JSON.stringify(err.error))
