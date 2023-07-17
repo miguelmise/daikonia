@@ -58,10 +58,17 @@ export class ProductosComponent implements OnInit {
 
   ngOnInit(): void {
     this.cargarListaCategorias();
-    this.cargarListaProductos();
-    
-    
-    
+    this.cargarListaProductos();  
+      
+  }
+
+  
+
+  producto_cookie():void{
+    const productoId = this._util.getProducto()
+    if(productoId != '404'){
+      this.verProductoData(parseInt(productoId))
+    }
   }
 
   cargarListaProductos():void{
@@ -72,6 +79,7 @@ export class ProductosComponent implements OnInit {
         this.cdr.detectChanges();
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.producto_cookie()
       },
       error: err=>{
         this._util.alerta_error(JSON.stringify(err));

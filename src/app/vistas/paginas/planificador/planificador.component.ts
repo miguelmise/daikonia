@@ -260,6 +260,7 @@ export class PlanificadorComponent implements OnInit {
   }
 
   llamarMostrarPagina(id:number): void {
+    this._util.setProducto(id)
     this.mostrarPaginaEvent.emit("Productos");
   }
 

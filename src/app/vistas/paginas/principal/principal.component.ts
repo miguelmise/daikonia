@@ -66,7 +66,8 @@ export class PrincipalComponent implements OnInit {
   }
 
   irAlProducto(id:number):void{
-    console.log(id)
+    this._util.setProducto(id)
+    this.mostrarPagina("Productos")
   }
   
   cargarAlertasProductos():void{
