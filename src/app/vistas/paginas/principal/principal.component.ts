@@ -64,6 +64,7 @@ export class PrincipalComponent implements OnInit {
     this.cargarAlertasProductos()
     
   }
+  
 
   irAlProducto(id:number):void{
     this._util.setProducto(id)

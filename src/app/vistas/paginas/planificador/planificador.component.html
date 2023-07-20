@@ -110,6 +110,7 @@
             <!--Contenido sep 2-->
               <div>
                 <button class="btn btn-success" (click)="enviar()" matStepperNext>Generar</button>
+                <button mat-button (click)="stepper.reset()">Reset</button>
               </div>
             </mat-step>
             <mat-step label="Resultados">

@@ -172,7 +172,11 @@ export class ProductosComponent implements OnInit {
           }else{
             this._producto.nuevo_producto(this.registerForm.value).subscribe({
               next:res=>{
-                this._util.alerta_success(res.mensaje)
+                if(res.mensaje){
+                  this._util.alerta_success(res.mensaje)
+                }else{
+                  this._util.alerta_info(JSON.stringify(res))
+                }
                 this.cargarListaCategorias();
                 this.cargarListaProductos();
                 this.minimizarventana();

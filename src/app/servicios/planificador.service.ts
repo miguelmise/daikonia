@@ -13,6 +13,7 @@ export class PlanificadorService {
   constructor(private http:HttpClient) { }
 
   listar_productos_invalidos():Observable<any>{
-    return this.http.get<any>(this.url + "planificador_ws.php",{});
+    const params = new HttpParams().set('parametro', 'productos');
+    return this.http.get<any>(this.url + "planificador_ws.php",{params});
   }
 }

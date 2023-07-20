@@ -20,18 +20,20 @@ export class BeneficiadosComponent implements OnInit {
   listaCatPersonas: any[] = [];
 
   periocidad: any[] = [
-    {valor: "Semanal", etiqueta: "Semanal"},
-    {valor: "Quincenal", etiqueta: "Quincenal"},
-    {valor: "Mensual", etiqueta: "Mensual"},
-    {valor: "Diario", etiqueta: "Diario"}
+    {valor: 7, etiqueta: "Semanal"},
+    {valor: 15, etiqueta: "Quincenal"},
+    {valor: 30, etiqueta: "Mensual"},
+    {valor: 1, etiqueta: "Diario"},
+    {valor: 90, etiqueta: "Trimestral"}
   ]
 
   dias: any[] = [
-    {valor: "Lunes", etiqueta: "Lunes"},
-    {valor: "Martes", etiqueta: "Martes"},
-    {valor: "Miercoles", etiqueta: "Miércoles"},
-    {valor: "Jueves", etiqueta: "Jueves"},
-    {valor: "Viernes", etiqueta: "Viernes"}
+    {valor: "Monday", etiqueta: "Lunes"},
+    {valor: "Tuesday", etiqueta: "Martes"},
+    {valor: "Wednesday", etiqueta: "Miércoles"},
+    {valor: "Thursday", etiqueta: "Jueves"},
+    {valor: "Friday", etiqueta: "Viernes"},
+    {valor: "Saturday", etiqueta: "Sábado"}
   ]
 
   estados: any[] = [
