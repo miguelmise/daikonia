@@ -6,6 +6,7 @@ import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
+import {Product} from 'src/app/interfaces/interfaces'
 
 
 
@@ -20,56 +21,16 @@ import { PlanificadorService } from 'src/app/servicios/planificador.service';
 })
 export class PlanificadorComponent implements OnInit {
 
+
   @Output() mostrarPaginaEvent = new EventEmitter();
 
   lista_productos_invalidos:any[] = [];
 
-  listaBeneficiados: any[] = [
-    {
-      id: 1,
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'JUEVES',
-      nombre_beneficiado: 'Ciudadela Reeducativa Sembradores De Vida',
-      numero_personas: 300,
-      tipo_actividad: 'Comedor',
-      edad_promedio_beneficiados: 25,
-      alimento_requerido: 1500,
-      generar:1
-    },
-    {
-      id: 12,
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'VIERNES',
-      nombre_beneficiado: 'Fundación Puro Corazón',
-      numero_personas: 111,
-      tipo_actividad: 'Comedor',
-      edad_promedio_beneficiados: 15,
-      alimento_requerido: 800,
-      generar:1
-    },
-    {
-      id: 13,
-      periodo_asignacion: 'SEMANAL',
-      dia_asignacion: 'LUNES',
-      nombre_beneficiado: 'Fundación Caminando Juntos por el Cambio Sira Macias',
-      numero_personas: 40,
-      tipo_actividad: 'Entrega de Víveres',
-      edad_promedio_beneficiados: 50,
-      alimento_requerido: 220,
-      generar:1
-    },
-    {
-      id: 14,
-      periodo_asignacion: 'QUINCENAL',
-      dia_asignacion: 'MARTES',
-      nombre_beneficiado: 'Iglesia del Nazareno Jesús La Esperanza',
-      numero_personas: 15,
-      tipo_actividad: 'Entrega de Víveres',
-      edad_promedio_beneficiados: 32,
-      alimento_requerido: 30,
-      generar:1
-    }
-  ]
+  lista_beneficiados: any[] = []
+
+  lista_stock: any[] = []
+
+  lista_stock_requerido: any[] = []
 
   listaColumnas: any[] = [
     {
@@ -195,15 +156,149 @@ export class PlanificadorComponent implements OnInit {
       agrega:false
     }
   ];
-  listaInventarios : any[] = [
-    '2023-05-05','2023-05-29','2023-05-30'
-  ]
 
   displayedColumns: Set<string> = new Set<string>(); 
   selectedItems2: Set<number> = new Set<number>();
   dataSource!: MatTableDataSource<any>;
   registerForm: FormGroup;
   generaOrden=false;
+
+  selectedItems: Set<number> = new Set<number>();
+  //numBeneficiados: number = 0;
+  //numpersonas: number = 0;
+  //kgRequerido: number = 0;
+  datosPresentar =new Array();
+  beneficiadosEscogidos =new Array();
+  beneficiadosNoEscogidos=new Array();
+  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService, private _planificador: PlanificadorService) { 
+    this.registerForm = this.formBuilder.group({
+      
+    });
+    
+  };
+
+  ngOnInit(): void {
+
+    this.cargarAlertasProductos()
+    this.cargarListaBeneficiados()
+    this.cargarListaStock()
+    
+    
+    this.dataSource = new MatTableDataSource(this.datosPresentar);
+    this.cdr.detectChanges();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    //this.beneficiadosNoEscogidos=this.listaBeneficiados;
+    for (const columna of this.listaColumnas) {
+      if (columna.mostrar){
+        this.displayedColumns.add(columna.col);
+      }
+
+    }
+  };
+
+  cargarAlertasProductos():void{
+    this._planificador.listar_productos_invalidos().subscribe({
+      next:res=>{
+        this.lista_productos_invalidos = res
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err))
+      }
+    })
+  }
+
+  cargarListaStock(): void {
+    this._planificador.listar_existencias().subscribe({
+      next: res => {
+        this.lista_stock = res
+        console.log(this.lista_stock);
+      },
+      error: err => {
+        this._util.alerta_error(JSON.stringify(err));
+      }
+    });
+  }
+
+  cargarListaBeneficiados():void{
+    this._planificador.listar_beneficiados().subscribe({
+      next:res=>{
+        this.lista_beneficiados = res
+        this.beneficiadosNoEscogidos = this.lista_beneficiados
+        console.log(this.lista_beneficiados)
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err))
+      }
+    })
+  }
+  
+  cargarListaRequerido(datos: any[]){
+    const categorias: { [key: number]: Product } = {};
+    
+    datos.forEach((beneficiado: any) => {
+      beneficiado.productos.forEach((producto: any) => {
+        const { cat_pro_id, cat_pro_nombre, suma } = producto;
+  
+        if (categorias[cat_pro_id]) {
+          categorias[cat_pro_id].suma += suma;
+        } else {
+          categorias[cat_pro_id] = {
+            cat_pro_id,
+            cat_pro_nombre,
+            suma,
+          };
+        }
+      });
+    });
+  
+    const resultado: Product[] = Object.values(categorias);
+    console.log(resultado)
+    this.lista_stock_requerido = resultado
+  }
+  
+  verificarCantidades(producto:Product):number{
+    var respuesta = producto.suma;
+    this.lista_stock.forEach((pro:any) => {
+      if(pro.cat_pro_id == producto.cat_pro_id){
+        if(pro.suma < producto.suma){
+          respuesta = producto.suma - pro.suma
+        }else{
+          respuesta = 0
+        }
+      }
+    });
+    return respuesta
+  }
+
+  llamarMostrarPagina(id:number): void {
+    this._util.setProducto(id)
+    this.mostrarPaginaEvent.emit("Productos");
+  }
+
+seleccionarTodosBeneficiados(): void {
+  this.selectedItems = new Set<number>();
+  this.beneficiadosEscogidos = [];
+  this.beneficiadosNoEscogidos = [...this.lista_beneficiados]; // Copia de todos los beneficiados
+
+  for (const beneficiado of this.lista_beneficiados) {
+    this.selectedItems.add(beneficiado.beneficiado_id);
+    this.beneficiadosEscogidos.push(beneficiado);
+  }
+
+  this.cargarListaRequerido(this.beneficiadosEscogidos);
+}
+
+seleccionarNingunoBeneficiados(): void {
+  this.selectedItems = new Set<number>();
+  this.beneficiadosEscogidos = [];
+  this.beneficiadosNoEscogidos = [...this.lista_beneficiados]; // Copia de todos los beneficiados
+
+  this.cargarListaRequerido(this.beneficiadosEscogidos);
+}
+
 
   toggleSelection2(id: number) {
     if (this.selectedItems2.has(id)) {
@@ -238,35 +333,9 @@ export class PlanificadorComponent implements OnInit {
     
   };
 
-  
-
-  constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService, private _planificador: PlanificadorService) { 
-    this.registerForm = this.formBuilder.group({
-      
-    });
-    
-
-    
-  };
-
-  cargarAlertasProductos():void{
-    this._planificador.listar_productos_invalidos().subscribe({
-      next:res=>{
-        this.lista_productos_invalidos = res
-      },error:err=>{
-        this._util.alerta_error(JSON.stringify(err))
-      }
-    })
-  }
-
-  llamarMostrarPagina(id:number): void {
-    this._util.setProducto(id)
-    this.mostrarPaginaEvent.emit("Productos");
-  }
-
   resultado: string = '';
 
-  submitted = false;
+
 
   confirmDialog() {
     Swal.fire({
@@ -280,14 +349,13 @@ export class PlanificadorComponent implements OnInit {
       toast:true
     }).then((result)=>{
       if(result.value){
-        this.submitted = true;
          this.resultado="true"; 
           console.log("Estoy aceptando");
           //aqui va lo que pasa si dan click en aceptar
       }else{
         console.log("No Estoy aceptando");
         this.beneficiadosEscogidos=new Array();
-        this.beneficiadosNoEscogidos=this.listaBeneficiados;
+        //this.beneficiadosNoEscogidos=this.listaBeneficiados;
       }
     })
   }
@@ -304,45 +372,16 @@ export class PlanificadorComponent implements OnInit {
       toast:true
     }).then((result)=>{
       if(result.value){
-        this.submitted = true;
          this.resultado="true"; 
           console.log("Estoy aceptando Rechazar");
           this.beneficiadosEscogidos=new Array();
-          this.beneficiadosNoEscogidos=this.listaBeneficiados;
+          //this.beneficiadosNoEscogidos=this.listaBeneficiados;
 
       }
     })
     
   }
   
-  
-  selectedItems: Set<number> = new Set<number>();
-  numBeneficiados: number = 0;
-  numpersonas: number = 0;
-  kgRequerido: number = 0;
-  datosPresentar =new Array();
-  beneficiadosEscogidos =new Array();
-  beneficiadosNoEscogidos=new Array();
-  
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
-
-  ngOnInit(): void {
-
-    this.cargarAlertasProductos()
-    
-    this.dataSource = new MatTableDataSource(this.datosPresentar);
-    this.cdr.detectChanges();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    this.beneficiadosNoEscogidos=this.listaBeneficiados;
-    for (const columna of this.listaColumnas) {
-      if (columna.mostrar){
-        this.displayedColumns.add(columna.col);
-      }
-
-    }
-  };
 
   toggleSelection(id: number) {
     this.beneficiadosEscogidos=new Array();
@@ -354,17 +393,12 @@ export class PlanificadorComponent implements OnInit {
       this.selectedItems.add(id);
     }
 
-    this.numBeneficiados =  this.selectedItems.size;
 
-    this.numpersonas = 0;
-    this.kgRequerido = 0;
-
-  for (const beneficiado of this.listaBeneficiados) {
-    if (this.selectedItems.has(beneficiado.id)) {
+  for (const beneficiado of this.lista_beneficiados) {
+    if (this.selectedItems.has(beneficiado.beneficiado_id)) {
       this.beneficiadosEscogidos.push(beneficiado);
       //this.beneficiadosNoEscogidos=this.listaBeneficiados.filter((item) => item.id !== beneficiado.id);
-      this.numpersonas += beneficiado.numero_personas;
-      this.kgRequerido += beneficiado.alimento_requerido;
+
     }
     else{
       this.beneficiadosNoEscogidos.push(beneficiado);
@@ -374,18 +408,15 @@ export class PlanificadorComponent implements OnInit {
   this.beneficiadosNoEscogidos = this.beneficiadosNoEscogidos.filter((item,index)=>{
     return this.beneficiadosNoEscogidos.indexOf(item) === index;
   })
-  console.log("empieza");
-  console.log("no"+this.beneficiadosNoEscogidos.length);
-  console.log("si"+this.beneficiadosEscogidos.length);
-  console.log("bene"+this.listaBeneficiados.length);
 
+  this.cargarListaRequerido(this.beneficiadosEscogidos)
 
   };
 
   enviar() {
     // Lógica para enviar los IDs seleccionados
     this.datosPresentar =new Array();
-    console.log(Array.from(this.selectedItems));
+    console.log(this.beneficiadosEscogidos)
     for(const genera of this.datos){
       if (this.selectedItems.has(genera.id)) {
         this.datosPresentar.push(genera);

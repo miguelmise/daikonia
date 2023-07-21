@@ -34,34 +34,45 @@
               <!--Contenido-->
               <div class="row">
                     <div class="col-lg-12 mb-4">
-                        <div class="card shadow mb-4">
-                            <!-- Titulo Formulario -->
-                            <div class="card-header py-3 bg-secondary">
-                                <h6 class="m-0 font-weight-bold text-white">Cantidades</h6>
-                            </div>
-                            <div class="card-body">
+                            
                                 <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">Establecimientos</span>
-                                            <span class="input-group-text form-control">{{numBeneficiados}}</span>
+                                    
+                                    <div class="col-md-6">
+                                        <div class="card shadow mb-3">
+                                            <div class="card-header bg-secondary">
+                                                <h6 class="m-0 font-weight-bold text-white">Productos Disponibles (GR)</h6>
+                                            </div>
+                                            <div class="card-body" style="height: 280px; overflow-y: scroll;">
+                                                <mat-list role="list">
+                                                    <mat-list-item *ngFor="let producto of lista_stock" role="listitem">
+                                                      <span>{{producto.cat_pro_nombre}} : {{producto.suma}}</span>
+                                                    </mat-list-item>
+                                                  </mat-list>
+                                            </div>
                                         </div>
+                                        
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">Requerido(kg)</span>
-                                            <span class="input-group-text form-control">{{kgRequerido}}</span>
+                                    <div class="col-md-6">
+                                        <div class="card shadow mb-3">
+                                            <div class="card-header bg-secondary">
+                                                <h6 class="m-0 font-weight-bold text-white">Productos Requeridos para Orden (GR)</h6>
+                                            </div>
+                                            <div class="card-body" style="height: 280px; overflow-y: scroll;">
+                                                <mat-list role="list">
+                                                    <mat-list-item *ngFor="let producto of lista_stock_requerido" role="listitem">
+                                                      <span>{{producto.cat_pro_nombre}} : {{producto.suma}} <span class="text-danger" *ngIf="verificarCantidades(producto)>0">Insuficiente</span></span>
+                                                    </mat-list-item>
+                                                  </mat-list>
+                                            </div>
                                         </div>
+                                        
                                     </div>
-                                    <div class="col-md-3">
-                                        <div class="input-group mb-3">
-                                            <span class="input-group-text">Personas</span>
-                                            <span class="input-group-text form-control">{{numpersonas}}</span>
-                                        </div>
-                                    </div>
+                                    
+                                    
                                 </div>
-                            </div>
-                        </div>
+                                
+                            
+                        
                     </div>
                 </div>
 
@@ -70,32 +81,36 @@
                         <div class="card shadow mb-4">
                             <!-- Titulo Formulario -->
                             <div class="card-header py-3 bg-secondary">
-                                <h6 class="m-0 font-weight-bold text-white">Confirmar Beneficiados</h6>
+                                <h6 class="m-0 font-weight-bold text-white">Seleccionar Instituciones</h6>
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <div class="card-header py-3 bg-secondary">
-                                            <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados</h6>
+                                            <h6 class="m-0 font-weight-bold text-white text-center">No Seleccionados</h6>
                                         </div>
                                         <div  *ngFor="let fundacion of beneficiadosNoEscogidos">
-                                            <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
+                                            <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
                                                 <span class="btn-label" >
                                                     <i class="glyphicon glyphicon-ok"></i>
-                                                </span>{{ fundacion.nombre_beneficiado }}
+                                                </span>{{ fundacion.beneficiado_nombre }}
                                             </button>
                                             
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-2 d-flex justify-content-center align-items-center flex-column">
+                                        <button class="my-1" (click)="seleccionarTodosBeneficiados()">{{'>>'}}</button>
+                                        <button class="my-1" (click)="seleccionarNingunoBeneficiados()">{{'<<'}}</button>
+                                    </div>
+                                    <div class="col-md-5">
                                         <div class="card-header py-3 bg-secondary">
-                                            <h6 class="m-0 font-weight-bold text-white text-center">Beneficiados seleccionados</h6>
+                                            <h6 class="m-0 font-weight-bold text-white text-center">Seleccionados</h6>
                                         </div>
                                         <div  *ngFor="let fundacion of beneficiadosEscogidos">
-                                            <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.id); toggleSelection(fundacion.id)">
+                                            <button type="button" class="BeneficiadoBoton" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
                                                 <span class="btn-label" >
                                                     <i class="glyphicon glyphicon-ok"></i>
-                                                </span>{{ fundacion.nombre_beneficiado }}
+                                                </span>{{ fundacion.beneficiado_nombre }}
                                             </button>
                                             
                                         </div>
@@ -110,7 +125,7 @@
             <!--Contenido sep 2-->
               <div>
                 <button class="btn btn-success" (click)="enviar()" matStepperNext>Generar</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+                <button class="btn btn-warning mx-3" (click)="stepper.reset()">Reiniciar Proceso</button>
               </div>
             </mat-step>
             <mat-step label="Resultados">

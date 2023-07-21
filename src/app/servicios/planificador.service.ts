@@ -16,4 +16,16 @@ export class PlanificadorService {
     const params = new HttpParams().set('parametro', 'productos');
     return this.http.get<any>(this.url + "planificador_ws.php",{params});
   }
+
+  listar_beneficiados():Observable<any>{
+    const params = new HttpParams().set('parametro', 'beneficiados');
+    return this.http.get<any>(this.url + "planificador_ws.php",{params});
+  }
+
+  listar_existencias():Observable<any>{
+    const params = new HttpParams().set('parametro', 'existencias');
+    return this.http.get<any>(this.url + "planificador_ws.php",{params});
+  }
+
+
 }
