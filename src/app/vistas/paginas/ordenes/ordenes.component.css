@@ -1,0 +1,27 @@
+.mat-table {
+    background-color: white; /* Cambia el fondo a blanco */
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+.mat-table td{
+    color: gray; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+  }
+
+  .mat-table th {
+    color: white; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    font-weight: bold;
+    background-color:#006e8c;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+  }
+
+#eye{
+    background-color: white; /* Cambia el fondo a blanco */
+}
+
+table {
+    width: 100%;
+  }

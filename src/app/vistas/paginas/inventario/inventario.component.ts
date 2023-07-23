@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild,Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort,Sort  } from '@angular/material/sort';
@@ -17,6 +17,7 @@ import { InventarioService } from 'src/app/servicios/inventario.service';
 export class InventarioComponent implements OnInit {
 
   @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
+  @Output() cargarAlertas = new EventEmitter();
 
   listaColumnas: any[] = [
     {
@@ -261,7 +262,7 @@ export class InventarioComponent implements OnInit {
                     confirmButtonColor: '#006e8c',
                     toast:true
                   })
-    
+                  this.cargarAlertas.emit();
                   this.cargarTablaInventario()
                   this.fileInputRef.nativeElement.value = '';
                 }else if(res.error){

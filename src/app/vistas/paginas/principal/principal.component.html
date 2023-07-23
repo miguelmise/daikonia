@@ -128,12 +128,21 @@
             </li>
 
 
-            <!-- Nav Item - Tables -->
+            <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link" >
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrdenes"
+                    aria-expanded="true" aria-controls="collapseOrdenes">
                     <i class="bi bi-graph-up"></i>
-                    <span class="fs-6">Reportes</span></a>
+                    <span class="fs-6">Reportes</span>
+                </a>
+                <div id="collapseOrdenes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <h6 class="collapse-header">Resultados:</h6>
+                        <a class="collapse-item" (click)="mostrarPagina('Ordenes')">Órdenes</a>
+                    </div>
+                </div>
             </li>
+
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">  
@@ -153,54 +162,19 @@
                         <i class="fa fa-bars"></i>
                     </button>
 
-                    <!-- Topbar Search 
-                    <form
-                        class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-                        <div class="input-group">
-                            <input type="text" class="form-control bg-light border-0 small" placeholder="Buscar..."
-                                aria-label="Search" aria-describedby="basic-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-secondary" type="button">
-                                    <i class="fas fa-search fa-sm"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>-->
+                    
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
 
-                        
-
-                        <!-- Nav Item - Alerts -->
-                        <li *ngIf="lista_productos_invalidos.length>0" class="nav-item dropdown no-arrow mx-1">
-                            <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button"
-                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fas fa-bell fa-fw text-warning"></i>
-                                <!-- Counter - Alerts -->
+                        <li *ngIf="lista_productos_invalidos.length>0" class="nav-item dropdown no-arrow mx-1 mt-2">
+                            <div class="alert alert-warning" id="alerta" role="alert" (click)="mostrarPagina('Productos')">
+                                Hay productos con información incompleta!
                                 <span class="badge badge-secondary badge-counter">{{lista_productos_invalidos.length}}+</span>
-                            </a>
-                            <!-- Dropdown - Alerts -->
-                            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                                aria-labelledby="alertsDropdown">
-                                <h6 class="dropdown-header" style="background-color: #858796; border-color: white;">
-                                    Alertas
-                                </h6>
-                                <a *ngFor="let producto of lista_productos_invalidos" class="dropdown-item d-flex align-items-center">
-                                    <div class="mr-3">
-                                        <div class="icon-circle bg-warning">
-                                            <i class="fa fa-warning text-white"></i>
-                                        </div>
-                                    </div>
-                                    <div (click)="irAlProducto(producto.producto_id)">
-                                        <div class="small text-gray-900">Producto Còdigo: {{producto.producto_codigo}}</div>
-                                        <span class="font-weight-bold">{{producto.producto_categoria_id == 26 ? "Sin Categoria" : ""}} </span>
-                                        <span class="font-weight-bold">{{producto.producto_peso == 0 ? "Sin Peso" : ""}}</span>
-                                    </div>
-                                </a>
-                                <a class="dropdown-item text-center small text-gray-900">{{lista_productos_invalidos.length}} alertas</a>
-                            </div>
+                              </div>
                         </li>
+
+                        
 
                         
 
@@ -254,7 +228,7 @@
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente -->
-                <app-inventario *ngIf="Paginas['Inventario']"></app-inventario>
+                <app-inventario (cargarAlertas)="cargarAlertasProductos()" *ngIf="Paginas['Inventario']"></app-inventario>
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente -->
@@ -267,6 +241,10 @@
 
                 <!-- Renderizar componente -->
                 <app-categorias *ngIf="Paginas['Categoria']"></app-categorias>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-ordenes *ngIf="Paginas['Ordenes']"></app-ordenes>
                 <!-- /.container-fluid -->
                 
 

@@ -27,5 +27,27 @@ export class PlanificadorService {
     return this.http.get<any>(this.url + "planificador_ws.php",{params});
   }
 
+  listar_ordenes():Observable<any>{
+    const params = new HttpParams().set('parametro', 'ordenes');
+    return this.http.get<any>(this.url + "planificador_ws.php",{params});
+  }
+
+  generarOrdenAlimentos(data:any):Observable<any>{
+    return this.http.post<any>(this.url + "planificador_ws.php",data);
+  }
+
+  obtener_orden(data:any):Observable<any>{
+    const params = new HttpParams().set('parametro', data);
+    return this.http.get<any>(this.url + "planificador_ws.php",{params});
+  }
+
+  cancelar_orden():Observable<any>{
+    return this.http.put<any>(this.url + "planificador_ws.php",null,{});
+  }
+
+  confirmarOrden(data:any):Observable<any>{
+    const params = new HttpParams().set('parametro', data);
+    return this.http.put<any>(this.url + "planificador_ws.php",null,{params});
+  }
 
 }

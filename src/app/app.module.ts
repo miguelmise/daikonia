@@ -33,6 +33,7 @@ import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
 import { CategoriasComponent } from './vistas/paginas/categorias/categorias.component';
 import { CategoriaProductoComponent } from './vistas/paginas/categorias/categoria-producto/categoria-producto.component';
+import { OrdenesComponent } from './vistas/paginas/ordenes/ordenes.component';
 
 
 @NgModule({
@@ -49,7 +50,8 @@ import { CategoriaProductoComponent } from './vistas/paginas/categorias/categori
     ReglasComponent,
     PlanificadorComponent,
     CategoriasComponent,
-    CategoriaProductoComponent
+    CategoriaProductoComponent,
+    OrdenesComponent
   ],
   imports: [
     BrowserModule,

@@ -39,6 +39,19 @@ table {
     color: #006e8c;
   }
 
+  .btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+    color: #fff;
+    background-color: #2653d4;
+    border-color: #244ec9
+}
+
+.btn-warning:not(:disabled):not(.disabled).active:focus,
+.btn-warning:not(:disabled):not(.disabled):active:focus,
+.show>.btn-warning.dropdown-toggle:focus {
+    box-shadow: 0 0 0 .2rem rgba(247, 203, 91, .5)
+}
 
   
   

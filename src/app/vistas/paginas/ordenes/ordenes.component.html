@@ -1,0 +1,145 @@
+<div class="container-fluid">
+
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">REPORTES / ÓRDENES</h1>
+    </div>
+
+    <!-- Content Row -->
+    <div class="row">
+        <div class="col-lg-4 mb-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">Listado Órdenes</h6>
+                </div>
+                <div class="card-body">
+                    <div *ngIf="listaOrdenes.length>0">
+                        <div class="mb-2 ">
+                            <input type="text" class="form-control bg-light border-1 small shadow-lg p-3 bg-white rounded" 
+                            placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
+                        </div>
+                        <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                            <!-- Column -->
+                            <ng-container matColumnDef="ordenNumero">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Número Órden</th>
+                                <td mat-cell *matCellDef="let element"><a (click)="cargarOrden(element.orden_codigo)">{{element.orden_codigo}}</a></td>
+                              </ng-container>
+
+                              <!-- Column -->
+                            <ng-container matColumnDef="fecha">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha Emisión</th>
+                                <td mat-cell *matCellDef="let element"> {{element.orden_fecha_emision}} </td>
+                              </ng-container>
+
+                              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        </table>
+                        <div class="table_footer">
+                            <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                          </div>
+                    </div>
+                    <h3 *ngIf="listaOrdenes.length==0" class="text-dark">No hay Órdenes para mostrar</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 mb-4" *ngIf="ordenAlimentos.length>0">
+            <div class="card shadow mb-4">
+                <div class="card-body">
+                    <table mat-table [dataSource]="dataSource2" matSort matSortActive="created">
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_beneficiado_nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Institución Social</th>
+                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"><a >{{element.orden_beneficiado_nombre}}</a></td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_producto_ubicacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_ubicacion}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_producto_caducidad">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_caducidad}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_producto_codigo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_codigo}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_producto_descripcion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_descripcion}} </td>
+                        </ng-container>
+                       
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_proveedor_nombre">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_proveedor_nombre}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_producto_precio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_precio}} </td>
+                        </ng-container>
+                       
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_producto_cantidad" >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_cantidad}} </td>
+                        </ng-container>
+                        
+                        <!-- Column -->
+                        <ng-container matColumnDef="orden_fecha_emision">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Orden</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_fecha_emision}} </td>
+                        </ng-container>
+        
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    
+
+    <!-- Content Row -->
+    <div class="row">
+
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+
+            <!-- Card  
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">BENEFICIARIOS</h6>
+                </div>
+                <div class="card-body">
+                    
+                </div>
+            </div>-->
+
+            
+
+        </div>
+
+        <div class="col-lg-6 mb-4">
+
+            
+
+
+        </div>
+    </div>
+
+</div>
+

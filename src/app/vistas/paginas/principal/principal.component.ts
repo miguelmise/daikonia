@@ -34,10 +34,11 @@ export class PrincipalComponent implements OnInit {
     Inventario: false,
     Reglas: false,
     Planificador: false,
-    Categoria:false
+    Categoria:false,
+    Ordenes:false
   };
 
-  private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios'];
+  private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios','collapseOrdenes'];
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {
@@ -66,15 +67,7 @@ export class PrincipalComponent implements OnInit {
   }
   
 
-  irAlProducto(id:number):void{
-    this._util.setProducto(id)
-    if(this.Paginas['Productos']){
-      window.location.reload();
-    }else{
-      this.mostrarPagina("Productos")
-    }
-    
-  }
+  
   
   cargarAlertasProductos():void{
     this._planificador.listar_productos_invalidos().subscribe({

@@ -4,7 +4,7 @@
         <h1 class="h3 mb-0 text-gray-800">GENERACIÓN DE ORDENES</h1>
     </div>
     <div class="row">
-        <mat-stepper #stepper >
+        <mat-stepper #stepper [linear]="true">
             <mat-step label="Verificación" [editable]="false">
                 <div class="row">
                     <div class="col-lg-12 mb-4" *ngIf="lista_productos_invalidos.length > 0">
@@ -42,7 +42,7 @@
                                             <div class="card-header bg-secondary">
                                                 <h6 class="m-0 font-weight-bold text-white">Productos Disponibles (GR)</h6>
                                             </div>
-                                            <div class="card-body" style="height: 280px; overflow-y: scroll;">
+                                            <div class="card-body" style="height: 230px; overflow-y: scroll;">
                                                 <mat-list role="list">
                                                     <mat-list-item *ngFor="let producto of lista_stock" role="listitem">
                                                       <span>{{producto.cat_pro_nombre}} : {{producto.suma}}</span>
@@ -57,7 +57,7 @@
                                             <div class="card-header bg-secondary">
                                                 <h6 class="m-0 font-weight-bold text-white">Productos Requeridos para Orden (GR)</h6>
                                             </div>
-                                            <div class="card-body" style="height: 280px; overflow-y: scroll;">
+                                            <div class="card-body" style="height: 230px; overflow-y: scroll;">
                                                 <mat-list role="list">
                                                     <mat-list-item *ngFor="let producto of lista_stock_requerido" role="listitem">
                                                       <span>{{producto.cat_pro_nombre}} : {{producto.suma}} <span class="text-danger" *ngIf="verificarCantidades(producto)>0">Insuficiente</span></span>
@@ -124,14 +124,14 @@
                 </div>
             <!--Contenido sep 2-->
               <div>
-                <button class="btn btn-success" (click)="enviar()" matStepperNext>Generar</button>
-                <button class="btn btn-warning mx-3" (click)="stepper.reset()">Reiniciar Proceso</button>
+                <button class="btn btn-success" [disabled]="beneficiadosEscogidos.length < 1" (click)="enviar()">Generar</button>
+                <button class="btn btn-warning mx-3" (click)="reset()">Reiniciar Proceso</button>
               </div>
             </mat-step>
-            <mat-step label="Resultados">
+            <mat-step label="Resultados" [editable]="false">
               <!-- Contenido step 3 -->
               <div class="row">
-                <div *ngIf="generaOrden && beneficiadosEscogidos.length>0">
+                <div *ngIf="lista_orden.length>0">
                     <div class="col-md-8 col-md-12">
                         <div class="input-group mb-2">
                             <div class="input-group-prepend">
@@ -146,120 +146,92 @@
                                 
                             </div>
                             <input type="text" class="form-control bg-light border-1 small shadow-lg bg-white rounded" 
-                                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">
-                            
-                            
+                                placeholder="Buscar..." aria-label="Search" (keyup)="applyFilter($event)">  
                         </div>
                         
                         
                     </div>
                     
-                    <table mat-table [dataSource]="dataSource" matSort matSortActive="created">
+                    <table mat-table [dataSource]="dataSource" matSort matSortActive="created" matTableExporter #exporter="matTableExporter">
                         <!-- Column -->
                         <ng-container matColumnDef="InstitucionSocial">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header>Institución Social</th>
-                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"><a >{{element.InstitucionSocial}}</a></td>
+                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"><a >{{element.orden_beneficiado_nombre}}</a></td>
                         </ng-container>
         
                         <!-- Column -->
                         <ng-container matColumnDef="Ubicacion">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Ubicacion}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_ubicacion}} </td>
                         </ng-container>
         
                         <!-- Column -->
                         <ng-container matColumnDef="Caducidad">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Caducidad}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_caducidad}} </td>
                         </ng-container>
         
                         <!-- Column -->
                         <ng-container matColumnDef="Codigo">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Codigo}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_codigo}} </td>
                         </ng-container>
         
                         <!-- Column -->
                         <ng-container matColumnDef="Descripcion">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Descripcion}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_descripcion}} </td>
                         </ng-container>
                        
                         <!-- Column -->
                         <ng-container matColumnDef="Proveedor">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Proveedor}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_proveedor_nombre}} </td>
                         </ng-container>
         
                         <!-- Column -->
                         <ng-container matColumnDef="Precio">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Precio}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_precio}} </td>
                         </ng-container>
-        
-                        
-                        
                        
                         <!-- Column -->
                         <ng-container matColumnDef="Cantidad" >
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
-                            <td mat-cell *matCellDef="let element"> {{element.Cantidad}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_cantidad}} </td>
                         </ng-container>
                         
                         <!-- Column -->
                         <ng-container matColumnDef="FechaOrden" *ngIf="listaColumnas[8].mostrar">
                             <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Orden</th>
-                            <td mat-cell *matCellDef="let element"> {{element.FechaOrden}} </td>
-                        </ng-container>
-        
-                        <!-- Column -->
-                        <ng-container matColumnDef="Usuario" *ngIf="listaColumnas[9].mostrar">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario</th>
-                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"> {{element.Usuario}} </td>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_fecha_emision}} </td>
                         </ng-container>
         
                           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                     </table>
                     <div class="table_footer">
+                        <a *ngIf="ordenAceptada" id="download" class="pointer" matTooltip="Descargar Archivo" (click)="exporter.exportTable('xlsx', {fileName:'Orden',sheet:'Orden',Props:{Author:'Kairo System',Title:'Orden'}})">Descargar Archivo</a>
                         <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
                     </div>
                     <div class="bGeneral">
-                        <div class="botones" style=" display: flex; align-items: center; justify-content: center ;">
+                        <div class="botones" *ngIf="!ordenAceptada" style=" display: flex; align-items: center; justify-content: center ;">
                         
-                            <button mat-button class="btn btn-success align-items-center" (click)="confirmDialog()" >
-                                Aceptar 
-                                
-                            </button> 
-                            
-                            <div style=" width: 5%;">
-                                
-                            </div>
-                            <button class="btn btn-danger align-items-center" (click)="rechazarOrden()">Rechazar</button>
+                            <button mat-button class="btn btn-success align-items-center" [disabled]="numberOrden == 0" (click)="confirmarOrden()" >Aceptar</button>
+                            <button class="btn btn-danger align-items-center mx-3" (click)="reset()">Rechazar</button>
                        
                         </div>
-                        <div class="d-flex justify-content-end">
-                            <a *ngIf="resultado" href="assets/document/Prueba.xlsx" download="Archivo-Prueba">
-                                <button mat-button class="btn btn-success align-items-center">
-                                    Descargar  
-                                    <i class="fa-solid fa-file-export"></i>
-                                    
-                                </button> 
-                            </a>
-                        </div>
-        
                     </div>
         
                     
                     
                 </div>
                 
-                <h3 *ngIf="datos.length==0" class="text-dark">No se ha cargado el inventario del día</h3>
+                <h3 *ngIf="lista_orden.length==0" class="text-dark">No hay datos para presentar</h3>
             </div>
               <!-- Contenido step 3-->
               <div>
-                <button mat-button matStepperPrevious>Back</button>
-                <button mat-button (click)="stepper.reset()">Reset</button>
+                <button class="btn btn-warning mx-3" (click)="reset()">Reiniciar Proceso</button>
               </div>
             </mat-step>
           

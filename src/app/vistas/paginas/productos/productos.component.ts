@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { CategoriasService } from 'src/app/servicios/categorias.service';
+import { PlanificadorService } from 'src/app/servicios/planificador.service';
 import { ProductosService } from 'src/app/servicios/productos.service';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import Swal from 'sweetalert2';
@@ -40,11 +41,14 @@ export class ProductosComponent implements OnInit {
   selectProducto = "";
   update_producto = true;
 
+  lista_productos_invalidos:any[] = []; 
+
   constructor(private cdr: ChangeDetectorRef, 
               private formBuilder: FormBuilder, 
               private _util: UtilService, 
               private _producto : ProductosService,
-              private _categorias : CategoriasService) { 
+              private _categorias : CategoriasService,
+              private _planificador: PlanificadorService) { 
     this.registerForm = this.formBuilder.group({
       producto_id: [""],
       producto_categoria_id: ["",Validators.required],
@@ -61,10 +65,19 @@ export class ProductosComponent implements OnInit {
   ngOnInit(): void {
     this.cargarListaCategorias();
     this.cargarListaProductos();  
+    this.cargarAlertasProductos();
       
   }
 
-  
+  cargarAlertasProductos():void{
+    this._planificador.listar_productos_invalidos().subscribe({
+      next:res=>{
+        this.lista_productos_invalidos = res
+      },error:err=>{
+        this._util.alerta_error(JSON.stringify(err))
+      }
+    })
+  }
 
   producto_cookie():void{
     const productoId = this._util.getProducto()

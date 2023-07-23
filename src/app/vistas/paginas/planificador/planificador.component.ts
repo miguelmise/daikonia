@@ -5,13 +5,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import {STEPPER_GLOBAL_OPTIONS} from '@angular/cdk/stepper';
 import {Product} from 'src/app/interfaces/interfaces'
 
 
 
 import Swal from 'sweetalert2';
 import { PlanificadorService } from 'src/app/servicios/planificador.service';
+import { MatStepper } from '@angular/material/stepper';
 
 
 @Component({
@@ -29,6 +29,8 @@ export class PlanificadorComponent implements OnInit {
   lista_beneficiados: any[] = []
 
   lista_stock: any[] = []
+
+  lista_orden: any[] = []
 
   lista_stock_requerido: any[] = []
 
@@ -87,92 +89,26 @@ export class PlanificadorComponent implements OnInit {
       nombre:'Fecha Orden',
       col:'FechaOrden',
       mostrar:true
-    },
-    {
-      id: 10,
-      nombre:'Usuario',
-      col:'Usuario',
-      mostrar:true
     }
   ];
 
-
-
-  datos: any[] = [
-    {
-      id: 1,
-      "InstitucionSocial": "Ciudadela Reeducativa Sembradores De Vida",
-      "Ubicacion": "A11 - RACK A C1 F1",
-      "Caducidad": "11/05/2023",
-      "Codigo": "2072",
-      "Descripcion": "UNIDAD ATUN DE 150-200 GR",
-      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
-      "Precio": 0.30,
-      "Cantidad": 3.000000,
-      "FechaOrden": "12/05/2023",
-      "Usuario": "saintria",
-      agrega:false
-    },
-    {
-      id: 12,
-      "InstitucionSocial": "Fundación Puro Corazón",
-      "Ubicacion": "A11 - RACK A C1 F1",
-      "Caducidad": "11/05/2023",
-      "Codigo": "2082",
-      "Descripcion": "UNIDAD CAFÉ DE 0-50 GR",
-      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
-      "Precio": 0.57,
-      "Cantidad": 3.000000,
-      "FechaOrden": "12/05/2023",
-      "Usuario": "saintra",
-      agrega:false
-    },
-    {
-      id: 13,
-      "InstitucionSocial": "Fundación Caminando Juntos por el Cambio Sira Macias",
-      "Ubicacion": "A11 - RACK A C1 F1",
-      "Caducidad": "11/05/2023",
-      "Codigo": "2085",
-      "Descripcion": "UNIDAD SAL DE 950-1000 GR",
-      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
-      "Precio": 0.55,
-      "Cantidad": 3.000000,
-      "FechaOrden": "12/05/2023",
-      "Usuario": "saintria",
-      agrega:false
-    },
-    {
-      id: 14,
-      "InstitucionSocial": "Iglesia del Nazareno Jesús La Esperanza",
-      "Ubicacion": "A11 - RACK A C1 F1",
-      "Caducidad": "11/05/2023",
-      "Codigo": "2085",
-      "Descripcion": "UNIDAD SAL DE 950-1000 GR",
-      "Proveedor": "P145 - TIENDAS INDUSTRIALES ASOCIADAS TIA S.A",
-      "Precio": 0.55,
-      "Cantidad": 3.000000,
-      "FechaOrden": "12/05/2023",
-      "Usuario": "saintria",
-      agrega:false
-    }
-  ];
 
   displayedColumns: Set<string> = new Set<string>(); 
   selectedItems2: Set<number> = new Set<number>();
   dataSource!: MatTableDataSource<any>;
   registerForm: FormGroup;
-  generaOrden=false;
 
   selectedItems: Set<number> = new Set<number>();
-  //numBeneficiados: number = 0;
-  //numpersonas: number = 0;
-  //kgRequerido: number = 0;
-  datosPresentar =new Array();
   beneficiadosEscogidos =new Array();
   beneficiadosNoEscogidos=new Array();
+
+  ordenAceptada : boolean = false;
+  numberOrden : number = 0;
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  @ViewChild(MatStepper) stepper!: MatStepper;
 
   constructor(private cdr: ChangeDetectorRef, private formBuilder: FormBuilder, private _util: UtilService, private _planificador: PlanificadorService) { 
     this.registerForm = this.formBuilder.group({
@@ -186,20 +122,11 @@ export class PlanificadorComponent implements OnInit {
     this.cargarAlertasProductos()
     this.cargarListaBeneficiados()
     this.cargarListaStock()
+    this.autoseleccionInicial()
     
-    
-    this.dataSource = new MatTableDataSource(this.datosPresentar);
-    this.cdr.detectChanges();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    //this.beneficiadosNoEscogidos=this.listaBeneficiados;
-    for (const columna of this.listaColumnas) {
-      if (columna.mostrar){
-        this.displayedColumns.add(columna.col);
-      }
-
-    }
   };
+
+  
 
   cargarAlertasProductos():void{
     this._planificador.listar_productos_invalidos().subscribe({
@@ -215,7 +142,6 @@ export class PlanificadorComponent implements OnInit {
     this._planificador.listar_existencias().subscribe({
       next: res => {
         this.lista_stock = res
-        console.log(this.lista_stock);
       },
       error: err => {
         this._util.alerta_error(JSON.stringify(err));
@@ -228,7 +154,6 @@ export class PlanificadorComponent implements OnInit {
       next:res=>{
         this.lista_beneficiados = res
         this.beneficiadosNoEscogidos = this.lista_beneficiados
-        console.log(this.lista_beneficiados)
       },error:err=>{
         this._util.alerta_error(JSON.stringify(err))
       }
@@ -255,7 +180,6 @@ export class PlanificadorComponent implements OnInit {
     });
   
     const resultado: Product[] = Object.values(categorias);
-    console.log(resultado)
     this.lista_stock_requerido = resultado
   }
   
@@ -278,10 +202,11 @@ export class PlanificadorComponent implements OnInit {
     this.mostrarPaginaEvent.emit("Productos");
   }
 
+// Función para seleccionar todos los beneficiados
 seleccionarTodosBeneficiados(): void {
   this.selectedItems = new Set<number>();
   this.beneficiadosEscogidos = [];
-  this.beneficiadosNoEscogidos = [...this.lista_beneficiados]; // Copia de todos los beneficiados
+  this.beneficiadosNoEscogidos = []; // Copia de todos los beneficiados
 
   for (const beneficiado of this.lista_beneficiados) {
     this.selectedItems.add(beneficiado.beneficiado_id);
@@ -291,10 +216,27 @@ seleccionarTodosBeneficiados(): void {
   this.cargarListaRequerido(this.beneficiadosEscogidos);
 }
 
+autoseleccionInicial():void{
+  this.selectedItems = new Set<number>();
+  this.beneficiadosEscogidos = [];
+  this.beneficiadosNoEscogidos = []; // Copia de todos los beneficiados
+
+  for (const beneficiado of this.lista_beneficiados) {
+    if(beneficiado.turno == 1){
+      this.selectedItems.add(beneficiado.beneficiado_id);
+      this.beneficiadosEscogidos.push(beneficiado);
+    } 
+  }
+
+  this.cargarListaRequerido(this.beneficiadosEscogidos);
+}
+
+// Función para deseleccionar a todos los beneficiados
 seleccionarNingunoBeneficiados(): void {
   this.selectedItems = new Set<number>();
   this.beneficiadosEscogidos = [];
   this.beneficiadosNoEscogidos = [...this.lista_beneficiados]; // Copia de todos los beneficiados
+
 
   this.cargarListaRequerido(this.beneficiadosEscogidos);
 }
@@ -324,64 +266,6 @@ seleccionarNingunoBeneficiados(): void {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   };
 
-  muestraOrden(valor:boolean){
-    if(this.beneficiadosEscogidos.length>0){
-      this.generaOrden=valor;
-    }else{
-      this._util.alerta("Alerta","No se han escogido beneficiarios","warning")
-    }
-    
-  };
-
-  resultado: string = '';
-
-
-
-  confirmDialog() {
-    Swal.fire({
-      title: 'Confirmación',
-      text: 'Se confirmará la Orden ¿Continuar?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Continuar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#1cc88a',
-      toast:true
-    }).then((result)=>{
-      if(result.value){
-         this.resultado="true"; 
-          console.log("Estoy aceptando");
-          //aqui va lo que pasa si dan click en aceptar
-      }else{
-        console.log("No Estoy aceptando");
-        this.beneficiadosEscogidos=new Array();
-        //this.beneficiadosNoEscogidos=this.listaBeneficiados;
-      }
-    })
-  }
- 
-  rechazarOrden() {
-    Swal.fire({
-      title: 'Confirmación',
-      text: 'Se rechazará la Orden, ¿Continuar?',
-      icon: 'question',
-      showCancelButton: true,
-      confirmButtonText: 'Continuar',
-      cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#1cc88a',
-      toast:true
-    }).then((result)=>{
-      if(result.value){
-         this.resultado="true"; 
-          console.log("Estoy aceptando Rechazar");
-          this.beneficiadosEscogidos=new Array();
-          //this.beneficiadosNoEscogidos=this.listaBeneficiados;
-
-      }
-    })
-    
-  }
-  
 
   toggleSelection(id: number) {
     this.beneficiadosEscogidos=new Array();
@@ -393,12 +277,9 @@ seleccionarNingunoBeneficiados(): void {
       this.selectedItems.add(id);
     }
 
-
   for (const beneficiado of this.lista_beneficiados) {
     if (this.selectedItems.has(beneficiado.beneficiado_id)) {
       this.beneficiadosEscogidos.push(beneficiado);
-      //this.beneficiadosNoEscogidos=this.listaBeneficiados.filter((item) => item.id !== beneficiado.id);
-
     }
     else{
       this.beneficiadosNoEscogidos.push(beneficiado);
@@ -413,17 +294,132 @@ seleccionarNingunoBeneficiados(): void {
 
   };
 
-  enviar() {
-    // Lógica para enviar los IDs seleccionados
-    this.datosPresentar =new Array();
-    console.log(this.beneficiadosEscogidos)
-    for(const genera of this.datos){
-      if (this.selectedItems.has(genera.id)) {
-        this.datosPresentar.push(genera);
+  cargarOrden(numeroOrden:any):void{
+    this._planificador.obtener_orden(numeroOrden).subscribe({
+      next:res=>{
+        this.numberOrden = numeroOrden;
+        this.lista_orden = res;
+        this.dataSource = new MatTableDataSource(this.lista_orden);
+        this.cdr.detectChanges();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+
+        //this.beneficiadosNoEscogidos=this.listaBeneficiados;
+        for (const columna of this.listaColumnas) {
+          if (columna.mostrar){
+            this.displayedColumns.add(columna.col);
+          }
+
+        }
+        this.stepper.next()
+
+        console.log(res)
+      },error:err=>{
+        if(err.error){
+          this._util.alerta_error(err.error)
+        }else{
+          this._util.alerta_error(JSON.stringify(err))
+        }
       }
-    }
-    this.dataSource = new MatTableDataSource(this.datosPresentar);
-    this.muestraOrden(true);
+    })
+  }
+
+  confirmarOrden():void{
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se confirmará la órden, esta acción no se puede deshacer ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+         this._planificador.confirmarOrden(this.numberOrden).subscribe({
+          next:res=>{
+            this.ordenAceptada = true;
+            if(res.mensaje){
+              this._util.alerta_success(res.mensaje)
+            }else{
+              this._util.alerta_info(JSON.stringify(res))
+            }
+            
+            },error:err=>{
+              if(err.error){
+                this._util.alerta_error(err.error)
+              }else{
+                this._util.alerta_error(JSON.stringify(err))
+              }
+            }
+         })
+      }
+    })
+  }
+
+  reset():void{
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se reiniciará el proceso ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        this._planificador.cancelar_orden().subscribe({
+          next:res=>{
+          this.seleccionarNingunoBeneficiados();
+          this.stepper.reset();
+          this.ordenAceptada = false;
+          this.numberOrden = 0;
+          },error:err=>{
+            if(err.error){
+              this._util.alerta_error(err.error)
+            }else{
+              this._util.alerta_error(JSON.stringify(err))
+            }
+          }
+        })
+      }
+    })
+    
+  }
+
+  enviar() {
+
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se generará una orden con los parámetros seleccionados ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        if(this.beneficiadosEscogidos.length>0){
+          // Lógica para enviar los IDs seleccionados
+          this._planificador.generarOrdenAlimentos(this.beneficiadosEscogidos).subscribe({
+            next:res=>{
+              this.cargarOrden(res.orden)
+            },error:err=>{
+              if(err.error){
+                this._util.alerta_error(err.error)
+              }else{
+                this._util.alerta_error(JSON.stringify(err))
+              }
+            }
+          })
+        }else{
+          this._util.alerta("Alerta","No se han escogido beneficiarios","warning")
+        }
+      }
+    })   
+
   };
 
 }
