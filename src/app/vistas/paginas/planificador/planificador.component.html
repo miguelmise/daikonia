@@ -60,7 +60,7 @@
                                             <div class="card-body" style="height: 230px; overflow-y: scroll;">
                                                 <mat-list role="list">
                                                     <mat-list-item *ngFor="let producto of lista_stock_requerido" role="listitem">
-                                                      <span>{{producto.cat_pro_nombre}} : {{producto.suma / 1000}} KG <span class="text-danger" *ngIf="verificarCantidades(producto)>0">Insuficiente</span></span>
+                                                      <span>{{producto.cat_pro_nombre}} : {{producto.suma / 1000}} KG <span class="text-danger" *ngIf="verificarCantidades(producto)>0">- Falta {{verificarCantidades(producto) / 1000}} KG</span></span>
                                                     </mat-list-item>
                                                   </mat-list>
                                             </div>
