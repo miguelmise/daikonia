@@ -75,31 +75,26 @@ export class ReglasComponent implements OnInit {
     this.categoriasForm.clear();
   }
 
-  cargarCategorias() {
-    this._categorias.listar_categorias_personas().subscribe({
-      next: result => {
-        this.removeAllCategoriasForm();
-        result.forEach((element: any) => {
-          this._porciones.listar_por_id_categoria(element.categoria_persona_id).subscribe({
-            next: res => {
-              this.agregarCategoriaForm(
-                element.categoria_persona_id,
-                element.categoria_persona_nombre,
-                res
-              );
-            },
-            error: err => {
-              this._util.alerta_error(JSON.stringify(err));
-            }
-          });
-        });
-        console.log(this.registerForm.value);
-      },
-      error: e => {
-        this._util.alerta("Error", JSON.stringify(e), "warning");
+  async cargarCategorias() {
+    try {
+      const result = await this._categorias.listar_categorias_personas().toPromise();
+      this.removeAllCategoriasForm();
+  
+      for (const element of result) {
+        const res = await this._porciones.listar_por_id_categoria(element.categoria_persona_id).toPromise();
+        this.agregarCategoriaForm(
+          element.categoria_persona_id,
+          element.categoria_persona_nombre,
+          res
+        );
       }
-    });
+  
+      console.log(this.registerForm.value);
+    } catch (e) {
+      this._util.alerta("Error", JSON.stringify(e), "warning");
+    }
   }
+  
 
   actualizarValor(inputId: string) {
     const inputElement = this.elementRef.nativeElement.querySelector(`#${'x'+inputId}`);
