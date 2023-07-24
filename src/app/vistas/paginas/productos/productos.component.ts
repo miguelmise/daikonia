@@ -176,6 +176,7 @@ export class ProductosComponent implements OnInit {
                 }
                 
                 this.cargarListaProductos();
+                this.cargarAlertasProductos();
                 this.cargarAlertas.emit();
               },
               error: err=>{
@@ -194,6 +195,7 @@ export class ProductosComponent implements OnInit {
                 this.cargarListaProductos();
                 this.minimizarventana();
                 this.cargarAlertas.emit();
+                this.cargarAlertasProductos();
               },
               error: err=>{
                 this._util.alerta_error(JSON.stringify(err.error))
