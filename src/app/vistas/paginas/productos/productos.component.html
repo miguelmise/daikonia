@@ -5,11 +5,14 @@
         <h1 class="h3 mb-0 text-gray-800">PRODUCTOS</h1>
 
         <div *ngIf="lista_productos_invalidos.length>0" class="dropdown">
-            <button class="btn btn-danger dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Productos Alertados
+            <button class="btn btn-danger dropdown-toggle" style="background-color:#f18b6c; border-color: #f1a16c;"
+                    type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Productos con datos incompletos
                 <span class="badge badge-secondary badge-counter">{{lista_productos_invalidos.length}}+</span>
               </button>
-              <div class="dropdown-menu dropdown-list shadow animated--grow-in" aria-labelledby="dropdownMenuButton">
+              <div class="dropdown-menu dropdown-list shadow animated--grow-in" 
+                    style="width: 100%;"
+                    aria-labelledby="dropdownMenuButton">
                 <a *ngFor="let producto of lista_productos_invalidos" class="dropdown-item d-flex align-items-center">
                     <div (click)="verProductoData(producto.producto_id)">
                         <div class="small text-gray-900">Producto Còdigo: {{producto.producto_codigo}}</div>
