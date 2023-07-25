@@ -166,13 +166,13 @@
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
-
+                        <!-- Begin Page Content 
                         <li *ngIf="lista_productos_invalidos.length>0" class="nav-item dropdown no-arrow mx-1 mt-2">
                             <div class="alert alert-warning" id="alerta" role="alert" (click)="mostrarPagina('Productos')">
                                 Hay productos con información incompleta!
                                 <span class="badge badge-secondary badge-counter">{{lista_productos_invalidos.length}}+</span>
                               </div>
-                        </li>
+                        </li>-->
 
                         
 
@@ -208,6 +208,21 @@
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
+                <div class="alertaProductos " >
+                    <div  *ngIf="lista_productos_invalidos.length>0" class=" dropdown no-arrow mx-1 mt-2">
+                        
+                        <div style="background-color:#ee7480; color:whitesmoke; align-content: center; size: 100%;" 
+                            class="alert danger-alert text-wrap" id="alerta" role="alert" (click)="mostrarPagina('Productos')">
+                     
+                            <i  class="bi bi-exclamation-octagon "></i>
+                            
+                            Hay <span class="badge badge-secondary badge-counter">{{lista_productos_invalidos.length}}+</span>
+                            productos con información incompleta!
+                            
+                        </div>
+                         
+                    </div>
+                </div>
                 <!-- Renderizar componente  -->
                 <app-inicio *ngIf="Paginas['Inicio']"></app-inicio>
 
