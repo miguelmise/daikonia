@@ -43,9 +43,10 @@
                                                 <h6 class="m-0 font-weight-bold text-white">Productos Disponibles</h6>
                                             </div>
                                             <div class="card-body" style="height: 230px; overflow-y: scroll;">
-                                                <mat-list role="list">
-                                                    <mat-list-item *ngFor="let producto of lista_stock" role="listitem">
-                                                      <span>{{producto.cat_pro_nombre}} : {{producto.suma / 1000}} KG</span>
+                                                <mat-list role="list" >
+                                                    <mat-list-item *ngFor="let producto of lista_stock" role="listitem" 
+                                                    style=" margin: 2px !important; height: 100%;" >
+                                                      <span >{{producto.cat_pro_nombre}} : {{producto.suma / 1000}} KG</span>
                                                     </mat-list-item>
                                                   </mat-list>
                                             </div>
@@ -58,8 +59,9 @@
                                                 <h6 class="m-0 font-weight-bold text-white">Productos Requeridos para Orden</h6>
                                             </div>
                                             <div class="card-body" style="height: 230px; overflow-y: scroll;">
-                                                <mat-list role="list">
-                                                    <mat-list-item *ngFor="let producto of lista_stock_requerido" role="listitem">
+                                                <mat-list role="list" >
+                                                    <mat-list-item *ngFor="let producto of lista_stock_requerido" role="listitem"
+                                                    style=" margin: 2px !important; height: 100%;">
                                                       <span>{{producto.cat_pro_nombre}} : {{producto.suma / 1000}} KG <span class="text-danger" *ngIf="verificarCantidades(producto)>0">- Falta {{verificarCantidades(producto) / 1000}} KG</span></span>
                                                     </mat-list-item>
                                                   </mat-list>
