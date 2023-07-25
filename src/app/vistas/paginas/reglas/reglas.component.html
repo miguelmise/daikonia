@@ -22,8 +22,9 @@
                                     <mat-expansion-panel hideToggle>
                                         <mat-expansion-panel-header class="border border-white">
                                             <mat-panel-title>
-                                                <mat-icon class="mx-2">filter_list</mat-icon>
-                                                <!--<mat-icon class="mx-2">face</mat-icon>-->
+                                               <!-- <mat-icon class="mx-2">filter_list</mat-icon>
+                                                -<mat-icon class="mx-2">face</mat-icon>-->
+                                                <i class="bi bi-caret-down-fill"></i>
                                                 Ver porciones para {{element.get('categoria_persona_nombre')?.value}}
                                             </mat-panel-title>
                                             
@@ -39,8 +40,12 @@
                                                           </div>
                                                     </div>
                                                     <div class="col-md-1">
-                                                        <button type="button" class="btn btn-secondary btn-sm" (click)="cargarModal(element.get('categoria_persona_id')?.value,element.get('categoria_persona_nombre')?.value)"
-                                                        data-bs-toggle="modal" data-bs-target="#myModal">Agregar</button>
+                                                        <button type="button" class="btn btn-secondary btn-sm border border-0" 
+                                                        style="background-color: white; color:rgb(128, 128, 128); margin: 0%;" 
+                                                        (click)="cargarModal(element.get('categoria_persona_id')?.value,element.get('categoria_persona_nombre')?.value)"
+                                                        data-bs-toggle="modal" data-bs-target="#myModal">
+                                                        <i class="bi bi-plus-circle-dotted fa-2x"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
                                             </div>
