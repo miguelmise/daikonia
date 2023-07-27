@@ -9,7 +9,7 @@
     text-transform: uppercase;
     position: relative;
     text-shadow: 0.05em 0 0 #f6c23e, -0.03em -0.04em 0 #2bff0060,
-      0.025em 0.04em 0 #566c9c;
+      0.025em 0.04em 0 #999e9b;
     animation: glitch 725ms infinite;
     color: #f6c23e;
   }
@@ -36,31 +36,31 @@
   
   @keyframes glitch {
     0% {
-      text-shadow: 0.05em 0 0 #79a5a5, -0.03em -0.04em 0 #566c9c,
+      text-shadow: 0.05em 0 0 #79a5a5, -0.03em -0.04em 0 #999e9b,
         0.025em 0.04em 0 #f6c23e;
     }
     15% {
-      text-shadow: 0.05em 0 0 #79a5a5, -0.03em -0.04em 0 #566c9c,
+      text-shadow: 0.05em 0 0 #79a5a5, -0.03em -0.04em 0 #999e9b,
         0.025em 0.04em 0 #f6c23e;
     }
     16% {
-      text-shadow: -0.05em -0.025em 0 #79a5a5, 0.025em 0.035em 0 #566c9c,
+      text-shadow: -0.05em -0.025em 0 #79a5a5, 0.025em 0.035em 0 #999e9b,
         -0.05em -0.05em 0 #f6c23e;
     }
     49% {
-      text-shadow: -0.05em -0.025em 0 #79a5a5, 0.025em 0.035em 0 #566c9c,
+      text-shadow: -0.05em -0.025em 0 #79a5a5, 0.025em 0.035em 0 #999e9b,
         -0.05em -0.05em 0 #f6c23e;
     }
     50% {
-      text-shadow: 0.05em 0.035em 0 #79a5a5, 0.03em 0 0 #566c9c,
+      text-shadow: 0.05em 0.035em 0 #79a5a5, 0.03em 0 0 #999e9b,
         0 -0.04em 0 #f6c23e;
     }
     99% {
-      text-shadow: 0.05em 0.035em 0 #79a5a5, 0.03em 0 0 #566c9c,
+      text-shadow: 0.05em 0.035em 0 #79a5a5, 0.03em 0 0 #999e9b,
         0 -0.04em 0 #f6c23e;
     }
     100% {
-      text-shadow: -0.05em 0 0 #79a5a5, -0.025em -0.04em 0 #566c9c,
+      text-shadow: -0.05em 0 0 #79a5a5, -0.025em -0.04em 0 #999e9b,
         -0.04em -0.025em 0 #f6c23e;
     }
   }
