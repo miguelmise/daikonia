@@ -122,7 +122,7 @@ export class PlanificadorComponent implements OnInit {
     this.cargarAlertasProductos()
     this.cargarListaBeneficiados()
     this.cargarListaStock()
-    this.autoseleccionInicial()
+    
     
   };
 
@@ -154,6 +154,7 @@ export class PlanificadorComponent implements OnInit {
       next:res=>{
         this.lista_beneficiados = res
         this.beneficiadosNoEscogidos = this.lista_beneficiados
+        this.autoseleccionInicial()
       },error:err=>{
         this._util.alerta_error(JSON.stringify(err))
       }
@@ -219,13 +220,16 @@ seleccionarTodosBeneficiados(): void {
 autoseleccionInicial():void{
   this.selectedItems = new Set<number>();
   this.beneficiadosEscogidos = [];
-  this.beneficiadosNoEscogidos = []; // Copia de todos los beneficiados
+  this.beneficiadosNoEscogidos = [];
+  
 
   for (const beneficiado of this.lista_beneficiados) {
     if(beneficiado.turno == 1){
       this.selectedItems.add(beneficiado.beneficiado_id);
       this.beneficiadosEscogidos.push(beneficiado);
-    } 
+    }else{
+      this.beneficiadosNoEscogidos.push(beneficiado);
+    }
   }
 
   this.cargarListaRequerido(this.beneficiadosEscogidos);
@@ -312,8 +316,6 @@ seleccionarNingunoBeneficiados(): void {
 
         }
         this.stepper.next()
-
-        console.log(res)
       },error:err=>{
         if(err.error){
           this._util.alerta_error(err.error)

@@ -89,7 +89,7 @@ export class ReglasComponent implements OnInit {
         );
       }
   
-      console.log(this.registerForm.value);
+      
     } catch (e) {
       this._util.alerta("Error", JSON.stringify(e), "warning");
     }
@@ -134,7 +134,6 @@ export class ReglasComponent implements OnInit {
     this._categorias.listar_categorias_productos().subscribe({
       next:res=>{
         this.listaCatProductos = res;
-        console.log(res)
       }, error: err=>{
         this._util.alerta_error(JSON.stringify(err))
       }

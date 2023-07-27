@@ -12,6 +12,7 @@ import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { PlanificadorService } from 'src/app/servicios/planificador.service';
 import { LoginService } from 'src/app/servicios/seguridad/login.service';
 import { inArray } from 'jquery';
+import { Acceso } from 'src/app/interfaces/interfaces.js';
 
 
 @Component({
@@ -24,6 +25,42 @@ export class PrincipalComponent implements OnInit {
   isCollapsed = true;
   NombreUsuario = "";
   lista_productos_invalidos:any[] = []; 
+
+  paginasAutorizadas:any[] = [];
+
+  accesos: Acceso[] = [
+    {
+      id: 0,
+      nombre: 'Invalid',
+      opciones: [],
+    },
+    {
+      id: 1,
+      nombre: 'Administrador',
+      opciones: ['Inicio', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes'],
+    },
+    {
+      id: 2,
+      nombre: 'Planificador',
+      opciones: ['Inicio', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes'],
+    },
+    {
+      id: 3,
+      nombre: 'Inventario',
+      opciones: ['Inicio', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Ordenes'],
+    },
+    {
+      id: 4,
+      nombre: 'Reportador',
+      opciones: ['Inicio', 'Ordenes'],
+    },
+    {
+      id: 5,
+      nombre: 'Invitado',
+      opciones: ['Inicio'],
+    },
+  ];
+  
 
 
   //Paginas
@@ -63,13 +100,33 @@ export class PrincipalComponent implements OnInit {
 
   ngOnInit(): void {
     this.titleService.setTitle('Kairo');
+    this.cargarPaginasAutorizadas()
     this.mostrarPagina(this._util.getPagina())
     this.NombreUsuario = this._util.getUserName()
     this.cargarAlertasProductos()
     
   }
-  
-  mostrarPagina(pagina: string):void{
+
+  cargarPaginasAutorizadas():void{
+    var rol = JSON.parse(window.atob(this._util.getToken())).rol
+    this.accesos[rol].opciones.forEach((element:any) => {
+      this.paginasAutorizadas.push(element)
+    }); 
+  }
+
+  irPagina(pagina: string): void {
+    
+    this._util.setPagina(pagina)
+    for (const key in this.Paginas) {
+      if (key == pagina) {
+        this.Paginas[key] = true;
+      } else {
+        this.Paginas[key] = false;
+      }
+    }
+  }
+
+  validarSesion():void{
     var token = this._util.getToken()
     this._login.verificar(token).subscribe({
       next:res=>{
@@ -78,25 +135,11 @@ export class PrincipalComponent implements OnInit {
           this._util.alerta_error("Sesión Expirada")
           return
         }
-
-        if(pagina == "Inicio"){
-          this.setPagina(pagina)
-          return
-        }
-
-        if(res.paginas.indexOf(pagina) !== -1){
-          this.setPagina(pagina)
-          this._util.setToken(res.token)
-        }else{
-          this.setPagina("No_Autorizado")
-        }
-        
       },error:err=>{
-        console.log(err)
+        this._util.alerta_error(err)
       }
     })
   }
-  
   
   cargarAlertasProductos():void{
     this._planificador.listar_productos_invalidos().subscribe({
@@ -108,14 +151,18 @@ export class PrincipalComponent implements OnInit {
     })
   }
 
-  setPagina(pagina: string): void {
-    this._util.setPagina(pagina)
-    for (const key in this.Paginas) {
-      if (key == pagina) {
-        this.Paginas[key] = true;
-      } else {
-        this.Paginas[key] = false;
-      }
+  mostrarPagina(pagina: string): void {
+
+    if(pagina == "Inicio"){
+      this.irPagina(pagina)
+      return
+    }
+
+    if(this.paginasAutorizadas.indexOf(pagina) !== -1){
+      this.irPagina(pagina)
+      this.validarSesion()
+    }else{
+      this.irPagina("No_Autorizado")
     }
   }
 
