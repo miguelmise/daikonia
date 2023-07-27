@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
@@ -35,6 +35,11 @@ export class LoginService {
   /**Retorna el token de acceso */
   login_user(data: any): Observable<any> {
     return this.http.post<any>(this.url + "user_login.php", data);
+  }
+
+  verificar(data: any): Observable<any> {
+    const params = new HttpParams().set('token', data.toString());
+    return this.http.post<any>(this.url + "seguridad_ws.php", params);
   }
 
   /**Servicio de prueba */

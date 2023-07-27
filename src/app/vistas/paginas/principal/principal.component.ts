@@ -10,6 +10,8 @@ import { Title } from '@angular/platform-browser';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { UsuarioService } from 'src/app/servicios/usuario.service';
 import { PlanificadorService } from 'src/app/servicios/planificador.service';
+import { LoginService } from 'src/app/servicios/seguridad/login.service';
+import { inArray } from 'jquery';
 
 
 @Component({
@@ -35,7 +37,8 @@ export class PrincipalComponent implements OnInit {
     Reglas: false,
     Planificador: false,
     Categoria:false,
-    Ordenes:false
+    Ordenes:false,
+    No_Autorizado:false
   };
 
   private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios','collapseOrdenes'];
@@ -56,7 +59,7 @@ export class PrincipalComponent implements OnInit {
 
   constructor(private router: Router,
     private titleService: Title,
-    private _util: UtilService, private _usuario: UsuarioService, private _planificador: PlanificadorService) { }
+    private _util: UtilService, private _usuario: UsuarioService, private _planificador: PlanificadorService, private _login : LoginService) { }
 
   ngOnInit(): void {
     this.titleService.setTitle('Kairo');
@@ -66,7 +69,33 @@ export class PrincipalComponent implements OnInit {
     
   }
   
+  mostrarPagina(pagina: string):void{
+    var token = this._util.getToken()
+    this._login.verificar(token).subscribe({
+      next:res=>{
+        if(res.acceso != 1){
+          this.router.navigate(['login']);
+          this._util.alerta_error("Sesión Expirada")
+          return
+        }
 
+        if(pagina == "Inicio"){
+          this.setPagina(pagina)
+          return
+        }
+
+        if(res.paginas.indexOf(pagina) !== -1){
+          this.setPagina(pagina)
+          this._util.setToken(res.token)
+        }else{
+          this.setPagina("No_Autorizado")
+        }
+        
+      },error:err=>{
+        console.log(err)
+      }
+    })
+  }
   
   
   cargarAlertasProductos():void{
@@ -79,7 +108,7 @@ export class PrincipalComponent implements OnInit {
     })
   }
 
-  mostrarPagina(pagina: string): void {
+  setPagina(pagina: string): void {
     this._util.setPagina(pagina)
     for (const key in this.Paginas) {
       if (key == pagina) {

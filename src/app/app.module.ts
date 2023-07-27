@@ -34,6 +34,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { CategoriasComponent } from './vistas/paginas/categorias/categorias.component';
 import { CategoriaProductoComponent } from './vistas/paginas/categorias/categoria-producto/categoria-producto.component';
 import { OrdenesComponent } from './vistas/paginas/ordenes/ordenes.component';
+import { NoAutorizadoComponent } from './vistas/sistema/no-autorizado/no-autorizado.component';
 
 
 @NgModule({
@@ -51,7 +52,8 @@ import { OrdenesComponent } from './vistas/paginas/ordenes/ordenes.component';
     PlanificadorComponent,
     CategoriasComponent,
     CategoriaProductoComponent,
-    OrdenesComponent
+    OrdenesComponent,
+    NoAutorizadoComponent
   ],
   imports: [
     BrowserModule,

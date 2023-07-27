@@ -296,10 +296,6 @@ export class InventarioComponent implements OnInit {
     if (this.archivoSeleccionado) {
       const formData = new FormData();
       formData.append('archivo', this.archivoSeleccionado, this.archivoSeleccionado.name);
-
-      
-
-      console.log('Archivo enviado exitosamente');
     }
   }
 

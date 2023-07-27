@@ -25,7 +25,10 @@ export class UsuariosComponent implements OnInit {
   roles: any[] = [
     { valor: 1, etiqueta: "Administrador" },
     { valor: 2, etiqueta: "Planificador" },
-    { valor: 3, etiqueta: "Usuario" }]
+    { valor: 3, etiqueta: "Inventario" },
+    { valor: 4, etiqueta: "Reportador" },
+    { valor: 5, etiqueta: "Invitado" }
+  ]
 
   /* tipos de estado - esta lista deberia cargarse usando un servicio que verifique los roles existentes*/
   estados: any[] = [

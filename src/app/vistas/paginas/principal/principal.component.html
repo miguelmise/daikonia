@@ -261,6 +261,10 @@
                 <!-- Renderizar componente -->
                 <app-ordenes *ngIf="Paginas['Ordenes']"></app-ordenes>
                 <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-no-autorizado *ngIf="Paginas['No_Autorizado']"></app-no-autorizado>
+                <!-- /.container-fluid -->
                 
 
             </div>
@@ -269,7 +273,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Kairo - Ecuador &copy;</span>
+                        <span (click)="mostrarPagina('No_Autorizado')">Kairo - Ecuador &copy;</span>
                     </div>
                 </div>
             </footer>
