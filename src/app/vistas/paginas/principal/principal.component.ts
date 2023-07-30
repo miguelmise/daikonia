@@ -160,7 +160,7 @@ export class PrincipalComponent implements OnInit {
 
     if(this.paginasAutorizadas.indexOf(pagina) !== -1){
       this.irPagina(pagina)
-      this.validarSesion()
+      //this.validarSesion()
     }else{
       this.irPagina("No_Autorizado")
     }

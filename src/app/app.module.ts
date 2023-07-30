@@ -35,6 +35,7 @@ import { CategoriasComponent } from './vistas/paginas/categorias/categorias.comp
 import { CategoriaProductoComponent } from './vistas/paginas/categorias/categoria-producto/categoria-producto.component';
 import { OrdenesComponent } from './vistas/paginas/ordenes/ordenes.component';
 import { NoAutorizadoComponent } from './vistas/sistema/no-autorizado/no-autorizado.component';
+import { NgChartjsModule } from 'ng-chartjs';
 
 
 @NgModule({
@@ -72,14 +73,16 @@ import { NoAutorizadoComponent } from './vistas/sistema/no-autorizado/no-autoriz
     MatTableExporterModule,
     MatTooltipModule,
     MatSortModule,
-    MatStepperModule
+    MatStepperModule,
+    NgChartjsModule
   ],
   exports: [
     HttpClientModule,
     MatTableExporterModule,
     MatTooltipModule,
     MatSortModule,
-    MatStepperModule
+    MatStepperModule,
+    NgChartjsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
