@@ -16,24 +16,15 @@ export class OrdenesComponent implements OnInit {
 
   ordenAlimentos: any[] = [];
 
-  displayedColumns: string[] = ['ordenNumero', 'fecha'];
-
-  displayedColumns2: string[] = ['orden_beneficiado_nombre', 'orden_producto_ubicacion','orden_producto_caducidad','orden_producto_codigo','orden_producto_descripcion',
+  displayedColumns: string[] = ['orden_beneficiado_nombre', 'orden_producto_ubicacion','orden_producto_caducidad','orden_producto_codigo','orden_producto_descripcion',
                                   'orden_proveedor_nombre','orden_producto_precio','orden_producto_cantidad','orden_fecha_emision'];
 
   dataSource!: MatTableDataSource<any>;
 
-  dataSource2!: MatTableDataSource<any>;
-
   dataTable!: MatTableDataSource<any>;
-
-  dataTable2!: MatTableDataSource<any>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
-  @ViewChild(MatPaginator) paginator2!: MatPaginator;
-  @ViewChild(MatSort) sort2!: MatSort;
 
   constructor(private _util : UtilService, private _planificador : PlanificadorService, private cdr: ChangeDetectorRef) { }
 
@@ -41,20 +32,15 @@ export class OrdenesComponent implements OnInit {
     this.cargarListaOrdenes();
   }
 
-  applyFilter(event: Event){
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
 
   cargarOrden(id:any):void{
     this._planificador.obtener_orden(id).subscribe({
       next:res=>{
         this.ordenAlimentos = res
-        this.dataSource2 = new MatTableDataSource(this.ordenAlimentos);
+        this.dataSource = new MatTableDataSource(this.ordenAlimentos);
         this.cdr.detectChanges();
-        this.dataSource2.paginator = this.paginator2;
-        this.dataSource2.sort = this.sort2;
-        console.log(res)
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       },error:err=>{
         if(err.error){
           this._util.alerta_error(err.error)

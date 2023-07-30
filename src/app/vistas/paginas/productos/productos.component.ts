@@ -138,11 +138,41 @@ export class ProductosComponent implements OnInit {
       divElement.classList.add('col-lg-6');
     }
   }
+
+  isSinCategoria(element: any): boolean {
+    return element.cat_pro_nombre === "Sin Categoria";
+  }
+
+  sinPeso(element: any): boolean {
+    return element.producto_peso == 0;
+  }
   
   applyFilter(event: Event){
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+
+  showAllData() {
+    // Restablecer el filtro a una cadena vacía para mostrar todos los elementos
+    this.dataSource.filter = '';
+  }
+
+  applyFilterAlertados() {
+    // Definir la función personalizada de filtrado
+    this.dataSource.filterPredicate = (data: any) => {
+      return (
+        data.cat_pro_main_categoria.toLowerCase() === "sin categoria" ||
+        data.producto_peso === 0
+      );
+    };
+  
+    // Limpiar el filtro previo y aplicar el filtro vacío para activar el filterPredicate
+    this.dataSource.filter = '';
+  
+    // Aplicar el filtro vacío para activar el filterPredicate
+    this.dataSource.filter = ' ';
+  }
+  
   
 
   onSubmit():void {

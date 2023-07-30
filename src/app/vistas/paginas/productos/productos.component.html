@@ -45,9 +45,14 @@
 
             <!-- Project Card Example -->
             <div class="card shadow mb-4">
-                <div class="card-header py-3 bg-secondary">
+                <div class="card-header py-3 bg-secondary d-flex justify-content-between align-items-center">
                     <h6 class="m-0 font-weight-bold text-white">Listado Productos</h6>
+                    <div>
+                        <a class="btn btn-sm btn-warning shadow-sm mx-2" (click)="applyFilterAlertados()" >Incompletos</a>
+                        <a class="btn btn-sm btn-light shadow-sm"(click)="showAllData()" >Todos</a>
+                    </div>
                 </div>
+                
                 <div class="card-body">
                     <div *ngIf="listaProductos.length>0">
                         <div class="mb-2 ">
@@ -71,13 +76,16 @@
                                 <!-- Column -->
                                 <ng-container matColumnDef="categoria">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
-                                    <td mat-cell *matCellDef="let element">{{element.cat_pro_nombre}}</td>
-                                </ng-container>
+                                    <td mat-cell *matCellDef="let element" [ngStyle]="{ color: isSinCategoria(element) ? 'red' : 'initial' }">
+                                      {{ element.cat_pro_nombre }}
+                                    </td>
+                                  </ng-container>
 
                                 <!-- Column -->
                                 <ng-container matColumnDef="peso">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso</th>
-                                    <td mat-cell *matCellDef="let element">{{element.producto_peso}} {{element.producto_medida}}</td>
+                                    <td mat-cell *matCellDef="let element" [ngStyle]="{ color: sinPeso(element) ? 'red' : 'initial' }">
+                                        {{element.producto_peso}} {{element.producto_medida}}</td>
                                 </ng-container>
 
 
