@@ -37,6 +37,7 @@
                                                         <div class="input-group">
                                                             <span class="input-group-text">{{ producto.cat_pro_nombre }} (gr)</span>
                                                             <input type="text" [id]="'x'+producto.porciones_id" class="form-control" [value]="producto.porciones_cantidad" (change)="actualizarValor(producto.porciones_id)">
+                                                            <label class="input-group-text pointer bg-warning " id="eye" (click)="borrarporcion(producto.porciones_id)" ngbTooltip="¡Hola, este es un tooltip!"><mat-icon class="text-secondary">delete</mat-icon></label>
                                                           </div>
                                                     </div>
                                                     <div class="col-md-1">

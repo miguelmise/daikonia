@@ -23,6 +23,12 @@ export class PorcionesService {
     return this.http.put<any>(this.url + 'porciones_ws.php', null, { params });
   }
 
+  eliminar(id: number): Observable<any> {
+    let params = new HttpParams().set('id', id.toString());
+  
+    return this.http.delete<any>(this.url + 'porciones_ws.php',{ params });
+  }
+
   crearNuevo(id_persona: number,id_producto: number, valor: number):Observable<any>{
     let params = new HttpParams().set('id_persona', id_persona.toString()).set('id_producto', id_producto.toString()).set('cantidad', valor.toString());
     return this.http.post<any>(this.url + "porciones_ws.php",null,{params});

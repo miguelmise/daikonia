@@ -94,6 +94,42 @@ export class ReglasComponent implements OnInit {
       this._util.alerta("Error", JSON.stringify(e), "warning");
     }
   }
+
+  borrarporcion(id:any){
+    Swal.fire({
+      title: 'Confirmación',
+      text: 'Se eliminará la porción, ¿Continuar?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Continuar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#1cc88a',
+      toast:true
+    }).then((result)=>{
+      if(result.value){
+        this.eliminar(id)
+      }
+    })
+  }
+
+  eliminar(id:any):void{
+    this._porciones.eliminar(id).subscribe({
+      next:res=>{
+        if(res.mensaje){
+          this._util.alerta_temporal(res.mensaje)
+          this.cargarCategorias()
+        }else{
+          this._util.alerta_info(JSON.stringify(res))
+        }
+      },error:err=>{
+        if (err.error) {
+          this._util.alerta_error(err.error)
+        } else {
+          this._util.alerta_error(JSON.stringify(err))
+        }
+      }
+    })
+  }
   
 
   actualizarValor(inputId: string) {
