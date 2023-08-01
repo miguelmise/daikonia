@@ -17,7 +17,7 @@ export class OrdenesComponent implements OnInit {
   ordenAlimentos: any[] = [];
 
   displayedColumns: string[] = ['orden_beneficiado_nombre', 'orden_producto_ubicacion','orden_producto_caducidad','orden_producto_codigo','orden_producto_descripcion',
-                                  'orden_proveedor_nombre','orden_producto_precio','orden_producto_cantidad','orden_fecha_emision'];
+                                  'orden_proveedor_nombre','orden_producto_precio','orden_producto_cantidad','orden_fecha_emision','orden_boton_devolver'];
 
   dataSource!: MatTableDataSource<any>;
 

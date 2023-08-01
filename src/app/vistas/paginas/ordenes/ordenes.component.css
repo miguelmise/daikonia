@@ -47,3 +47,10 @@ table {
 #download{
   color: #006e8c;
 }
+.mat-column-orden_boton_devolver  {
+  flex: none;
+  width: 5%;
+  text-align: center;
+  color:rgb(165, 61, 42)
+}
+
