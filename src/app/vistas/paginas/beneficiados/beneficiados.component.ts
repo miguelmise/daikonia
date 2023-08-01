@@ -22,9 +22,7 @@ export class BeneficiadosComponent implements OnInit {
   periocidad: any[] = [
     {valor: 7, etiqueta: "Semanal"},
     {valor: 15, etiqueta: "Quincenal"},
-    {valor: 30, etiqueta: "Mensual"},
-    {valor: 1, etiqueta: "Diario"},
-    {valor: 90, etiqueta: "Trimestral"}
+    {valor: 30, etiqueta: "Mensual"}
   ]
 
   dias: any[] = [

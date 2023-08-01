@@ -27,22 +27,28 @@ export class InicioComponent implements OnInit {
 
   cargarListaStock(): void {
     this._planificador.listar_existencias()
-    .pipe(finalize(()=>{
-      this.crearGrafico()
-    }))
-    .subscribe({
-      next: res => {
-        this.lista_stock = res
-        // Extraer los nombres de los productos y las cantidades
-        this.productNames = res.map((item:any) => item.cat_pro_nombre+"(kg)");
-        this.productQuantities = res.map((item:any) => parseFloat(item.suma)/1000);
-        
-      },
-      error: err => {
-        this._util.alerta_error(JSON.stringify(err));
-      }
-    });
+      .pipe(finalize(() => {
+        this.crearGrafico();
+      }))
+      .subscribe({
+        next: (res: any[]) => {
+          this.lista_stock = res;
+  
+          // Extraer los nombres de los productos y las cantidades
+          this.productNames = [];
+          this.productQuantities = [];
+  
+          res.forEach((item: any) => {
+            this.productNames.push(item.cat_pro_nombre + "(kg)");
+            this.productQuantities.push(parseFloat(item.suma) / 1000);
+          });
+        },
+        error: (err: any) => {
+          this._util.alerta_error(JSON.stringify(err));
+        }
+      });
   }
+  
 
   crearGrafico(){
   

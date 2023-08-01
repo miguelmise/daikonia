@@ -140,7 +140,7 @@ export class PlanificadorComponent implements OnInit {
 
   cargarListaStock(): void {
     this._planificador.listar_existencias().subscribe({
-      next: res => {
+      next: (res: any[]) => {
         this.lista_stock = res
       },
       error: err => {
@@ -160,10 +160,11 @@ export class PlanificadorComponent implements OnInit {
       }
     })
   }
-  
-  cargarListaRequerido(datos: any[]){
-    const categorias: { [key: number]: Product } = {};
+
+  cargarListaRequerido2(datos: any[]){
     
+    const categorias: { [key: number]: Product } = {};
+    console.log(datos)
     datos.forEach((beneficiado: any) => {
       beneficiado.productos.forEach((producto: any) => {
         const { cat_pro_id, cat_pro_nombre, suma } = producto;
@@ -175,6 +176,47 @@ export class PlanificadorComponent implements OnInit {
             cat_pro_id,
             cat_pro_nombre,
             suma,
+          };
+        }
+      });
+    });
+  
+    const resultado: Product[] = Object.values(categorias);
+    this.lista_stock_requerido = resultado
+  }
+
+  calcularSumaConPeriodo(suma: number, periodo: number): number {
+    const quincenal = 15;
+    const mensual = 30;
+    const semanal = 7;
+  
+    if (periodo == quincenal) {
+      return suma * 2;
+    } else if (periodo == mensual) {
+      return suma * 4;
+    } else if (periodo == semanal) {
+      return suma;
+    }
+  
+    return suma; // Valor predeterminado si el periodo no es reconocido
+  }
+  
+  cargarListaRequerido(datos: any[]){
+
+    const categorias: { [key: number]: Product } = {};
+    datos.forEach((beneficiado: any) => {
+      beneficiado.productos.forEach((producto: any) => {
+        const { cat_pro_id, cat_pro_nombre, suma, beneficiado_periodo } = producto;
+        const sumaConPeriodo = this.calcularSumaConPeriodo(suma, beneficiado_periodo);
+
+  
+        if (categorias[cat_pro_id]) {
+          categorias[cat_pro_id].suma += sumaConPeriodo;
+        } else {
+          categorias[cat_pro_id] = {
+            cat_pro_id,
+            cat_pro_nombre,
+            suma: sumaConPeriodo,
           };
         }
       });
