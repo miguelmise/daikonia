@@ -28,20 +28,22 @@ export class InicioComponent implements OnInit {
   cargarListaStock(): void {
     this._planificador.listar_existencias()
       .pipe(finalize(() => {
+        // Extraer los nombres de los productos y las cantidades
+        this.productNames = [];
+        this.productQuantities = [];
+
+        this.lista_stock.forEach((item: any) => {
+          this.productNames.push(item.cat_pro_nombre + "(kg)");
+          this.productQuantities.push(parseFloat(item.suma) / 1000);
+        });
+        
         this.crearGrafico();
       }))
       .subscribe({
         next: (res: any[]) => {
           this.lista_stock = res;
   
-          // Extraer los nombres de los productos y las cantidades
-          this.productNames = [];
-          this.productQuantities = [];
-  
-          res.forEach((item: any) => {
-            this.productNames.push(item.cat_pro_nombre + "(kg)");
-            this.productQuantities.push(parseFloat(item.suma) / 1000);
-          });
+          
         },
         error: (err: any) => {
           this._util.alerta_error(JSON.stringify(err));
