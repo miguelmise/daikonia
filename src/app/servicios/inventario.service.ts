@@ -16,6 +16,10 @@ export class InventarioService {
     return this.http.get<any>(this.url + "carga_inventario_ws.php",{});
   }
 
+  devolver_producto(data:any):Observable<any>{
+    return this.http.post<any>(this.url + "reportes_ws.php",data);
+  }
+
   cargarArchivoInventario(data:any):Observable<any>{
     return this.http.post<any>(this.url + "carga_inventario_ws.php",data);
   }

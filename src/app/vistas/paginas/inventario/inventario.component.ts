@@ -345,6 +345,7 @@ export class InventarioComponent implements OnInit {
   }
 
   costoTotal():number{
+    this.registerForm.controls["inventario_costo_total"].setValue(this.registerForm.controls["inventario_precio_promedio"].value * this.registerForm.controls["inventario_stock"].value)
     return this.registerForm.controls["inventario_precio_promedio"].value * this.registerForm.controls["inventario_stock"].value;
   }
 

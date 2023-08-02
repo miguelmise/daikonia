@@ -409,6 +409,7 @@ seleccionarNingunoBeneficiados(): void {
           this._planificador.generarOrdenAlimentos(this.beneficiadosEscogidos).subscribe({
             next:res=>{
               this.cargarOrden(res.orden)
+              console.log(res)
             },error:err=>{
               if(err.error){
                 this._util.alerta_error(err.error)

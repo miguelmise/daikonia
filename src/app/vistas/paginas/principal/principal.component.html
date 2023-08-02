@@ -116,6 +116,7 @@
                         <h6 class="collapse-header">Procedimientos:</h6>
                         <a class="collapse-item" (click)="mostrarPagina('Inventario')">Carga Inventario</a>
                         <a class="collapse-item" (click)="mostrarPagina('Productos')" >Productos</a>
+                        <a class="collapse-item" (click)="mostrarPagina('Ordenes')">Órdenes</a>
                     </div>
                 </div>
             </li>
@@ -138,7 +139,7 @@
                 <div id="collapseOrdenes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Resultados:</h6>
-                        <a class="collapse-item" (click)="mostrarPagina('Ordenes')">Órdenes</a>
+                        <a class="collapse-item" (click)="mostrarPagina('ReporteDonantes')">Donantes</a>
                     </div>
                 </div>
             </li>
@@ -264,6 +265,10 @@
 
                 <!-- Renderizar componente -->
                 <app-no-autorizado *ngIf="Paginas['No_Autorizado']"></app-no-autorizado>
+                <!-- /.container-fluid --> 
+
+                <!-- Renderizar componente -->
+                <app-donantes-reporte *ngIf="Paginas['ReporteDonantes']"></app-donantes-reporte>
                 <!-- /.container-fluid -->
                 
 
