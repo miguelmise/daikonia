@@ -37,6 +37,7 @@ import { OrdenesComponent } from './vistas/paginas/ordenes/ordenes.component';
 import { NoAutorizadoComponent } from './vistas/sistema/no-autorizado/no-autorizado.component';
 import { NgChartjsModule } from 'ng-chartjs';
 import { DonantesReporteComponent } from './vistas/reportes/donantes-reporte/donantes-reporte.component';
+import { OrdenesReporteComponent } from './vistas/reportes/ordenes-reporte/ordenes-reporte.component';
 
 
 @NgModule({
@@ -56,7 +57,8 @@ import { DonantesReporteComponent } from './vistas/reportes/donantes-reporte/don
     CategoriaProductoComponent,
     OrdenesComponent,
     NoAutorizadoComponent,
-    DonantesReporteComponent
+    DonantesReporteComponent,
+    OrdenesReporteComponent
   ],
   imports: [
     BrowserModule,

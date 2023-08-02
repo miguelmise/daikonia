@@ -6,6 +6,7 @@ import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { PlanificadorService } from 'src/app/servicios/planificador.service';
 import Swal from 'sweetalert2';
 import { InventarioService } from 'src/app/servicios/inventario.service';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-ordenes',
@@ -82,12 +83,16 @@ export class OrdenesComponent implements OnInit {
             allowOutsideClick: () => !Swal.isLoading()
           }).then((result) => {
             if (result.isConfirmed) {
-              this._inventario.devolver_producto(data).subscribe({
-                next:res=>{
+              this._inventario.devolver_producto(data)
+              .pipe(finalize(() => {
+                this.cargarOrden(data.orden_codigo)
+              }))
+              .subscribe({
+                next:(res:any)=>{
                   if(res.mensaje){
                     this._util.alerta_success(res.mensaje)
                     this.cargarListaOrdenes()
-                    this.cargarOrden(data.orden_codigo)
+                    
                   }else{
                     this._util.alerta_info(JSON.stringify(res))
                   }

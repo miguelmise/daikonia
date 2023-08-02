@@ -37,22 +37,22 @@ export class PrincipalComponent implements OnInit {
     {
       id: 1,
       nombre: 'Administrador',
-      opciones: ['Inicio','ReporteDonantes', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes'],
+      opciones: ['Inicio','ReporteDonantes', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes'],
     },
     {
       id: 2,
       nombre: 'Planificador',
-      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes'],
+      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes'],
     },
     {
       id: 3,
       nombre: 'Inventario',
-      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Ordenes'],
+      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Ordenes','ReporteOrdenes'],
     },
     {
       id: 4,
       nombre: 'Reportador',
-      opciones: ['Inicio', 'ReporteDonantes'],
+      opciones: ['Inicio', 'ReporteDonantes','ReporteOrdenes'],
     },
     {
       id: 5,
@@ -76,7 +76,8 @@ export class PrincipalComponent implements OnInit {
     Categoria:false,
     Ordenes:false,
     No_Autorizado:false,
-    ReporteDonantes:false
+    ReporteDonantes:false,
+    ReporteOrdenes:false
   };
 
   private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios','collapseOrdenes'];
