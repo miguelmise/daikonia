@@ -52,7 +52,7 @@ export class OrdenesReporteComponent implements OnInit {
   }
   buscarOrdenes(){
     this.result=this.listaOrdenes;
-
+    console.log(this.registerForm.value)
     if(this.registerForm.get('codigo_producto')?.value 
         || this.registerForm.get('proveedor')?.value 
         || this.registerForm.get('beneficiario')?.value
@@ -128,9 +128,9 @@ export class OrdenesReporteComponent implements OnInit {
     this.cdr.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
-    console.log(this.registerForm.get('codigo_producto')?.value);
-    console.log("Resultado filtro");
-    console.log(this.ordenAlimentos);
+    //console.log(this.registerForm.get('codigo_producto')?.value);
+    ///.log("Resultado filtro");
+    ///console.log(this.ordenAlimentos);
   }
   cargarOrdenes():void{
     this._reporte.listado_ordenes().subscribe({
