@@ -15,4 +15,8 @@ export class ReportesService {
   listado_ordenes():Observable<any>{
     return this.http.get<any>(this.url + "reportes_ws.php");
   }
+
+  buscar_orden(data:any):Observable<any>{
+    return this.http.put<any>(this.url + "reportes_ws.php",data);
+  }
 }
