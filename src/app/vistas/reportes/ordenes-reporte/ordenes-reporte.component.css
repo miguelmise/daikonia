@@ -1,0 +1,55 @@
+.mat-table {
+    background-color: white; /* Cambia el fondo a blanco */
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+  
+.mat-table td{
+    color: gray; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+  }
+
+  .mat-table th {
+    color: white; /* Cambia el color de texto a gris */
+    border-bottom: 1px solid gray;
+    font-weight: bold;
+    background-color:#006e8c;
+    padding: 8px; /* Añade un espacio interno a las celdas */
+  }
+
+#eye{
+    background-color: white; /* Cambia el fondo a blanco */
+}
+
+table {
+    width: 100%;
+  }
+
+.list-container {
+    max-height: 300px; /* Set the desired fixed height */
+    overflow-y: auto; /* Add a vertical scrollbar when content overflows */
+}
+
+.eye{
+  cursor: pointer;
+}
+
+
+.table_footer{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  align-content: space-around;
+  }
+
+#download{
+  color: #006e8c;
+}
+.mat-column-orden_boton_devolver  {
+  flex: none;
+  width: 5%;
+  text-align: center;
+  color:rgb(165, 61, 42)
+}
