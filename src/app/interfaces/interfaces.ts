@@ -15,3 +15,9 @@ export interface Acceso {
     cat_pro_nombre: string;
     suma: string;
   }
+
+  export interface DonanteInfo {
+    orden_proveedor_nombre: string;
+    peso: string;
+    precio: string;
+  }

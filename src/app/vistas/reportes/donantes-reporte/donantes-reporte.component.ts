@@ -7,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ChartOptions, ChartType,ChartData, Chart,Legend  } from 'chart.js';
 import { finalize } from 'rxjs';
+import { DonanteInfo } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-donantes-reporte',
@@ -18,7 +19,7 @@ export class DonantesReporteComponent implements OnInit {
   registerForm: FormGroup;
   dataDonantes: any[] = [];
 
-  displayedColumns: string[] = ['donante', 'producto', 'codigo', 'peso', 'precio'];
+  displayedColumns: string[] = ['donante', 'peso', 'precio'];
 
   dataSource!: MatTableDataSource<any>;
 
@@ -63,12 +64,10 @@ export class DonantesReporteComponent implements OnInit {
     .pipe(finalize(() => {
       this.donantesLabel = [];
         this.productosKg = [];
-        this.productosLabel = [];
         this.productosPrecio = []
 
         this.dataDonantes.forEach((item: any) => {
-          this.donantesLabel.push(item.orden_proveedor_nombre);
-          this.productosLabel.push(item.orden_producto_descripcion)
+          this.donantesLabel.push(item.orden_proveedor_nombre)
           this.productosPrecio.push(item.precio)
           this.productosKg.push(parseFloat(item.peso) / 1000);
         });
@@ -76,7 +75,7 @@ export class DonantesReporteComponent implements OnInit {
         this.crearGrafico();
     }))
     .subscribe({
-      next:res=>{
+      next:(res:DonanteInfo[])=>{
         this.dataDonantes = res
         this.dataSource = new MatTableDataSource(this.dataDonantes);
         this.cdr.detectChanges();
@@ -96,22 +95,19 @@ export class DonantesReporteComponent implements OnInit {
   
     const ctx = this.elementRef.nativeElement.querySelector('#DonantesChart');
 
-    const randomColors = this.generateRandomColors(this.dataDonantes.length);
-    const randomColors2 = this.generateRandomColors(this.dataDonantes.length);
-
     this.chart =new Chart(ctx, {
       type: this.chartType,
       data: {
-        labels: this.productosLabel,
+        labels: this.donantesLabel,
         datasets: [{
-          label: 'Kg',
+          label: 'Peso Kg',
           data: this.productosKg,
           backgroundColor: '#FF8000',
           borderColor: '#FF8000',
           borderWidth: 1
         },
         {
-          label: 'Precio',
+          label: 'Valor $',
           data: this.productosPrecio,
           backgroundColor: '#00cc66',
           borderColor: '#00cc66',
@@ -152,19 +148,6 @@ export class DonantesReporteComponent implements OnInit {
 
 }
 
-  generateRandomColors(numColors: number): string[] {
-    const randomColors: string[] = [];
-    const letters = '0123456789ABCDEF';
   
-    for (let i = 0; i < numColors; i++) {
-      let color = '#';
-      for (let j = 0; j < 6; j++) {
-        color += letters[Math.floor(Math.random() * 16)];
-      }
-      randomColors.push(color);
-    }
-  
-    return randomColors;
-  }
 
 }

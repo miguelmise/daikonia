@@ -143,7 +143,7 @@ export class PlanificadorComponent implements OnInit {
 
   cargarListaStock(): void {
     this._planificador.listar_existencias().subscribe({
-      next: (res: any[]) => {
+      next: (res:StockItem[]) => {
         this.lista_stock = res
       },
       error: err => {
@@ -154,7 +154,7 @@ export class PlanificadorComponent implements OnInit {
 
   cargarListaBeneficiados():void{
     this._planificador.listar_beneficiados().subscribe({
-      next:(res:StockItem[])=>{
+      next:(res:any)=>{
         this.lista_beneficiados = res
         this.beneficiadosNoEscogidos = this.lista_beneficiados
         this.autoseleccionInicial()
