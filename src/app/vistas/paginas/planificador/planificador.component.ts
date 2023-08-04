@@ -127,6 +127,7 @@ export class PlanificadorComponent implements OnInit {
     this.cargarAlertasProductos()
     this.cargarListaBeneficiados()
     this.cargarListaStock()
+    this.cdr.detectChanges();
   }
 
   

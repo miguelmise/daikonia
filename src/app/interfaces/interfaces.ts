@@ -13,11 +13,11 @@ export interface Acceso {
   export interface StockItem {
     cat_pro_id: number;
     cat_pro_nombre: string;
-    suma: string;
+    suma: number;
   }
 
   export interface DonanteInfo {
     orden_proveedor_nombre: string;
-    peso: string;
-    precio: string;
+    peso: number;
+    precio: number;
   }

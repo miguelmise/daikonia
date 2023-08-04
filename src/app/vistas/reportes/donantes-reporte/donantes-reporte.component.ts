@@ -116,7 +116,7 @@ export class DonantesReporteComponent implements OnInit {
       },
       options: {
         indexAxis: 'y',
-        aspectRatio: 0.8,
+        aspectRatio: 0.6,
         responsive: true,
         maintainAspectRatio: false,
         scales: {

@@ -39,7 +39,7 @@ export class InicioComponent implements OnInit {
 
         this.lista_stock.forEach((item: StockItem) => {
           this.productNames.push(item.cat_pro_nombre + "(kg)");
-          this.productQuantities.push(parseFloat(item.suma) / 1000);
+          this.productQuantities.push(item.suma / 1000);
         });
         
         this.crearGrafico();
