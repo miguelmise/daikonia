@@ -16,6 +16,8 @@ import Swal from 'sweetalert2';
 })
 export class ProductosComponent implements OnInit {
 
+  id_sin_categoria:number = 26;
+
   @Output() cargarAlertas = new EventEmitter();
 
   estados: any[] = [

@@ -16,7 +16,7 @@
                                 <mat-list role="list">
                                     <mat-list-item *ngFor="let producto of lista_productos_invalidos" role="listitem">
                                        <span (click)="llamarMostrarPagina(producto.producto_id)" class="cursor">{{producto.producto_sku}}</span>
-                                       <li *ngIf="producto.producto_categoria_id == 26" class=" mx-3 text-danger">Sin Categoría Asignada</li>
+                                       <li *ngIf="producto.producto_categoria_id == id_sin_categoria" class=" mx-3 text-danger">Sin Categoría Asignada</li>
                                        <li *ngIf="producto.producto_peso == 0" class="text-danger">Sin Peso Asignado</li>
                                     </mat-list-item>
                                 </mat-list>

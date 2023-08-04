@@ -16,7 +16,7 @@
                 <a *ngFor="let producto of lista_productos_invalidos" class="dropdown-item d-flex align-items-center">
                     <div (click)="verProductoData(producto.producto_id)">
                         <div class="small text-gray-900">Producto Còdigo: {{producto.producto_codigo}}</div>
-                        <span class="font-weight-bold">{{producto.producto_categoria_id == 26 ? "Sin Categoria" : ""}} </span>
+                        <span class="font-weight-bold">{{producto.producto_categoria_id == id_sin_categoria ? "Sin Categoria" : ""}} </span>
                         <span class="font-weight-bold">{{producto.producto_peso == 0 ? "Sin Peso" : ""}}</span>
                     </div>
                 </a>

@@ -47,7 +47,7 @@
             </div>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('Usuarios')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUsuarios"
                     aria-expanded="true" aria-controls="collapseUsuarios">
                     <i class="bi bi-lock-fill"></i>
@@ -72,7 +72,7 @@
             </div>
 
             <!-- Nav Item - Utilities Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('Proveedores')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseEntidades"
                     aria-expanded="true" aria-controls="collapseEntidades">
                     <i class="bi bi-people-fill"></i>
@@ -89,7 +89,7 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('Reglas')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProcesos"
                     aria-expanded="true" aria-controls="collapseProcesos">
                     <i class="bi bi-boxes"></i>
@@ -105,7 +105,7 @@
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('Inventario')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseInventary"
                     aria-expanded="true" aria-controls="collapseInventary">
                     <i class="bi bi-clipboard-check-fill"></i>
@@ -122,7 +122,7 @@
             </li>
 
             <!-- Nav Item - Tables -->
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('Planificador')">
                 <a class="nav-link" (click)="mostrarPagina('Planificador')">
                     <i class="bi bi-truck"></i>
                     <span class="fs-6">Generar Orden</span></a>
@@ -130,7 +130,7 @@
 
 
             <!-- Nav Item - Pages Collapse Menu -->
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('ReporteOrdenes')">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
                     aria-expanded="true" aria-controls="collapseReportes">
                     <i class="bi bi-graph-up"></i>

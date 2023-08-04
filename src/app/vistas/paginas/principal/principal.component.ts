@@ -169,6 +169,14 @@ export class PrincipalComponent implements OnInit {
     }
   }
 
+  mostrarEnlacePagina(pagina: string): boolean {
+
+    if(pagina == "Inicio"){return true}
+
+    if(this.paginasAutorizadas.indexOf(pagina) !== -1){
+      return true}else{return false}
+  }
+
   acercaDe():void{
     Swal.fire({
       title: '<strong>Acerca de Kairo</strong>',

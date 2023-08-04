@@ -22,6 +22,7 @@ import { MatStepper } from '@angular/material/stepper';
 })
 export class PlanificadorComponent implements OnInit {
 
+  id_sin_categoria:number = 26
 
   @Output() mostrarPaginaEvent = new EventEmitter();
 
