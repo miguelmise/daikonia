@@ -1,46 +1,46 @@
-import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ReportesService } from 'src/app/servicios/reportes.service';
-import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ChartOptions, ChartType,ChartData, Chart,Legend  } from 'chart.js';
+import { Chart, ChartType } from 'chart.js';
 import { finalize } from 'rxjs';
-import { DonanteInfo } from 'src/app/interfaces/interfaces';
+import { ReportesService } from 'src/app/servicios/reportes.service';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
 
 @Component({
-  selector: 'app-donantes-reporte',
-  templateUrl: './donantes-reporte.component.html',
-  styleUrls: ['./donantes-reporte.component.css']
+  selector: 'app-beneficiados-reporte',
+  templateUrl: './beneficiados-reporte.component.html',
+  styleUrls: ['./beneficiados-reporte.component.css']
 })
-export class DonantesReporteComponent implements OnInit {
+export class BeneficiadosReporteComponent implements OnInit {
+
+  dataBeneficiados: any[] = [];
 
   registerForm: FormGroup;
-  dataDonantes: any[] = [];
-
-  displayedColumns: string[] = ['donante', 'peso', 'precio'];
 
   dataSource!: MatTableDataSource<any>;
 
   dataTable!: MatTableDataSource<any>;
 
+  displayedColumns: string[] = ['beneficiado', 'peso', 'precio'];
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
   submitted = false;
 
-  donantesLabel : any
+  beneficiadosLabel : any
   productosLabel : any
   productosKg : any
   productosPrecio : any
   chartType : ChartType = 'bar';
   chart : any;
 
-  constructor(private formBuilder: FormBuilder,private _util: UtilService, private _reporte: ReportesService,private cdr: ChangeDetectorRef,private elementRef: ElementRef) { 
+  constructor(private formBuilder: FormBuilder,private _util: UtilService, private _reporte: ReportesService,private cdr: ChangeDetectorRef,private elementRef: ElementRef) {
     this.registerForm = this.formBuilder.group({
       fecha_inicio:["",Validators.required],
       fecha_fin:["",Validators.required],
-      reporte:"donantes"
+      reporte:"beneficiados"
     });
   }
 
@@ -52,9 +52,9 @@ export class DonantesReporteComponent implements OnInit {
   }
 
   recargarGrafico(){
-    document.getElementById('DonantesChart')?.remove()
+    document.getElementById('BeneficiadosChart')?.remove()
     var canvas = document.createElement("canvas");
-    canvas.id = "DonantesChart"; 
+    canvas.id = "BeneficiadosChart"; 
     document.getElementById("contenedor")?.appendChild(canvas);
     this.cargarDatos()
   }
@@ -62,12 +62,12 @@ export class DonantesReporteComponent implements OnInit {
   cargarDatos():void{
     this._reporte.buscar_orden(this.registerForm.value)
     .pipe(finalize(() => {
-      this.donantesLabel = [];
+      this.beneficiadosLabel = [];
         this.productosKg = [];
         this.productosPrecio = []
 
-        this.dataDonantes.forEach((item: any) => {
-          this.donantesLabel.push(item.orden_proveedor_nombre)
+        this.dataBeneficiados.forEach((item: any) => {
+          this.beneficiadosLabel.push(item.orden_beneficiado_nombre)
           this.productosPrecio.push(item.precio)
           this.productosKg.push(parseFloat(item.peso) / 1000);
         });
@@ -75,9 +75,9 @@ export class DonantesReporteComponent implements OnInit {
         this.crearGrafico();
     }))
     .subscribe({
-      next:(res:DonanteInfo[])=>{
-        this.dataDonantes = res
-        this.dataSource = new MatTableDataSource(this.dataDonantes);
+      next:(res:any[])=>{
+        this.dataBeneficiados = res
+        this.dataSource = new MatTableDataSource(this.dataBeneficiados);
         this.cdr.detectChanges();
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -93,12 +93,12 @@ export class DonantesReporteComponent implements OnInit {
 
   crearGrafico(){
   
-    const ctx = this.elementRef.nativeElement.querySelector('#DonantesChart');
+    const ctx = this.elementRef.nativeElement.querySelector('#BeneficiadosChart');
 
     this.chart =new Chart(ctx, {
       type: this.chartType,
       data: {
-        labels: this.donantesLabel,
+        labels: this.beneficiadosLabel,
         datasets: [{
           label: 'Peso Kg',
           data: this.productosKg,
@@ -139,7 +139,7 @@ export class DonantesReporteComponent implements OnInit {
             display: true 
           },title: {
             display: true,
-            text: '  Productos Kg entregados por donante ',
+            text: '  Productos Kg entregados a beneficiados ',
             position: 'top',
           }
         }
@@ -147,7 +147,5 @@ export class DonantesReporteComponent implements OnInit {
     });
 
 }
-
-  
 
 }

@@ -131,14 +131,15 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrdenes"
-                    aria-expanded="true" aria-controls="collapseOrdenes">
+                <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReportes"
+                    aria-expanded="true" aria-controls="collapseReportes">
                     <i class="bi bi-graph-up"></i>
                     <span class="fs-6">Reportes</span>
                 </a>
-                <div id="collapseOrdenes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                <div id="collapseReportes" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <h6 class="collapse-header">Resultados:</h6>
+                        <a class="collapse-item" (click)="mostrarPagina('ReporteBeneficiados')">Beneficiados</a>
                         <a class="collapse-item" (click)="mostrarPagina('ReporteDonantes')">Donantes</a>
                         <a class="collapse-item" (click)="mostrarPagina('ReporteOrdenes')">Órdenes</a>
                     </div>
@@ -270,6 +271,10 @@
 
                 <!-- Renderizar componente -->
                 <app-donantes-reporte *ngIf="Paginas['ReporteDonantes']"></app-donantes-reporte>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-beneficiados-reporte *ngIf="Paginas['ReporteBeneficiados']"></app-beneficiados-reporte>
                 <!-- /.container-fluid -->
 
                 <!-- Renderizar componente -->

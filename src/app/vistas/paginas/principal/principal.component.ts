@@ -37,22 +37,22 @@ export class PrincipalComponent implements OnInit {
     {
       id: 1,
       nombre: 'Administrador',
-      opciones: ['Inicio','ReporteDonantes', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes'],
+      opciones: ['Inicio','ReporteDonantes', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes','ReporteBeneficiados'],
     },
     {
       id: 2,
       nombre: 'Planificador',
-      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes'],
+      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes','ReporteBeneficiados'],
     },
     {
       id: 3,
       nombre: 'Inventario',
-      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Ordenes','ReporteOrdenes'],
+      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Ordenes','ReporteOrdenes','ReporteBeneficiados'],
     },
     {
       id: 4,
       nombre: 'Reportador',
-      opciones: ['Inicio', 'ReporteDonantes','ReporteOrdenes'],
+      opciones: ['Inicio', 'ReporteDonantes','ReporteOrdenes','ReporteBeneficiados'],
     },
     {
       id: 5,
@@ -77,10 +77,11 @@ export class PrincipalComponent implements OnInit {
     Ordenes:false,
     No_Autorizado:false,
     ReporteDonantes:false,
-    ReporteOrdenes:false
+    ReporteOrdenes:false,
+    ReporteBeneficiados:false
   };
 
-  private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios','collapseOrdenes'];
+  private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios','collapseReportes'];
 
   @HostListener('document:click', ['$event'])
   onClick(event: MouseEvent) {

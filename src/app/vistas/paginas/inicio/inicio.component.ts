@@ -76,7 +76,7 @@ export class InicioComponent implements OnInit {
       },
       options: {
         indexAxis: 'y',
-        aspectRatio: 0.8,
+        aspectRatio: 0.9,
         responsive: true,
         maintainAspectRatio: false,
         scales: {
