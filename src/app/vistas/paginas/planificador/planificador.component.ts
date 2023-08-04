@@ -6,6 +6,7 @@ import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {Product} from 'src/app/interfaces/interfaces'
+import { StockItem } from 'src/app/interfaces/interfaces';
 
 
 
@@ -119,12 +120,14 @@ export class PlanificadorComponent implements OnInit {
 
   ngOnInit(): void {
 
+     
+  };
+
+  ngAfterViewInit(){
     this.cargarAlertasProductos()
     this.cargarListaBeneficiados()
     this.cargarListaStock()
-    
-    
-  };
+  }
 
   
 
@@ -151,7 +154,7 @@ export class PlanificadorComponent implements OnInit {
 
   cargarListaBeneficiados():void{
     this._planificador.listar_beneficiados().subscribe({
-      next:res=>{
+      next:(res:StockItem[])=>{
         this.lista_beneficiados = res
         this.beneficiadosNoEscogidos = this.lista_beneficiados
         this.autoseleccionInicial()

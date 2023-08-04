@@ -3,6 +3,7 @@ import { PlanificadorService } from 'src/app/servicios/planificador.service';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
 import { ChartOptions, ChartType,ChartData, Chart,Legend  } from 'chart.js';
 import { finalize } from 'rxjs';
+import { StockItem } from 'src/app/interfaces/interfaces';
 
 @Component({
   selector: 'app-inicio',
@@ -21,6 +22,10 @@ export class InicioComponent implements OnInit {
   constructor(private _planificador: PlanificadorService, private _util: UtilService,private elementRef: ElementRef) { }
 
   ngOnInit(): void {
+    //this.cargarListaStock()
+  }
+
+  ngAfterViewInit(){
     this.cargarListaStock()
   }
 
@@ -32,7 +37,7 @@ export class InicioComponent implements OnInit {
         this.productNames = [];
         this.productQuantities = [];
 
-        this.lista_stock.forEach((item: any) => {
+        this.lista_stock.forEach((item: StockItem) => {
           this.productNames.push(item.cat_pro_nombre + "(kg)");
           this.productQuantities.push(parseFloat(item.suma) / 1000);
         });
@@ -40,7 +45,7 @@ export class InicioComponent implements OnInit {
         this.crearGrafico();
       }))
       .subscribe({
-        next: (res: any[]) => {
+        next: (res: StockItem[]) => {
           this.lista_stock = res;
   
           
@@ -71,6 +76,7 @@ export class InicioComponent implements OnInit {
       },
       options: {
         indexAxis: 'y',
+        aspectRatio: 0.8,
         responsive: true,
         maintainAspectRatio: false,
         scales: {

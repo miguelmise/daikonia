@@ -9,3 +9,9 @@ export interface Acceso {
     nombre: string;
     opciones: string[];
   }
+
+  export interface StockItem {
+    cat_pro_id: number;
+    cat_pro_nombre: string;
+    suma: string;
+  }
