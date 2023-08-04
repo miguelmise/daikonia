@@ -29,7 +29,7 @@ export class PlanificadorComponent implements OnInit {
 
   lista_beneficiados: any[] = []
 
-  lista_stock: any[] = []
+  lista_stock: StockItem[] = []
 
   lista_orden: any[] = []
 
