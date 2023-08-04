@@ -16,6 +16,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class OrdenesReporteComponent implements OnInit {
   registerForm: FormGroup;
+  accionActiva:boolean=false;
   result: any[] = [];
   listaOrdenes: any[] = [];
 
@@ -51,6 +52,7 @@ export class OrdenesReporteComponent implements OnInit {
   }
   buscarOrdenes(){
     //this.result=this.listaOrdenes;
+    this.accionActiva=true;
     console.log(this.registerForm.value)
     if(this.registerForm.get('codigo_producto')?.value 
         || this.registerForm.get('proveedor')?.value 
