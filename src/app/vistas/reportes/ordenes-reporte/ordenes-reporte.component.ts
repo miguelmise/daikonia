@@ -36,79 +36,58 @@ export class OrdenesReporteComponent implements OnInit {
               private formBuilder: FormBuilder) { 
     
     this.registerForm = this.formBuilder.group({
-      codigo_producto: [""],
-      proveedor: [""],
-      beneficiario: [""],
+      codigo_producto: null,
+      proveedor: null,
+      beneficiario: null,
       fecha_inicio:null,
-      fecha_fin:null
+      fecha_fin:null,
+      reporte:"ordenes"
     });
   }
 
   ngOnInit(): void {
-    //this.cargarListaOrdenes();
-    this.cargarOrdenes();
-    
+
     
   }
   buscarOrdenes(){
-    this.result=this.listaOrdenes;
+    //this.result=this.listaOrdenes;
     console.log(this.registerForm.value)
     if(this.registerForm.get('codigo_producto')?.value 
         || this.registerForm.get('proveedor')?.value 
         || this.registerForm.get('beneficiario')?.value
         || this.registerForm.get('fecha_inicio')?.value 
         || this.registerForm.get('fecha_fin')?.value ){
-
-        if(this.registerForm.get('fecha_inicio')?.value || this.registerForm.get('fecha_fin')?.value ){
-          var fechaInicio = new Date(new Date(this.registerForm.get('fecha_inicio')?.value).setHours(0, 0, 0, 0));
-          fechaInicio=new Date(fechaInicio.setDate(fechaInicio.getDate()+1));
-          var fechaFin = new Date(this.registerForm.get('fecha_fin')?.value);
-          fechaFin=new Date(new Date(fechaFin.setDate(fechaFin.getDate()+1)).setHours(23, 59, 59, 999));
-          //console.log("fecha inicio:"+fechaInicio);
-          //console.log("fecha fin "+fechaFin)
-          if(this.registerForm.get('fecha_inicio')?.value){
-            this.result = this.result.filter((obj) => {
-              var fechaOrden= new Date(obj.orden_fecha_emision);
-              //console.log("orde: "+fechaOrden+"inicio "+ new Date(new Date(this.registerForm.get('fecha_inicio')?.value)).getDate()+1);
-              return fechaOrden>= fechaInicio;
-            });
-            
+    
+      this._reporte.buscar_orden(this.registerForm.value).subscribe({
+        next:(res:any[])=>{
+          console.log("devuelve")
+          console.log(res)
+          //this.listaOrdenes = res;
+          this.ordenAlimentos=res;
+          this.result=this.listaOrdenes;
+          this.dataSource = new MatTableDataSource(this.ordenAlimentos);
+          //console.log(this.listaOrdenes);
+          this.cdr.detectChanges();
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort;
+        },error:err=>{
+          if(err.error){
+            this._util.alerta_error(err.error)
+          }else{
+            this._util.alerta_error(JSON.stringify(err))
           }
-
-          if(this.registerForm.get('fecha_fin')?.value){
-            this.result = this.result.filter((obj) => {
-              var fechaOrden= new Date(obj.orden_fecha_emision)
-              return fechaFin >= fechaOrden;
-            });
-          }
-          
-          
-        } 
-      
-      if(this.registerForm.get('codigo_producto')?.value ){
-        this.result = this.result.filter((obj) => {
-          return obj.orden_producto_codigo.toString() === this.registerForm.get('codigo_producto')?.value;
-        });
-      }
-      if(this.registerForm.get('proveedor')?.value ){
-        this.result = this.result.filter((obj) => {
-          return String(obj.orden_proveedor_nombre).toUpperCase().replace(" ", "").includes(this.registerForm.get('proveedor')?.value.toUpperCase().replace(" ", ""));
-        });
-      }
-      if(this.registerForm.get('beneficiario')?.value ){
-        this.result = this.result.filter((obj) => {
-          return String(obj.orden_beneficiado_nombre).toUpperCase().replace(" ", "").includes(this.registerForm.get('beneficiario')?.value.toUpperCase().replace(" ", ""));
-        });
-      }  
-
+        }
+      })
+        
     }else{
-      //this.result=[];
+     
       if(!this.registerForm.get('codigo_producto')?.value 
         || !this.registerForm.get('proveedor')?.value 
-        || !this.registerForm.get('beneficiario')?.value){
+        || !this.registerForm.get('beneficiario')?.value
+        ){
       Swal.fire({
         title: '',
-        text: 'No se aplicó ningun filtro, por lo que se mostrará la información de todas las ordenes generadas',
+        text: 'No se aplicó ningun filtro',
         icon: 'warning',
         showCancelButton: false,
         confirmButtonText: 'ok',
@@ -123,33 +102,7 @@ export class OrdenesReporteComponent implements OnInit {
     }
     }
     
-    this.ordenAlimentos=this.result;
-    this.dataSource=new MatTableDataSource(this.ordenAlimentos);
-    this.cdr.detectChanges();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-    //console.log(this.registerForm.get('codigo_producto')?.value);
-    ///.log("Resultado filtro");
-    ///console.log(this.ordenAlimentos);
   }
-  cargarOrdenes():void{
-    this._reporte.listado_ordenes().subscribe({
-      next:res=>{
-        this.listaOrdenes = res;
-        //this.ordenAlimentos=res;
-        this.dataSource = new MatTableDataSource(this.listaOrdenes);
-        //console.log(this.listaOrdenes);
-        this.cdr.detectChanges();
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-      },error:err=>{
-        if(err.error){
-          this._util.alerta_error(err.error)
-        }else{
-          this._util.alerta_error(JSON.stringify(err))
-        }
-      }
-    })
-  }
+  
   
 }
