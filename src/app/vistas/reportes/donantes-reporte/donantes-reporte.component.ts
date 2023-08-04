@@ -1,4 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ElementRef, ViewChild } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ReportesService } from 'src/app/servicios/reportes.service';
+import { UtilService } from 'src/app/servicios/utilidades/util.service';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ChartOptions, ChartType,ChartData, Chart,Legend  } from 'chart.js';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-donantes-reporte',
@@ -7,9 +15,156 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DonantesReporteComponent implements OnInit {
 
-  constructor() { }
+  registerForm: FormGroup;
+  dataDonantes: any[] = [];
+
+  displayedColumns: string[] = ['donante', 'producto', 'codigo', 'peso', 'precio'];
+
+  dataSource!: MatTableDataSource<any>;
+
+  dataTable!: MatTableDataSource<any>;
+
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+  submitted = false;
+
+  donantesLabel : any
+  productosLabel : any
+  productosKg : any
+  productosPrecio : any
+  chartType : ChartType = 'bar';
+  chart : any;
+
+  constructor(private formBuilder: FormBuilder,private _util: UtilService, private _reporte: ReportesService,private cdr: ChangeDetectorRef,private elementRef: ElementRef) { 
+    this.registerForm = this.formBuilder.group({
+      fecha_inicio:["",Validators.required],
+      fecha_fin:["",Validators.required],
+      reporte:"donantes"
+    });
+  }
 
   ngOnInit(): void {
+  }
+
+  onSubmit(){
+    this.recargarGrafico()
+  }
+
+  recargarGrafico(){
+    document.getElementById('DonantesChart')?.remove()
+    var canvas = document.createElement("canvas");
+    canvas.id = "DonantesChart"; 
+    document.getElementById("contenedor")?.appendChild(canvas);
+    this.cargarDatos()
+  }
+
+  cargarDatos():void{
+    this._reporte.buscar_orden(this.registerForm.value)
+    .pipe(finalize(() => {
+      this.donantesLabel = [];
+        this.productosKg = [];
+        this.productosLabel = [];
+        this.productosPrecio = []
+
+        this.dataDonantes.forEach((item: any) => {
+          this.donantesLabel.push(item.orden_proveedor_nombre);
+          this.productosLabel.push(item.orden_producto_descripcion)
+          this.productosPrecio.push(item.precio)
+          this.productosKg.push(parseFloat(item.peso) / 1000);
+        });
+        
+        this.crearGrafico();
+    }))
+    .subscribe({
+      next:res=>{
+        this.dataDonantes = res
+        this.dataSource = new MatTableDataSource(this.dataDonantes);
+        this.cdr.detectChanges();
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      },error:err=>{
+        if(err.error){
+          this._util.alerta_error(err.error)
+        }else{
+          this._util.alerta_error(JSON.stringify(err))
+        }
+      }
+    })
+  }
+
+  crearGrafico(){
+  
+    const ctx = this.elementRef.nativeElement.querySelector('#DonantesChart');
+
+    const randomColors = this.generateRandomColors(this.dataDonantes.length);
+    const randomColors2 = this.generateRandomColors(this.dataDonantes.length);
+
+    this.chart =new Chart(ctx, {
+      type: this.chartType,
+      data: {
+        labels: this.productosLabel,
+        datasets: [{
+          label: 'Kg',
+          data: this.productosKg,
+          backgroundColor: '#FF8000',
+          borderColor: '#FF8000',
+          borderWidth: 1
+        },
+        {
+          label: 'Precio',
+          data: this.productosPrecio,
+          backgroundColor: '#00cc66',
+          borderColor: '#00cc66',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        indexAxis: 'y',
+        aspectRatio: 0.8,
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          x: {
+            ticks: {
+              autoSkip: false, // Evita que los ticks se omitan automáticamente
+              maxRotation: 0, // Establece la rotación del label x en 0 grados para evitar superposiciones
+              minRotation: 0
+            }
+          },
+          y: {
+            ticks: {
+              autoSkip: false, // Evita que los ticks se omitan automáticamente
+            }
+          }
+        },
+        plugins:{
+          legend: {
+            position: 'top',
+            display: true 
+          },title: {
+            display: true,
+            text: '  Productos Kg entregados por donante ',
+            position: 'top',
+          }
+        }
+      },
+    });
+
+}
+
+  generateRandomColors(numColors: number): string[] {
+    const randomColors: string[] = [];
+    const letters = '0123456789ABCDEF';
+  
+    for (let i = 0; i < numColors; i++) {
+      let color = '#';
+      for (let j = 0; j < 6; j++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      randomColors.push(color);
+    }
+  
+    return randomColors;
   }
 
 }
