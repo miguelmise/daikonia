@@ -27,7 +27,7 @@
                 </div>                
                 
               <div>
-                <button class="btn btn-success" [disabled]="lista_productos_invalidos.length > 0" matStepperNext>Continuar</button>
+                <button class="btn btn-success" [disabled]="lista_productos_invalidos.length > 0" (click)="stepOne()">Continuar</button>
               </div>
             </mat-step>
             <mat-step label="Generar" [editable]="false">

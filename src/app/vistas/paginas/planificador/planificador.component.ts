@@ -119,17 +119,23 @@ export class PlanificadorComponent implements OnInit {
   };
 
   ngOnInit(): void {
-
+    this.cargarAlertasProductos()
+    this.cargarListaBeneficiados()
      
   };
 
   ngAfterViewInit(){
-    this.cargarAlertasProductos()
-    this.cargarListaBeneficiados()
-    this.cargarListaStock()
-    this.cdr.detectChanges();
+    
+    
+    //this.cargarListaStock()
+    //this.cdr.detectChanges();
   }
 
+  stepOne():void{
+    this.cargarListaStock()
+    this.cdr.detectChanges();
+    this.stepper.next()
+  }
   
 
   cargarAlertasProductos():void{
@@ -413,7 +419,6 @@ seleccionarNingunoBeneficiados(): void {
           this._planificador.generarOrdenAlimentos(this.beneficiadosEscogidos).subscribe({
             next:res=>{
               this.cargarOrden(res.orden)
-              console.log(res)
             },error:err=>{
               if(err.error){
                 this._util.alerta_error(err.error)
