@@ -22,7 +22,7 @@ export class OrdenesReporteComponent implements OnInit {
 
   ordenAlimentos: any[] = [];
 
-  displayedColumns: string[] = ['orden_beneficiado_nombre', 'orden_producto_ubicacion','orden_producto_caducidad','orden_producto_codigo','orden_producto_descripcion',
+  displayedColumns: string[] = ['orden_beneficiado_nombre', 'orden_producto_ubicacion','orden_producto_caducidad','orden_producto_codigo','cat_pro_nombre','orden_producto_descripcion',
                                   'orden_proveedor_nombre','orden_producto_precio','orden_producto_cantidad','orden_fecha_emision'];
 
   dataSource!: MatTableDataSource<any>;
@@ -53,7 +53,6 @@ export class OrdenesReporteComponent implements OnInit {
   buscarOrdenes(){
     //this.result=this.listaOrdenes;
     this.accionActiva=true;
-    console.log(this.registerForm.value)
     if(this.registerForm.get('codigo_producto')?.value 
         || this.registerForm.get('proveedor')?.value 
         || this.registerForm.get('beneficiario')?.value
@@ -62,8 +61,6 @@ export class OrdenesReporteComponent implements OnInit {
     
       this._reporte.buscar_orden(this.registerForm.value).subscribe({
         next:(res:any[])=>{
-          console.log("devuelve")
-          console.log(res)
           //this.listaOrdenes = res;
           this.ordenAlimentos=res;
           this.result=this.listaOrdenes;

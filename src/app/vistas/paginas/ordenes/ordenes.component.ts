@@ -114,8 +114,8 @@ export class OrdenesComponent implements OnInit {
   cargarOrden(id:any):void{
     this._planificador.obtener_orden(id).subscribe({
       next:res=>{
-        //this.ordenAlimentos = res
-        this.ordenAlimentos = res.filter((element: any) => element.orden_estado !== 3);
+        this.ordenAlimentos = res
+        //this.ordenAlimentos = res.filter((element: any) => element.orden_estado !== 3);
         this.dataSource = new MatTableDataSource(this.ordenAlimentos);
         this.cdr.detectChanges();
         this.dataSource.paginator = this.paginator;
