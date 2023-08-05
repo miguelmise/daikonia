@@ -128,13 +128,13 @@ export class PlanificadorComponent implements OnInit {
   ngAfterViewInit(){
     
     
-    //this.cargarListaStock()
-    //this.cdr.detectChanges();
+    this.cargarListaStock()
+    this.cdr.detectChanges();
   }
 
   stepOne():void{
-    this.cargarListaStock()
-    this.cdr.detectChanges();
+    //this.cargarListaStock()
+    //this.cdr.detectChanges();
     this.stepper.next()
   }
   
