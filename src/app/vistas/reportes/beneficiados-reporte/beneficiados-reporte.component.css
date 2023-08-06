@@ -37,3 +37,11 @@ table {
   #download{
     color: #006e8c;
   }
+  .chart-container {
+    width: 80%;
+    height:30%;
+    margin: 0 auto;
+    margin-top: 2%;
+    margin-bottom: 1%;
+
+ }

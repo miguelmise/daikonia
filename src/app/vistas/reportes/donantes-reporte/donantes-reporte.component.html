@@ -6,7 +6,27 @@
 
     <div class="row">
         <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
-            <div class="row">
+            <div class="row justify-content-md-center">
+                <div class="col-md-3"> 
+                    <div class="row-md-2 ">
+                        <label>Fecha desde</label>
+                        <input type="date" class="form-control" formControlName="fecha_inicio"/>
+                    </div>
+                </div>
+                <div class="col-md-3"> 
+                    <div class="row-md-2">
+                        <label >Fecha hasta</label>
+                        <input type="date" class="form-control" formControlName="fecha_fin"/>
+                    </div>
+                </div>
+            </div>
+            <div style="display: flex;justify-content: center; align-items: center; margin-top: 1%;">
+               <button type="submit" class="btn btn-success btn-sm" [disabled]="registerForm.invalid" style="display: flex;justify-content: center; align-items: center;border-radius: 50%; width: 50px; height: 50px; border: 2px solid #006e8c; padding: 10px; background-color: #006e8c;">
+                    <i class="bi bi-search fa-2x text-center" style="color:white;border: 0px; padding: 0%;margin: 0%;"></i>
+                </button>
+                
+            </div>
+            <!--<div class="row">
                 <div class="col-md-3">
                     <div class="input-group mb-3">
                         <span class="input-group-text">Fecha desde</span>
@@ -22,12 +42,12 @@
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-success btn-sm" [disabled]="registerForm.invalid"><mat-icon>search</mat-icon></button>
                 </div>
-            </div>
+            </div>-->
         </form>
     </div>
 
     <div class="row">
-        <div class="col-md-12" id="contenedor"> 
+        <div class="col-md-12 chart-container" id="contenedor"> 
             <canvas #chart id="DonantesChart"></canvas>
         </div>
     </div>
