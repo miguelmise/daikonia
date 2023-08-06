@@ -36,6 +36,10 @@ export class PlanificadorService {
     return this.http.post<any>(this.url + "planificador_ws.php",data);
   }
 
+  repartirProductos(data:any):Observable<any>{
+    return this.http.post<any>(this.url + "repartidor_ws.php",data);
+  }
+
   obtener_orden(data:any):Observable<any>{
     const params = new HttpParams().set('parametro', data);
     return this.http.get<any>(this.url + "planificador_ws.php",{params});

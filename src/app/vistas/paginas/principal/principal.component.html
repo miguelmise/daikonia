@@ -121,11 +121,18 @@
                 </div>
             </li>
 
-            <!-- Nav Item - Tables -->
+            <!-- Nav Item - Generador -->
             <li class="nav-item" *ngIf="mostrarEnlacePagina('Planificador')">
                 <a class="nav-link" (click)="mostrarPagina('Planificador')">
                     <i class="bi bi-truck"></i>
                     <span class="fs-6">Generar Orden</span></a>
+            </li>
+
+            <!-- Nav Item - Repartidor -->
+            <li class="nav-item" *ngIf="mostrarEnlacePagina('Repartidor')">
+                <a class="nav-link" (click)="mostrarPagina('Repartidor')">
+                    <i class="fa fa-rocket"></i>
+                    <span class="fs-6">Repartidor</span></a>
             </li>
 
 
@@ -279,6 +286,10 @@
 
                 <!-- Renderizar componente -->
                 <app-ordenes-reporte *ngIf="Paginas['ReporteOrdenes']"></app-ordenes-reporte>
+                <!-- /.container-fluid -->
+
+                <!-- Renderizar componente -->
+                <app-repartidor *ngIf="Paginas['Repartidor']"></app-repartidor>
                 <!-- /.container-fluid -->
                 
 

@@ -28,6 +28,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -39,6 +40,7 @@ import { NgChartjsModule } from 'ng-chartjs';
 import { DonantesReporteComponent } from './vistas/reportes/donantes-reporte/donantes-reporte.component';
 import { OrdenesReporteComponent } from './vistas/reportes/ordenes-reporte/ordenes-reporte.component';
 import { BeneficiadosReporteComponent } from './vistas/reportes/beneficiados-reporte/beneficiados-reporte.component';
+import { RepartidorComponent } from './vistas/paginas/repartidor/repartidor.component';
 
 
 @NgModule({
@@ -60,7 +62,8 @@ import { BeneficiadosReporteComponent } from './vistas/reportes/beneficiados-rep
     NoAutorizadoComponent,
     DonantesReporteComponent,
     OrdenesReporteComponent,
-    BeneficiadosReporteComponent
+    BeneficiadosReporteComponent,
+    RepartidorComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ import { BeneficiadosReporteComponent } from './vistas/reportes/beneficiados-rep
     MatTooltipModule,
     MatSortModule,
     MatStepperModule,
-    NgChartjsModule
+    NgChartjsModule,
+    MatProgressBarModule
   ],
   exports: [
     HttpClientModule,
@@ -88,7 +92,8 @@ import { BeneficiadosReporteComponent } from './vistas/reportes/beneficiados-rep
     MatTooltipModule,
     MatSortModule,
     MatStepperModule,
-    NgChartjsModule
+    NgChartjsModule,
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

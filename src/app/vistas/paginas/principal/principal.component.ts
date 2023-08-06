@@ -37,12 +37,12 @@ export class PrincipalComponent implements OnInit {
     {
       id: 1,
       nombre: 'Administrador',
-      opciones: ['Inicio','ReporteDonantes', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes','ReporteBeneficiados'],
+      opciones: ['Inicio','ReporteDonantes', 'Usuarios', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes','ReporteBeneficiados','Repartidor'],
     },
     {
       id: 2,
       nombre: 'Planificador',
-      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes','ReporteBeneficiados'],
+      opciones: ['Inicio','ReporteDonantes', 'Proveedores', 'Beneficiados', 'Productos', 'Inventario', 'Reglas', 'Planificador', 'Categoria', 'Ordenes','ReporteOrdenes','ReporteBeneficiados','Repartidor'],
     },
     {
       id: 3,
@@ -78,7 +78,8 @@ export class PrincipalComponent implements OnInit {
     No_Autorizado:false,
     ReporteDonantes:false,
     ReporteOrdenes:false,
-    ReporteBeneficiados:false
+    ReporteBeneficiados:false,
+    Repartidor:false
   };
 
   private collapseIds = ['collapseProcesos', 'collapseInventary','collapseEntidades','collapseUsuarios','collapseReportes'];

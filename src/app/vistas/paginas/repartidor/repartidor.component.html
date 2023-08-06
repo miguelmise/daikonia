@@ -1,0 +1,244 @@
+<div class="container-fluid">
+    <!-- Cabecera -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">REPARTIDOR DE PRODUCTOS</h1>
+    </div>
+
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" [style.width]="progreso + '%'"></div>
+      </div>
+
+    <!-- Paso 1 -->
+    <div class="row" *ngIf="progreso == 25">
+        <div class="col-lg-12 my-2">
+            <div class="card shadow mb-2">
+                <div class="card-header py-3 bg-secondary">
+                    <h6 class="m-0 font-weight-bold text-white">Seleccionar Instituciones</h6>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-5 ">
+                            <div class="card-header py-3 bg-secondary">
+                                <h6 class="m-0 font-weight-bold text-white text-center">No Seleccionados</h6>
+                            </div>
+                            <div  *ngFor="let fundacion of beneficiadosNoEscogidos">
+                                <button type="button" class="BeneficiadoBoton border border-secondary border-top-0" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
+                                    <span class="btn-label" >
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </span>{{ fundacion.beneficiado_nombre }}
+                                </button>
+                                
+                            </div>
+                        </div>
+                        <div class="col-md-2 d-flex justify-content-center align-items-center flex-column" style="margin-top:5%; padding-left: 0%;">
+                            <button class="my-1 border-0" style="background-color: white;" (click)="seleccionarTodosBeneficiados()"><i class="bi bi-chevron-double-right fa-2x"></i></button>
+                            <button class="my-1 border-0" style="background-color: white;" (click)="seleccionarNingunoBeneficiados()"><i class="bi bi-chevron-double-left fa-2x"></i></button>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="card-header py-3 bg-secondary">
+                                <h6 class="m-0 font-weight-bold text-white text-center">Seleccionados</h6>
+                            </div>
+                            <div  *ngFor="let fundacion of beneficiadosEscogidos">
+                                <button type="button" class="BeneficiadoBoton border border-secondary border-top-0" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
+                                    <span class="btn-label" >
+                                        <i class="glyphicon glyphicon-ok"></i>
+                                    </span>{{ fundacion.beneficiado_nombre }}
+                                </button>
+                                
+                            </div>
+                        </div>
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <button class="btn btn-success" [disabled]="beneficiadosEscogidos.length == 0" (click)="avanzar()">Continuar</button>
+        </div>
+    </div>
+
+    <!-- Paso 2 -->
+    <div class="row">
+        <div class="row" *ngIf="progreso == 50">
+            <div class="col-lg-12 my-2">
+                <div class="card shadow mb-2">
+                    <div class="card-header py-3 bg-secondary">
+                        <h6 class="m-0 font-weight-bold text-white">Elegir Producto</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-5 ">
+                                <div class="card-header py-3 bg-secondary">
+                                    <h6 class="m-0 font-weight-bold text-white text-center"> Seleccionar Producto</h6>
+                                </div>
+                                <div class="card-body shadow">
+                                    <select class="form-select" size="10" [(ngModel)]="productoSeleccionado" (change)="seleccionar_producto()">
+                                        <option value="" [disabled]="true" >Seleccione..</option>
+                                      <option *ngFor="let producto of listaProductos" [value]="producto.producto_codigo">
+                                        {{producto.producto_sku}}
+                                      </option>
+                                      </select>
+                                </div>
+                            </div>
+                            <div class="col-md-2 d-flex justify-content-center align-items-center flex-column" style="margin-top:5%; padding-left: 0%;" *ngIf="productoSeleccionado != 0">
+                                <i class="bi bi-arrow-right-circle display-2"></i>
+                            </div>
+                            <div class="col-md-5" *ngIf="productoSeleccionado != 0">
+                                <div class="card-header py-3 bg-secondary">
+                                    <h6 class="m-0 font-weight-bold text-white text-center">{{nombre_producto}}</h6>
+                                </div>
+                                <div class="card-body shadow">
+                                    <div class="row">
+                                        <!--Instituciones-->
+                                        <div class="col-md-6">
+                                            <div class="card border-success mb-3" style="max-width: 18rem;">
+                                                <div class="card-header text-dark bg-warning text-center">Instituciones</div>
+                                                <div class="card-body text-success text-center">
+                                                  <h5 class="card-title">{{beneficiados()}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Stock-->
+                                        <div class="col-md-6">
+                                            <div class="card border-success mb-3" style="max-width: 18rem;">
+                                                <div class="card-header text-dark bg-warning text-center">Stock Disponible</div>
+                                                <div class="card-body text-success text-center">
+                                                  <h5 class="card-title">{{stock}}</h5>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!--Cantidad-->
+                                        <div class="col-md-12">
+                                            <div class="card border-success mb-3">
+                                                <div class="card-header text-white bg-success text-center">Productos para Cada Institución</div>
+                                                <div class="card-body text-success text-center">
+                                                  <input class="card-title text-center" type="number" [(ngModel)]="cantidad_repartir">
+                                                </div>
+                                                <p *ngIf="cantidad_repartir > stock" class=" card-text text-danger text-center">Cantidad inválida mayor que Stock.</p>
+                                                <p *ngIf="cantidad_repartir < 0" class=" card-text text-danger text-center">Cantidad inválida debe ser mayor a cero.</p>
+                                                <p *ngIf="cantidad_repartir % 1 !== 0" class=" card-text text-danger text-center">Cantidad inválida no puede ser decimales.</p>
+                                                <p *ngIf="(cantidad_repartir * beneficiadosEscogidos.length) > stock" class=" card-text text-danger text-center">No hay suficiente Stock.</p>
+                                                <p *ngIf="(cantidad_repartir * beneficiadosEscogidos.length) < stock && cantidad_repartir > 0" class=" card-text text-success text-center">Se repartirá {{cantidad_repartir * beneficiadosEscogidos.length}} productos.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-success" [disabled]="stock == 0 || cantidad_repartir == 0 || cantidad_repartir % 1 !== 0" (click)="enviar()">Generar Orden</button>
+                <button class="btn btn-warning mx-1" (click)="reiniciar()">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paso 3 -->
+    <div class="row">
+        <div class="row" *ngIf="progreso == 75">
+            <div class="col-lg-12 my-2">
+                <div class="card shadow mb-2">
+                    <div class="card-body">
+                        Procesando...
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Paso 4 -->
+    <div class="row">
+        <div class="row" *ngIf="progreso == 100">
+            <div class="col-lg-12 my-2">
+                <div class="card shadow mb-2">
+                    <div class="card-header py-3 bg-secondary">
+                        <h6 class="m-0 font-weight-bold text-white">Orden Generada</h6>
+                    </div>
+                    <div class="card-body">
+                        <div *ngIf="lista_orden.length>0">
+                            <table mat-table [dataSource]="dataSource" matSort matSortActive="created" matTableExporter #exporter="matTableExporter">
+                                <!-- Column -->
+                        <ng-container matColumnDef="InstitucionSocial">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header>Institución Social</th>
+                            <td mat-cell *matCellDef="let element" style="text-transform: uppercase;"><a >{{element.orden_beneficiado_nombre}}</a></td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Ubicacion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicación</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_ubicacion}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Caducidad">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Caducidad</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_caducidad}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Codigo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_codigo}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Descripcion">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_descripcion}} </td>
+                        </ng-container>
+                       
+                        <!-- Column -->
+                        <ng-container matColumnDef="Proveedor">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_proveedor_nombre}} </td>
+                        </ng-container>
+        
+                        <!-- Column -->
+                        <ng-container matColumnDef="Precio">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_precio}} </td>
+                        </ng-container>
+                       
+                        <!-- Column -->
+                        <ng-container matColumnDef="Cantidad" >
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_producto_cantidad}} </td>
+                        </ng-container>
+                        
+                        <!-- Column -->
+                        <ng-container matColumnDef="FechaOrden">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Orden</th>
+                            <td mat-cell *matCellDef="let element"> {{element.orden_fecha_emision}} </td>
+                        </ng-container>
+        
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                            <div class="table_footer">
+                                <a *ngIf="ordenAceptada" id="download" class="pointer" matTooltip="Descargar Archivo" (click)="exporter.exportTable('xlsx', {fileName:'Orden',sheet:'Orden',Props:{Author:'Kairo System',Title:'Orden'}})">Descargar Archivo</a>
+                                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                            </div>
+                            <div class="bGeneral">
+                                <div class="botones" *ngIf="!ordenAceptada" style=" display: flex; align-items: center; justify-content: center ;">
+                                
+                                    <button mat-button class="btn btn-success align-items-center" [disabled]="numberOrden == 0" (click)="confirmarOrden()" >Aceptar</button>
+                                    <button class="btn btn-danger align-items-center mx-3" (click)="reiniciar()">Rechazar</button>
+                               
+                                </div>
+                            </div>
+                        </div>
+                        <h3 *ngIf="lista_orden.length==0" class="text-dark">No hay datos para presentar</h3>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <button class="btn btn-warning mx-1" (click)="reiniciar()">Reiniciar</button>
+            </div>
+        </div>
+    </div>
+
+</div>
