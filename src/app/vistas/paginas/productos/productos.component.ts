@@ -261,6 +261,18 @@ export class ProductosComponent implements OnInit {
 
     }
   }
-
+  informacion(){
+    Swal.fire({
+      html: `<p>El peso ingresado debe corresponder al peso total del producto, es decir:</b></p>
+      <ul>
+        <li>Si el producto es una unidad debe se ingresa el peso de la unidad.</li>
+        <li>Si el producto es una caja, se ingresa el peso de la caja y no de la unidad que contenga la caja.</li>
+      </ul>
+      <br>
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 
 }

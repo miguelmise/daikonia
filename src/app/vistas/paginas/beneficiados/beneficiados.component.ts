@@ -349,5 +349,22 @@ export class BeneficiadosComponent implements OnInit {
       this._util.alerta("Error","No se encontro la información del Beneficiado.","warning")
     }
   }
+  informacion(){
+    Swal.fire({
+      html: `<p>Datos del beneficiario considerados para la generación de una orden.</p>
+      <p><b>Consideraciones:</b></p>
+      <ul>
+        <li>En base a la periodicidad asignada se distribuirá la cantidad de producto al beneficiario:</li>
+        <ul>
+          <li>Si es semanal, se distribuye la cantidad asignada en las reglas. </li>
+          <li>Si es quincenal, se distribuye dos veces la cantidad asignada en las reglas. </li>
+          <li>Si es mensual, se distribuye cuatro veces la cantidad asignada en las reglas. </li>
+        </ul>
+      </ul>
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 
 }

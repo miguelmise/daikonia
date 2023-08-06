@@ -435,5 +435,19 @@ seleccionarNingunoBeneficiados(): void {
     })   
 
   };
+  informacion(){
+    Swal.fire({
+      html: `<p>Generación de ordenes.</p>
+      <p><b>Pasos a seguir:</b></p>
+      <ol>
+        <li>Se verifica que los productos tengan la información completa.</li>
+        <li>Se seleccionan las instituciones beneficiarias y se muestran las cantidades de productos disponibles y requeridos para dichas instituciones.</li>
+        <li>Dar clic en generar: Se repartirán los productos a los beneficiarios en base a las reglas.</li>
+      </ol>
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 
 }

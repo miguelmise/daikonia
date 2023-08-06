@@ -156,6 +156,20 @@ export class CategoriasComponent implements OnInit {
       }
     })
   }
+  informacion(){
+    Swal.fire({
+      html: `<p>Pantalla de creación y modificación de categorias.</p>
+      <p><b>Consideraciones:</b></p>
+      <ul>
+        <li>Las categorias pueden inactivarse, en caso de hacerlo, ya no se considerarán en el proceso para la generación de una orden.</li>
+        
+      
+      </ul>
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 
   
   

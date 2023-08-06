@@ -147,5 +147,16 @@ export class OrdenesComponent implements OnInit {
       }
     })
   }
-
+  informacion(){
+    Swal.fire({
+      html: `<p>Listado de ordenes generadas permitiendo la devolución de productos.</p>
+      <p><b>Consideraciones:</b></p>
+      <ul>
+        <li>Los productos solo podrán ser devueltos si no ha pasado las 24 horas desde que se generó la orden</li>
+      </ul>
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 }

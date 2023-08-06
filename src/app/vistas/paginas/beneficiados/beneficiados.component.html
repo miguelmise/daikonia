@@ -68,8 +68,11 @@
 
             <!-- data -->
             <div *ngIf="isFormVisible" class="card shadow mb-4">
-                <div class="card-header py-3 bg-secondary">
-                    <h6 class="m-0 font-weight-bold text-white">Información Institución Beneficiada : {{selectBeneficiado}}</h6>
+                <div class="card-header py-3 bg-secondary d-flex ">
+                    <button class="btn btn-transparent" style="padding-left: 0%; border-left: 0%; margin-left: 0%;">
+                        <i class="bi bi-info-circle " style="color:#ebebeb; " (click)="informacion()"> </i>
+                    </button>
+                    <h6 class="m-0 font-weight-bold text-white" style="display: flex;justify-content: center; align-items: center;">Información Institución Beneficiada : {{selectBeneficiado}}</h6>
                 </div>
                 <div class="card-body">
                     <!--formulario-->
@@ -106,7 +109,7 @@
                             <!--periocidad-->
                             <div class="col-md-4">
                                 <div class="input-group mb-3">
-                                    <span class="input-group-text">Periocidad</span>
+                                    <span class="input-group-text">Periodicidad</span>
                                     <select class="form-select bg-white text-dark" formControlName="beneficiado_periodo">
                                         <option value="" [disabled]="true" >Seleccione..</option>
                                       <option *ngFor="let tipo of periocidad" [value]="tipo.valor">

@@ -274,4 +274,20 @@ this.beneficiadosNoEscogidos = this.beneficiadosNoEscogidos.filter((item,index)=
 
 }
 
+informacion(){
+  Swal.fire({
+    html: `<p>Distribuye un único producto de manera equivalente a las instituciones seleccionadas, independiente a la cantidad de personas que tenga cada institución.</p>
+    <p><b>Pasos a seguir:</b></p>
+    <ol>
+      <li>Seleccione las instituciones.</li>
+      <li>Escoja un solo producto y la cantidad a repartir.</li>
+      <li>Dar clic en generar: Se repartirá la misma cantidad para cada fundación.</li>
+    </ol>
+    <br>
+    `,
+    icon: 'info',
+    confirmButtonColor: '#006e8c'
+  })
+}
+
 }

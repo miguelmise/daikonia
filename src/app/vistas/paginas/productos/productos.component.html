@@ -116,7 +116,12 @@
             <!-- data -->
             <div *ngIf="isFormVisible" class="card shadow mb-4">
                 <div class="card-header py-3 bg-secondary d-flex justify-content-between">
-                    <h6 class="m-0 font-weight-bold text-white">Información del Producto: {{selectProducto}}</h6>
+                    <button class="btn btn-transparent" style="padding-left: 0%; border-left: 0%; margin-left: 0%;">
+                        <i class="bi bi-info-circle " style="color:#ebebeb; " (click)="informacion()"> </i>
+                    </button>
+                    <h6 class="m-0 font-weight-bold text-white" style="display: flex;justify-content: center; align-items: center;">Información del Producto: {{selectProducto}}</h6>
+                    
+                    
                     <button class="btn btn-sm btn-secondary btn-transparent" (click)="minimizarventana()">x</button>
                 </div>
                 <div class="card-body">

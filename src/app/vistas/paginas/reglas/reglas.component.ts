@@ -186,5 +186,14 @@ export class ReglasComponent implements OnInit {
       }
     })
   }
+  informacion(){
+    Swal.fire({
+      html: `<p>Se asigna la cantidad en gramos de cada categoría de productos por categoria de persona.</p>
+      
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 
 }

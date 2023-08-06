@@ -369,6 +369,21 @@ export class InventarioComponent implements OnInit {
       this._util.alerta("Error","No se encontro la información del Producto.","warning")
     }
   }
+  informacion(){
+    Swal.fire({
+      html: `<p>Carga de archivo excel de inventario con el encabezado solicitado previamente.</p>
+      <p><b>Consideraciones:</b></p>
+      <p></p>
+      <ul>
+        <li>La descripción del producto en la carga se usará para obtener y calcular el peso del producto, en caso de no poder calcularlo, el peso deberá ingresarse manualmente.</li>
+        <li>Si se detectan productos nuevos, estos se registrarán sin categoría.</li>
+      
+      </ul>
+      `,
+      icon: 'info',
+      confirmButtonColor: '#006e8c'
+    })
+  }
 
   
 
