@@ -93,7 +93,8 @@ import { RepartidorComponent } from './vistas/paginas/repartidor/repartidor.comp
     MatSortModule,
     MatStepperModule,
     NgChartjsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatPaginatorModule
   ],
   providers: [],
   bootstrap: [AppComponent]

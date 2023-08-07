@@ -41,6 +41,7 @@
                             <div class="card-header py-3 bg-secondary">
                                 <h6 class="m-0 font-weight-bold text-white text-center">Seleccionados</h6>
                             </div>
+                            <p class="text-warning text-center" *ngIf="beneficiadosEscogidos.length == 0">Ningún Institución Seleccionado</p>
                             <div  *ngFor="let fundacion of beneficiadosEscogidos">
                                 <button type="button" class="BeneficiadoBoton border border-secondary border-top-0" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
                                     <span class="btn-label" >
@@ -222,7 +223,7 @@
                             </table>
                             <div class="table_footer">
                                 <a *ngIf="ordenAceptada" id="download" class="pointer" matTooltip="Descargar Archivo" (click)="exporter.exportTable('xlsx', {fileName:'Orden',sheet:'Orden',Props:{Author:'Kairo System',Title:'Orden'}})">Descargar Archivo</a>
-                                <mat-paginator pageSize="5" showFirstLastButtons></mat-paginator>
+                                <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
                             </div>
                             <div class="bGeneral">
                                 <div class="botones" *ngIf="!ordenAceptada" style=" display: flex; align-items: center; justify-content: center ;">

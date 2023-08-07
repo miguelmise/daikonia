@@ -13,6 +13,7 @@ import { StockItem } from 'src/app/interfaces/interfaces';
 import Swal from 'sweetalert2';
 import { PlanificadorService } from 'src/app/servicios/planificador.service';
 import { MatStepper } from '@angular/material/stepper';
+import { finalize } from 'rxjs';
 
 
 @Component({
@@ -22,7 +23,9 @@ import { MatStepper } from '@angular/material/stepper';
 })
 export class PlanificadorComponent implements OnInit {
 
-  id_sin_categoria:number = 26
+  id_sin_categoria:number = 0
+
+  progreso :number = 25
 
   @Output() mostrarPaginaEvent = new EventEmitter();
 
@@ -122,7 +125,7 @@ export class PlanificadorComponent implements OnInit {
   ngOnInit(): void {
     this.cargarAlertasProductos()
     this.cargarListaBeneficiados()
-     
+    this.progreso = 25
   };
 
   ngAfterViewInit(){
@@ -133,9 +136,7 @@ export class PlanificadorComponent implements OnInit {
   }
 
   stepOne():void{
-    //this.cargarListaStock()
-    //this.cdr.detectChanges();
-    this.stepper.next()
+    this.progreso+=25
   }
   
 
@@ -311,14 +312,18 @@ seleccionarNingunoBeneficiados(): void {
   };
 
   cargarOrden(numeroOrden:any):void{
-    this._planificador.obtener_orden(numeroOrden).subscribe({
+    this._planificador.obtener_orden(numeroOrden)
+    .pipe(finalize(() => {
+      this.dataSource = new MatTableDataSource(this.lista_orden);
+      this.cdr.detectChanges();
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+    }))
+    .subscribe({
       next:res=>{
         this.numberOrden = numeroOrden;
         this.lista_orden = res;
-        this.dataSource = new MatTableDataSource(this.lista_orden);
-        this.cdr.detectChanges();
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        
 
         //this.beneficiadosNoEscogidos=this.listaBeneficiados;
         for (const columna of this.listaColumnas) {
@@ -327,7 +332,7 @@ seleccionarNingunoBeneficiados(): void {
           }
 
         }
-        this.stepper.next()
+        this.progreso+=50;
       },error:err=>{
         if(err.error){
           this._util.alerta_error(err.error)
@@ -386,7 +391,7 @@ seleccionarNingunoBeneficiados(): void {
         this._planificador.cancelar_orden().subscribe({
           next:res=>{
           this.seleccionarNingunoBeneficiados();
-          this.stepper.reset();
+          this.progreso = 25;
           this.ordenAceptada = false;
           this.numberOrden = 0;
           },error:err=>{
@@ -420,6 +425,10 @@ seleccionarNingunoBeneficiados(): void {
           this._planificador.generarOrdenAlimentos(this.beneficiadosEscogidos).subscribe({
             next:res=>{
               this.cargarOrden(res.orden)
+              this.dataSource = new MatTableDataSource(this.lista_orden);
+              this.cdr.detectChanges();
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
             },error:err=>{
               if(err.error){
                 this._util.alerta_error(err.error)

@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { PlanificadorService } from 'src/app/servicios/planificador.service';
 import { ProductosService } from 'src/app/servicios/productos.service';
 import { UtilService } from 'src/app/servicios/utilidades/util.service';
+import { finalize } from 'rxjs';
 
 import Swal from 'sweetalert2';
 
@@ -70,9 +71,12 @@ export class RepartidorComponent implements OnInit {
           // Lógica para enviar los IDs seleccionados
           this._planificador.repartirProductos(data_para_orden).subscribe({
             next:res=>{
-              console.log(res)
               this.cargarOrden(res.orden)
-              
+              this.dataSource = new MatTableDataSource(this.lista_orden);
+              this.cdr.detectChanges();
+              this.dataSource.paginator = this.paginator;
+              this.dataSource.sort = this.sort;
+              this.progreso = 100;
             },error:err=>{
               if(err.error){
                 this._util.alerta_error(err.error)
@@ -89,15 +93,19 @@ export class RepartidorComponent implements OnInit {
   }
 
   cargarOrden(numeroOrden:any):void{
-    this._planificador.obtener_orden(numeroOrden).subscribe({
+    this._planificador.obtener_orden(numeroOrden)
+    .pipe(finalize(() => {
+      this.dataSource = new MatTableDataSource(this.lista_orden);
+      this.cdr.detectChanges();
+      this.dataSource.paginator = this.paginator;
+      this.dataSource.sort = this.sort;
+      this.progreso = 100;
+    }))
+    .subscribe({
       next:res=>{
         this.numberOrden = numeroOrden;
         this.lista_orden = res;
-        this.dataSource = new MatTableDataSource(this.lista_orden);
-        this.cdr.detectChanges();
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.progreso = 100;
+        
 
       },error:err=>{
         if(err.error){
@@ -108,6 +116,7 @@ export class RepartidorComponent implements OnInit {
       }
     })
   }
+  
 
   avanzar(){
     if (this.progreso < 100) {
