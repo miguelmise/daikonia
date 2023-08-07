@@ -101,13 +101,13 @@
                                       <div class="card-header py-3 bg-secondary">
                                           <h6 class="m-0 font-weight-bold text-white text-center">No Seleccionados</h6>
                                       </div>
-                                      <div  *ngFor="let fundacion of beneficiadosNoEscogidos">
-                                          <button type="button" class="BeneficiadoBoton border border-secondary border-top-0" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
-                                              <span class="btn-label" >
-                                                  <i class="glyphicon glyphicon-ok"></i>
-                                              </span>{{ fundacion.beneficiado_nombre }}
-                                          </button>
-                                          
+                                      <div class="list-group" style="max-height: 350px; overflow-y: auto;">
+                                
+                                        <button type="button" class="list-group-item list-group-item-action" *ngFor="let fundacion of beneficiadosNoEscogidos" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
+                                          <span class="btn-label">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                          </span>{{ fundacion.beneficiado_nombre }}
+                                        </button>
                                       </div>
                                   </div>
                                   <div class="col-md-2 d-flex justify-content-center align-items-center flex-column" style="margin-top:5%; padding-left: 0%;">
@@ -119,13 +119,13 @@
                                           <h6 class="m-0 font-weight-bold text-white text-center">Seleccionados</h6>
                                       </div>
                                       <p class="text-warning text-center" *ngIf="beneficiadosEscogidos.length == 0">Ningún Institución Seleccionado</p>
-                                      <div  *ngFor="let fundacion of beneficiadosEscogidos">
-                                          <button type="button" class="BeneficiadoBoton border border-secondary border-top-0" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
-                                              <span class="btn-label" >
-                                                  <i class="glyphicon glyphicon-ok"></i>
-                                              </span>{{ fundacion.beneficiado_nombre }}
-                                          </button>
-                                          
+                                      <div class="list-group" style="max-height: 350px; overflow-y: auto;">
+                                
+                                        <button type="button" class="list-group-item list-group-item-action" *ngFor="let fundacion of beneficiadosEscogidos" (click)="selectedItems.has(fundacion.beneficiado_id); toggleSelection(fundacion.beneficiado_id)">
+                                          <span class="btn-label">
+                                            <i class="glyphicon glyphicon-ok"></i>
+                                          </span>{{ fundacion.beneficiado_nombre }}
+                                        </button>
                                       </div>
                                   </div>
                                   

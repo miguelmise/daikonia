@@ -105,3 +105,8 @@
   .progress-bar{
     background-color: #006e8c;
 }
+
+.max-height-350 {
+  max-height: 350px;
+  overflow-y: auto; /* Añade una barra de desplazamiento vertical si el contenido supera los 350px de altura */
+}
