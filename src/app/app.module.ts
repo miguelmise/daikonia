@@ -29,6 +29,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSortModule } from '@angular/material/sort';
 import {MatStepperModule} from '@angular/material/stepper';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 import { RouterModule } from '@angular/router';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -84,7 +85,8 @@ import { RepartidorComponent } from './vistas/paginas/repartidor/repartidor.comp
     MatSortModule,
     MatStepperModule,
     NgChartjsModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     HttpClientModule,
@@ -94,7 +96,8 @@ import { RepartidorComponent } from './vistas/paginas/repartidor/repartidor.comp
     MatStepperModule,
     NgChartjsModule,
     MatProgressBarModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

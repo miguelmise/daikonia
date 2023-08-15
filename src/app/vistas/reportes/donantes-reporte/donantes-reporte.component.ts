@@ -122,14 +122,14 @@ export class DonantesReporteComponent implements OnInit {
         scales: {
           x: {
             ticks: {
-              autoSkip: false, // Evita que los ticks se omitan automáticamente
+              autoSkip: true, // Evita que los ticks se omitan automáticamente
               maxRotation: 0, // Establece la rotación del label x en 0 grados para evitar superposiciones
               minRotation: 0
             }
           },
           y: {
             ticks: {
-              autoSkip: false, // Evita que los ticks se omitan automáticamente
+              autoSkip: true, // Evita que los ticks se omitan automáticamente
             }
           }
         },

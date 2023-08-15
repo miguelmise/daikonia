@@ -19,6 +19,8 @@ export class InventarioComponent implements OnInit {
   @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
   @Output() cargarAlertas = new EventEmitter();
 
+  procesando:boolean = false;
+
   listaColumnas: any[] = [
     {
       id: 1,
@@ -202,7 +204,7 @@ export class InventarioComponent implements OnInit {
           if (columna.mostrar){
             this.displayedColumns.add(columna.col);
           }
-
+          this.procesando = false
         }
       },error:err=>{
         this._util.alerta_error(JSON.stringify(err))
@@ -217,7 +219,7 @@ export class InventarioComponent implements OnInit {
       const extension = this.archivoSeleccionado.name.split('.').pop()?.toLowerCase();
       
       if (extension !== 'xlsx') {
-        this._util.alerta_error("Por favor, seleccione un archivo de Excel válido.")
+        this._util.alerta_error("Por favor, seleccione un archivo de Excel válido, extensión xlsx")
       }
     }
   }
@@ -247,6 +249,7 @@ export class InventarioComponent implements OnInit {
     
             const worksheet = workbook.worksheets[0];
             const jsonData = worksheet.getSheetValues();
+            this.procesando = true
     
             //console.log(jsonData);
             this._inventario.cargarArchivoInventario(jsonData).subscribe({
@@ -349,26 +352,36 @@ export class InventarioComponent implements OnInit {
     return this.registerForm.controls["inventario_precio_promedio"].value * this.registerForm.controls["inventario_stock"].value;
   }
 
-  verProductoData(codigo:number):void{
+  verProductoData(codigo: number): void {
     const producto = this.datos.find((item: { inventario_id: number; }) => item.inventario_id === codigo);
-
+  
     if (producto) {
       this.isFormVisible = true;
-      this.selectProducto = producto.inventario_descripcion
-      this.registerForm.controls["inventario_id"].setValue(producto.inventario_id)
-      this.registerForm.controls["inventario_codigo"].setValue(producto.inventario_codigo)
-      this.registerForm.controls["inventario_descripcion"].setValue(producto.inventario_descripcion)
-      this.registerForm.controls["inventario_ubicacion"].setValue(producto.inventario_ubicacion)
-      this.registerForm.controls["inventario_lote"].setValue(producto.inventario_lote)
-      this.registerForm.controls["inventario_proveedor"].setValue(producto.inventario_proveedor)
-      this.registerForm.controls["inventario_um"].setValue(producto.inventario_um)
-      this.registerForm.controls["inventario_stock"].setValue(producto.inventario_stock)
-      this.registerForm.controls["inventario_precio_promedio"].setValue(producto.inventario_precio_promedio)
-      this.registerForm.controls["inventario_costo_total"].setValue(producto.inventario_costo_total)
+      this.selectProducto = producto.inventario_descripcion;
+  
+      const fieldsToFill = [
+        "inventario_id",
+        "inventario_codigo",
+        "inventario_descripcion",
+        "inventario_ubicacion",
+        "inventario_lote",
+        "inventario_proveedor",
+        "inventario_um",
+        "inventario_stock",
+        "inventario_precio_promedio",
+        "inventario_costo_total"
+      ];
+  
+      fieldsToFill.forEach(field => {
+        const value = producto[field] || "SIN DATOS";
+        this.registerForm.controls[field].setValue(value);
+      });
     } else {
-      this._util.alerta("Error","No se encontro la información del Producto.","warning")
+      this._util.alerta("Error", "No se encontró la información del Producto.", "warning");
     }
   }
+  
+
   informacion(){
     Swal.fire({
       html: `<p>Carga de archivo excel de inventario con el encabezado solicitado previamente.</p>

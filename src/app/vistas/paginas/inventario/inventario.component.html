@@ -29,11 +29,14 @@
                             <input #fileInput type="file" class="file-upload form-control" (change)="seleccionarArchivo($event)" accept=".xlsx"/>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row" *ngIf="!procesando">
                         <!--nombre-->
-                        <div class="col-md-12 mb-2">
+                        <div class="col-md-2 mb-2">
                             <button type="button" class="btn btn-success" [disabled]="!archivoSeleccionado" (click)="procesarArchivo()">Enviar</button>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 mb-2" *ngIf="procesando" ><h4 class="text-warning">Procesando...</h4></div>
                     </div>
                 </div>
             </div>

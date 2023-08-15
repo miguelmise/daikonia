@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://172.25.243.98/kairo/back/api/',
+  apiUrl: 'http://172.18.23.189/kairo/back/api/',
   id_sin_categoria: 0
 };
 
