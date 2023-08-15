@@ -208,6 +208,7 @@ export class InventarioComponent implements OnInit {
         }
       },error:err=>{
         this._util.alerta_error(JSON.stringify(err))
+        this.procesando = false
       }
     })
   }
@@ -271,12 +272,15 @@ export class InventarioComponent implements OnInit {
                 }else if(res.error){
                   this._util.alerta_error(res.error)
                   this.fileInputRef.nativeElement.value = '';
+                  this.procesando = false
                 }else{
                   this._util.alerta_info(JSON.stringify(res))
                   this.fileInputRef.nativeElement.value = '';
+                  this.procesando = false
                 }
               },error:err=>{
                 this._util.alerta_error(JSON.stringify(err))
+                this.procesando = false
               }
             })
             
