@@ -17,6 +17,7 @@ import Swal from 'sweetalert2';
 })
 export class RepartidorComponent implements OnInit {
 
+
   dataSource!: MatTableDataSource<any>;
 
   dataTable!: MatTableDataSource<any>;
@@ -236,7 +237,6 @@ export class RepartidorComponent implements OnInit {
   }
 
   
-
   // Función para seleccionar todos los beneficiados
 seleccionarTodosBeneficiados(): void {
   this.selectedItems = new Set<number>();
