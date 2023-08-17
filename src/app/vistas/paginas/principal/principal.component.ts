@@ -182,7 +182,7 @@ export class PrincipalComponent implements OnInit {
     Swal.fire({
       title: '<strong>Acerca de Kairo</strong>',
       html:
-        '<p>Versión: 1.0 beta</p>' +
+        '<p>Versión: 1.0</p>' +
         '<p>Desarrolladores:</p>' +
         '<p>Miguel Angel Mise</p>' +
         '<p>Sandy Intriago</p>' +
